@@ -1,0 +1,6 @@
+{
+  "name": "AtmosVision AI",
+  "description": "Atmospheric Tensor Analysis & HOSVD-Based Climate Data Exploration for Tamil Nadu ERA5 Dataset",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
