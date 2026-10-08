@@ -35,6 +35,12 @@
   "scope_extensions": [
     {
       "origin": "https://atmos-vision-beta.vercel.app"
+    },
+    {
+      "origin": "https://*.vercel.app"
+    },
+    {
+      "origin": "https://*.open-meteo.com"
     }
   ],
   "launch_handler": {
