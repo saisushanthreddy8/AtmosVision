@@ -9,7 +9,9 @@ import {
   CloudSun,
   Activity,
   Radio,
-  Sprout
+  Sprout,
+  Bot,
+  Smartphone
 } from 'lucide-react';
 import { TabId } from '../types';
 
@@ -18,13 +20,17 @@ interface SidebarProps {
   onTabChange: (tab: TabId) => void;
   onOpenSettings?: () => void;
   onReset?: () => void;
+  onOpenAIAssistant?: () => void;
+  onInstallPWA?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
   activeTab,
   onTabChange,
   onOpenSettings,
-  onReset
+  onReset,
+  onOpenAIAssistant,
+  onInstallPWA
 }) => {
   const navItems = [
     {
@@ -112,7 +118,30 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Bottom Actions */}
-      <div className="pt-5 border-t border-[#DDE5E1] space-y-1">
+      <div className="pt-4 border-t border-[#DDE5E1] space-y-1.5">
+        {onOpenAIAssistant && (
+          <button
+            onClick={onOpenAIAssistant}
+            className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl text-xs bg-[#ECFDF5] hover:bg-[#D1FAE5] text-[#047857] border border-[#A7F3D0] transition-colors text-left font-bold"
+          >
+            <div className="flex items-center gap-2.5">
+              <Bot className="w-4 h-4 text-[#059669]" />
+              <span>Ask Atmos Agri-AI</span>
+            </div>
+            <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-white text-[#059669]">AI</span>
+          </button>
+        )}
+
+        {onInstallPWA && (
+          <button
+            onClick={onInstallPWA}
+            className="w-full flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs text-[#059669] hover:bg-[#F8FAF9] border border-[#DDE5E1] transition-colors text-left font-semibold"
+          >
+            <Smartphone className="w-4 h-4 text-[#059669]" />
+            <span>Install Web App</span>
+          </button>
+        )}
+
         <button
           onClick={onOpenSettings}
           className="w-full flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs text-[#64706A] hover:text-[#17201C] hover:bg-[#F8FAF9] transition-colors text-left font-medium"

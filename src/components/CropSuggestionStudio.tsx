@@ -29,7 +29,9 @@ import {
   Check,
   Info,
   Radio,
-  RefreshCw
+  RefreshCw,
+  Share2,
+  Printer
 } from 'lucide-react';
 import { LiveDistrictWeather, MonthlyCropSchedule, MonthlyCropItem } from '../types';
 import {
@@ -41,6 +43,7 @@ import {
   CoordinateAgroMatch
 } from '../data/districtAgroData';
 import { CITIES_TAMIL_NADU } from '../data/cities';
+import { CropAdvisoryShareModal } from './CropAdvisoryShareModal';
 
 interface CropSuggestionStudioProps {
   liveDistrictData?: LiveDistrictWeather[];
@@ -74,6 +77,7 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
   const [inputLon, setInputLon] = useState<number>(defaultCity.lon);
   const [isLocatingUser, setIsLocatingUser] = useState<boolean>(false);
   const [locationError, setLocationError] = useState<string | null>(null);
+  const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
 
   // Month selection for 12-month calendar (0 = Jan, 11 = Dec)
   const currentMonthIdx = new Date().getMonth();
@@ -262,42 +266,53 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
           </div>
         </div>
 
-        {/* Tab Mode Buttons */}
-        <div className="flex items-center bg-[#F8FAF9] p-1.5 rounded-xl border border-[#DDE5E1] gap-1 relative z-10 flex-wrap">
-          <button
-            onClick={() => setActiveMode('coordinates')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-              activeMode === 'coordinates'
-                ? 'bg-[#059669] text-white shadow-sm'
-                : 'text-[#64706A] hover:text-[#17201C]'
-            }`}
-          >
-            <Crosshair className="w-4 h-4" />
-            <span>GPS Coordinate Radar</span>
-          </button>
+        {/* Tab Mode Buttons & Export Action */}
+        <div className="flex items-center gap-2 flex-wrap relative z-10">
+          <div className="flex items-center bg-[#F8FAF9] p-1.5 rounded-xl border border-[#DDE5E1] gap-1 flex-wrap">
+            <button
+              onClick={() => setActiveMode('coordinates')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                activeMode === 'coordinates'
+                  ? 'bg-[#059669] text-white shadow-sm'
+                  : 'text-[#64706A] hover:text-[#17201C]'
+              }`}
+            >
+              <Crosshair className="w-4 h-4" />
+              <span>GPS Coordinate Radar</span>
+            </button>
 
-          <button
-            onClick={() => setActiveMode('calendar')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-              activeMode === 'calendar'
-                ? 'bg-[#059669] text-white shadow-sm'
-                : 'text-[#64706A] hover:text-[#17201C]'
-            }`}
-          >
-            <Calendar className="w-4 h-4" />
-            <span>12-Month Sowing Calendar</span>
-          </button>
+            <button
+              onClick={() => setActiveMode('calendar')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                activeMode === 'calendar'
+                  ? 'bg-[#059669] text-white shadow-sm'
+                  : 'text-[#64706A] hover:text-[#17201C]'
+              }`}
+            >
+              <Calendar className="w-4 h-4" />
+              <span>12-Month Sowing Calendar</span>
+            </button>
 
+            <button
+              onClick={() => setActiveMode('all_crops')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                activeMode === 'all_crops'
+                  ? 'bg-[#059669] text-white shadow-sm'
+                  : 'text-[#64706A] hover:text-[#17201C]'
+              }`}
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>All Crops Guide</span>
+            </button>
+          </div>
+
+          {/* Export Advisory Card Button */}
           <button
-            onClick={() => setActiveMode('all_crops')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-              activeMode === 'all_crops'
-                ? 'bg-[#059669] text-white shadow-sm'
-                : 'text-[#64706A] hover:text-[#17201C]'
-            }`}
+            onClick={() => setIsShareModalOpen(true)}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#059669] hover:bg-[#047857] text-white text-xs font-bold transition shadow-xs flex-shrink-0 cursor-pointer"
           >
-            <BookOpen className="w-4 h-4" />
-            <span>All Crops Guide</span>
+            <Share2 className="w-4 h-4" />
+            <span>Export & Share Advisory</span>
           </button>
         </div>
       </div>
@@ -319,15 +334,25 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
                 </p>
               </div>
 
-              {/* Geolocation Button */}
-              <button
-                onClick={handleUseCurrentLocation}
-                disabled={isLocatingUser}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#ECFDF5] hover:bg-[#D1FAE5] text-[#047857] border border-[#A7F3D0] text-xs font-bold transition shadow-xs flex-shrink-0"
-              >
-                <Crosshair className={`w-4 h-4 ${isLocatingUser ? 'animate-spin' : ''}`} />
-                <span>{isLocatingUser ? 'Acquiring GPS...' : 'Use My Live GPS Location'}</span>
-              </button>
+              {/* Action Buttons: Geolocation & Export */}
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  onClick={handleUseCurrentLocation}
+                  disabled={isLocatingUser}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#ECFDF5] hover:bg-[#D1FAE5] text-[#047857] border border-[#A7F3D0] text-xs font-bold transition shadow-xs flex-shrink-0 cursor-pointer"
+                >
+                  <Crosshair className={`w-4 h-4 ${isLocatingUser ? 'animate-spin' : ''}`} />
+                  <span>{isLocatingUser ? 'Acquiring GPS...' : 'Use My Live GPS Location'}</span>
+                </button>
+
+                <button
+                  onClick={() => setIsShareModalOpen(true)}
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-[#F8FAF9] border border-[#DDE5E1] text-[#17201C] text-xs font-bold transition shadow-xs flex-shrink-0 cursor-pointer"
+                >
+                  <Printer className="w-4 h-4 text-[#059669]" />
+                  <span>Print Bulletin</span>
+                </button>
+              </div>
             </div>
 
             {locationError && (
@@ -1046,6 +1071,14 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
         </div>
       )}
 
+      {/* Crop Advisory Export & Print Modal */}
+      <CropAdvisoryShareModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        coordinateMatch={coordinateMatch}
+        liveWeather={matchedLiveWeather}
+        activeMonthSchedule={activeMonthSchedule}
+      />
     </div>
   );
 };
