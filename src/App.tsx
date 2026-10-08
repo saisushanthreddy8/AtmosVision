@@ -6,8 +6,9 @@ import { TamilNaduExplorer } from './components/TamilNaduExplorer';
 import { LiveAnalytics } from './components/LiveAnalytics';
 import { CropSuggestionStudio } from './components/CropSuggestionStudio';
 import { AIPredictorStudio } from './components/AIPredictorStudio';
+import { AgriAIAssistantModal } from './components/AgriAIAssistantModal';
 import { AtmosphericBackground } from './components/AtmosphericBackground';
-import { Settings, X, CheckCircle2, RotateCcw, CloudSun, Radio } from 'lucide-react';
+import { Settings, X, CheckCircle2, RotateCcw, CloudSun, Radio, Bot, Smartphone, Sparkles } from 'lucide-react';
 import { TabId, LiveDistrictWeather, LiveStatewideSummary } from './types';
 import { fetchLiveTamilNaduWeather, computeStatewideSummary } from './data/liveWeatherService';
 
@@ -18,7 +19,12 @@ export default function App() {
   const [districtSearchSignal, setDistrictSearchSignal] = useState<number>(0);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState<boolean>(false);
+  const [isAIAssistantOpen, setIsAIAssistantOpen] = useState<boolean>(false);
   const [notificationToast, setNotificationToast] = useState<string | null>(null);
+
+  // PWA Install state
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [isInstallable, setIsInstallable] = useState<boolean>(false);
 
   // Live Weather API Data
   const [liveDistrictData, setLiveDistrictData] = useState<LiveDistrictWeather[]>([]);
@@ -29,6 +35,33 @@ export default function App() {
   const [temperatureUnit, setTemperatureUnit] = useState<'celsius' | 'fahrenheit'>('celsius');
   const [showAtmosphericParticles, setShowAtmosphericParticles] = useState<boolean>(true);
   const [colorScheme, setColorScheme] = useState<'default' | 'high_contrast'>('default');
+
+  // PWA BeforeInstallPrompt listener
+  useEffect(() => {
+    const handleBeforeInstall = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setIsInstallable(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstall);
+    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
+  }, []);
+
+  const handleInstallPWA = async () => {
+    if (!deferredPrompt) {
+      alert('To install AtmosVision on your device:\n• On Android/Chrome: Tap the 3 dots menu and select "Install app" or "Add to Home screen".\n• On iOS/Safari: Tap the Share button and select "Add to Home Screen".');
+      return;
+    }
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setIsInstallable(false);
+      setDeferredPrompt(null);
+      setNotificationToast('AtmosVision installed successfully!');
+      setTimeout(() => setNotificationToast(null), 4000);
+    }
+  };
 
   // Load Live Tamil Nadu Weather API data
   const loadLiveWeatherData = useCallback(async (forceRefresh: boolean = false) => {
@@ -98,6 +131,8 @@ export default function App() {
             onTabChange={setActiveTab}
             onOpenSettings={() => setIsSettingsModalOpen(true)}
             onReset={handleResetSession}
+            onOpenAIAssistant={() => setIsAIAssistantOpen(true)}
+            onInstallPWA={handleInstallPWA}
           />
         </div>
 
@@ -119,6 +154,14 @@ export default function App() {
                   handleResetSession();
                   setIsMobileSidebarOpen(false);
                 }}
+                onOpenAIAssistant={() => {
+                  setIsAIAssistantOpen(true);
+                  setIsMobileSidebarOpen(false);
+                }}
+                onInstallPWA={() => {
+                  handleInstallPWA();
+                  setIsMobileSidebarOpen(false);
+                }}
               />
             </div>
             <div className="flex-1" onClick={() => setIsMobileSidebarOpen(false)} />
@@ -137,6 +180,9 @@ export default function App() {
             liveSummary={liveSummary}
             onRefreshLive={() => loadLiveWeatherData(true)}
             isLiveLoading={isLiveLoading}
+            onOpenAIAssistant={() => setIsAIAssistantOpen(true)}
+            onInstallPWA={handleInstallPWA}
+            isInstallable={isInstallable}
           />
 
           {/* Active View Module */}
@@ -311,6 +357,29 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* Floating Atmos Agri-AI Assistant Button */}
+      <button
+        onClick={() => setIsAIAssistantOpen(true)}
+        className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 px-4 py-3 rounded-full bg-[#059669] hover:bg-[#047857] text-white text-xs font-black shadow-2xl hover:shadow-[#059669]/40 hover:scale-105 transition-all duration-200 border-2 border-white/20 group cursor-pointer"
+        title="Open Atmos Agri-AI Assistant"
+      >
+        <div className="relative">
+          <Bot className="w-5 h-5 text-white" />
+          <span className="w-2 h-2 rounded-full bg-[#34D399] absolute -top-0.5 -right-0.5 animate-ping" />
+        </div>
+        <span className="font-extrabold tracking-wide">Ask Agri-AI</span>
+        <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/20 font-bold hidden sm:inline">
+          வேளாண் AI
+        </span>
+      </button>
+
+      {/* Atmos Agri-AI Assistant Modal */}
+      <AgriAIAssistantModal
+        isOpen={isAIAssistantOpen}
+        onClose={() => setIsAIAssistantOpen(false)}
+        liveDistrictData={liveDistrictData}
+      />
 
     </div>
   );

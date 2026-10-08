@@ -16,7 +16,9 @@ import {
   Layers,
   BarChart3,
   Calendar,
-  Sprout
+  Sprout,
+  Bot,
+  Smartphone
 } from 'lucide-react';
 import { TabId, LiveStatewideSummary } from '../types';
 import { DISTRICT_REGIONS } from '../data/tamilNaduGeo';
@@ -29,6 +31,9 @@ interface TopNavbarProps {
   liveSummary?: LiveStatewideSummary | null;
   onRefreshLive?: () => void;
   isLiveLoading?: boolean;
+  onOpenAIAssistant?: () => void;
+  onInstallPWA?: () => void;
+  isInstallable?: boolean;
 }
 
 export const TopNavbar: React.FC<TopNavbarProps> = ({
@@ -38,7 +43,10 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
   isMobileSidebarOpen,
   liveSummary,
   onRefreshLive,
-  isLiveLoading = false
+  isLiveLoading = false,
+  onOpenAIAssistant,
+  onInstallPWA,
+  isInstallable = false
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -209,6 +217,30 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
               </button>
             )}
           </div>
+        )}
+
+        {/* Ask AI Assistant Button */}
+        {onOpenAIAssistant && (
+          <button
+            onClick={onOpenAIAssistant}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#059669] hover:bg-[#047857] text-white text-xs font-bold transition shadow-xs cursor-pointer"
+            title="Open Atmos Agri-AI Assistant"
+          >
+            <Bot className="w-4 h-4" />
+            <span className="hidden sm:inline">Ask AI</span>
+          </button>
+        )}
+
+        {/* PWA Install App Button */}
+        {onInstallPWA && (
+          <button
+            onClick={onInstallPWA}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-[#F8FAF9] border border-[#059669] text-[#059669] text-xs font-bold transition shadow-xs cursor-pointer"
+            title="Install AtmosVision as Web App"
+          >
+            <Smartphone className="w-4 h-4 text-[#059669]" />
+            <span className="hidden md:inline">Install App</span>
+          </button>
         )}
 
         {/* Fullscreen Toggle */}
