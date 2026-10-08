@@ -30,8 +30,7 @@ import {
   Info,
   Radio,
   RefreshCw,
-  Share2,
-  Printer
+  Calculator
 } from 'lucide-react';
 import { LiveDistrictWeather, MonthlyCropSchedule, MonthlyCropItem } from '../types';
 import {
@@ -43,7 +42,7 @@ import {
   CoordinateAgroMatch
 } from '../data/districtAgroData';
 import { CITIES_TAMIL_NADU } from '../data/cities';
-import { CropAdvisoryShareModal } from './CropAdvisoryShareModal';
+import { AgriFarmCalculator } from './AgriFarmCalculator';
 
 interface CropSuggestionStudioProps {
   liveDistrictData?: LiveDistrictWeather[];
@@ -58,8 +57,27 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
   isLiveLoading = false,
   initialDistrictName
 }) => {
-  // Mode selection: 'coordinates' | 'calendar' | 'all_crops'
-  const [activeMode, setActiveMode] = useState<'coordinates' | 'calendar' | 'all_crops'>('coordinates');
+  // Mode selection: 'coordinates' | 'calendar' | 'calculator' | 'all_crops'
+  const [activeMode, setActiveMode] = useState<'coordinates' | 'calendar' | 'calculator' | 'all_crops'>('coordinates');
+  const [selectedCalculatorCropId, setSelectedCalculatorCropId] = useState<string>('paddy');
+
+  // Helper to map any crop name to calculator ID
+  const mapCropNameToAgronomyId = (name: string): string => {
+    const n = name.toLowerCase();
+    if (n.includes('paddy') || n.includes('rice') || n.includes('நெல்')) return 'paddy';
+    if (n.includes('cotton') || n.includes('பருத்தி')) return 'cotton';
+    if (n.includes('sugarcane') || n.includes('கரும்பு')) return 'sugarcane';
+    if (n.includes('groundnut') || n.includes('peanut') || n.includes('நிலக்கடலை')) return 'groundnut';
+    if (n.includes('maize') || n.includes('corn') || n.includes('மக்காச்சோளம்')) return 'maize';
+    if (n.includes('banana') || n.includes('வாழை')) return 'banana';
+    if (n.includes('turmeric') || n.includes('மஞ்சள்')) return 'turmeric';
+    if (n.includes('black') || n.includes('urad') || n.includes('உளுந்து')) return 'blackgram';
+    if (n.includes('chilli') || n.includes('மிளகாய்')) return 'chillies';
+    if (n.includes('tomato') || n.includes('தக்காளி')) return 'tomato';
+    if (n.includes('coconut') || n.includes('தென்னை')) return 'coconut';
+    if (n.includes('jasmine') || n.includes('மல்லிகை') || n.includes('malli')) return 'jasmine';
+    return 'paddy';
+  };
 
   // Coordinate Input state (Default to Coimbatore/Erode agricultural heartland or initial district)
   const defaultCity = useMemo(() => {
@@ -77,7 +95,6 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
   const [inputLon, setInputLon] = useState<number>(defaultCity.lon);
   const [isLocatingUser, setIsLocatingUser] = useState<boolean>(false);
   const [locationError, setLocationError] = useState<string | null>(null);
-  const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
 
   // Month selection for 12-month calendar (0 = Jan, 11 = Dec)
   const currentMonthIdx = new Date().getMonth();
@@ -266,53 +283,54 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
           </div>
         </div>
 
-        {/* Tab Mode Buttons & Export Action */}
-        <div className="flex items-center gap-2 flex-wrap relative z-10">
-          <div className="flex items-center bg-[#F8FAF9] p-1.5 rounded-xl border border-[#DDE5E1] gap-1 flex-wrap">
-            <button
-              onClick={() => setActiveMode('coordinates')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-                activeMode === 'coordinates'
-                  ? 'bg-[#059669] text-white shadow-sm'
-                  : 'text-[#64706A] hover:text-[#17201C]'
-              }`}
-            >
-              <Crosshair className="w-4 h-4" />
-              <span>GPS Coordinate Radar</span>
-            </button>
-
-            <button
-              onClick={() => setActiveMode('calendar')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-                activeMode === 'calendar'
-                  ? 'bg-[#059669] text-white shadow-sm'
-                  : 'text-[#64706A] hover:text-[#17201C]'
-              }`}
-            >
-              <Calendar className="w-4 h-4" />
-              <span>12-Month Sowing Calendar</span>
-            </button>
-
-            <button
-              onClick={() => setActiveMode('all_crops')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-                activeMode === 'all_crops'
-                  ? 'bg-[#059669] text-white shadow-sm'
-                  : 'text-[#64706A] hover:text-[#17201C]'
-              }`}
-            >
-              <BookOpen className="w-4 h-4" />
-              <span>All Crops Guide</span>
-            </button>
-          </div>
-
-          {/* Export Advisory Card Button */}
+        {/* Tab Mode Buttons */}
+        <div className="flex items-center bg-[#F8FAF9] p-1.5 rounded-xl border border-[#DDE5E1] gap-1 flex-wrap relative z-10">
           <button
-            onClick={() => setIsShareModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#059669] hover:bg-[#047857] text-white text-xs font-bold transition shadow-xs flex-shrink-0 cursor-pointer"
+            onClick={() => setActiveMode('coordinates')}
+            className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              activeMode === 'coordinates'
+                ? 'bg-[#059669] text-white shadow-sm'
+                : 'text-[#64706A] hover:text-[#17201C]'
+            }`}
           >
-            <Share2 className="w-4 h-4" />
-            <span>Export & Share Advisory</span>
+            <Crosshair className="w-4 h-4" />
+            <span>GPS Coordinate Radar</span>
+          </button>
+
+          <button
+            onClick={() => setActiveMode('calendar')}
+            className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              activeMode === 'calendar'
+                ? 'bg-[#059669] text-white shadow-sm'
+                : 'text-[#64706A] hover:text-[#17201C]'
+            }`}
+          >
+            <Calendar className="w-4 h-4" />
+            <span>12-Month Sowing Calendar</span>
+          </button>
+
+          <button
+            onClick={() => setActiveMode('calculator')}
+            className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              activeMode === 'calculator'
+                ? 'bg-[#059669] text-white shadow-sm'
+                : 'text-[#64706A] hover:text-[#17201C]'
+            }`}
+          >
+            <Calculator className="w-4 h-4" />
+            <span>Seed & Fertilizer Calculator</span>
+          </button>
+
+          <button
+            onClick={() => setActiveMode('all_crops')}
+            className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              activeMode === 'all_crops'
+                ? 'bg-[#059669] text-white shadow-sm'
+                : 'text-[#64706A] hover:text-[#17201C]'
+            }`}
+          >
+            <BookOpen className="w-4 h-4" />
+            <span>All Crops Guide</span>
           </button>
         </div>
       </div>
@@ -334,7 +352,7 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
                 </p>
               </div>
 
-              {/* Action Buttons: Geolocation & Export */}
+              {/* Action Buttons: Geolocation & Calculator Trigger */}
               <div className="flex items-center gap-2 flex-wrap">
                 <button
                   onClick={handleUseCurrentLocation}
@@ -346,11 +364,11 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
                 </button>
 
                 <button
-                  onClick={() => setIsShareModalOpen(true)}
+                  onClick={() => setActiveMode('calculator')}
                   className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-[#F8FAF9] border border-[#DDE5E1] text-[#17201C] text-xs font-bold transition shadow-xs flex-shrink-0 cursor-pointer"
                 >
-                  <Printer className="w-4 h-4 text-[#059669]" />
-                  <span>Print Bulletin</span>
+                  <Calculator className="w-4 h-4 text-[#059669]" />
+                  <span>Seed & Fertilizer Calculator</span>
                 </button>
               </div>
             </div>
@@ -684,16 +702,23 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
                       </div>
                     </div>
 
-                    {/* Footer Metrics */}
+                    {/* Footer Metrics & Dosage Calculator Button */}
                     <div className="pt-3 border-t border-[#DDE5E1] flex items-center justify-between text-[11px] text-[#64706A]">
                       <div className="flex items-center gap-1">
                         <Clock className="w-3.5 h-3.5 text-[#059669]" />
                         <span>Duration: <strong>{crop.yieldDurationDays}</strong></span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <Thermometer className="w-3.5 h-3.5 text-[#059669]" />
-                        <span>{crop.idealTempRangeC[0]}° - {crop.idealTempRangeC[1]}°C</span>
-                      </div>
+                      <button
+                        onClick={() => {
+                          setSelectedCalculatorCropId(mapCropNameToAgronomyId(crop.cropName));
+                          setActiveMode('calculator');
+                        }}
+                        className="px-2.5 py-1 rounded-lg bg-[#ECFDF5] hover:bg-[#D1FAE5] text-[#047857] font-bold text-[10px] border border-[#A7F3D0] flex items-center gap-1 transition cursor-pointer"
+                        title="Calculate Seed and Fertilizer for your land acreage"
+                      >
+                        <Calculator className="w-3 h-3 text-[#059669]" />
+                        <span>Seed & Fertilizer</span>
+                      </button>
                     </div>
 
                   </div>
@@ -884,7 +909,17 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
 
                     <div className="pt-3 border-t border-[#DDE5E1] flex items-center justify-between text-[11px] text-[#64706A]">
                       <span>Ideal Temp: <strong>{crop.idealTempRangeC[0]}° - {crop.idealTempRangeC[1]}°C</strong></span>
-                      <span>Humidity: <strong>{crop.idealHumidityRange[0]}% - {crop.idealHumidityRange[1]}%</strong></span>
+                      <button
+                        onClick={() => {
+                          setSelectedCalculatorCropId(mapCropNameToAgronomyId(crop.cropName));
+                          setActiveMode('calculator');
+                        }}
+                        className="px-2.5 py-1 rounded-lg bg-[#ECFDF5] hover:bg-[#D1FAE5] text-[#047857] font-bold text-[10px] border border-[#A7F3D0] flex items-center gap-1 transition cursor-pointer"
+                        title="Calculate Seed and Fertilizer for your land acreage"
+                      >
+                        <Calculator className="w-3 h-3 text-[#059669]" />
+                        <span>Seed & Fertilizer</span>
+                      </button>
                     </div>
 
                   </div>
@@ -1062,7 +1097,16 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
 
                 <div className="pt-3 border-t border-[#DDE5E1] flex items-center justify-between text-[11px] text-[#64706A]">
                   <span>Cycle: <strong>{crop.yieldDurationDays}</strong></span>
-                  <span>Thermal Range: <strong>{crop.idealTempRangeC[0]}° - {crop.idealTempRangeC[1]}°C</strong></span>
+                  <button
+                    onClick={() => {
+                      setSelectedCalculatorCropId(mapCropNameToAgronomyId(crop.cropName));
+                      setActiveMode('calculator');
+                    }}
+                    className="px-2.5 py-1 rounded-lg bg-[#ECFDF5] hover:bg-[#D1FAE5] text-[#047857] font-bold text-[10px] border border-[#A7F3D0] flex items-center gap-1 transition cursor-pointer"
+                  >
+                    <Calculator className="w-3 h-3 text-[#059669]" />
+                    <span>Fertilizer Dosage</span>
+                  </button>
                 </div>
               </div>
             ))}
@@ -1071,14 +1115,11 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
         </div>
       )}
 
-      {/* Crop Advisory Export & Print Modal */}
-      <CropAdvisoryShareModal
-        isOpen={isShareModalOpen}
-        onClose={() => setIsShareModalOpen(false)}
-        coordinateMatch={coordinateMatch}
-        liveWeather={matchedLiveWeather}
-        activeMonthSchedule={activeMonthSchedule}
-      />
+      {/* 4. MODE C: 🚜 Land Acreage, Seed & Fertilizer Calculator */}
+      {activeMode === 'calculator' && (
+        <AgriFarmCalculator initialCropId={selectedCalculatorCropId} />
+      )}
+
     </div>
   );
 };
