@@ -43,7 +43,8 @@ const FEATURED_DISTRICTS = [
   'Thanjavur',
   'Salem',
   'Tirunelveli',
-  'Vellore'
+  'Vellore',
+  'Trichy'
 ];
 
 export const Overview: React.FC<OverviewProps> = ({
@@ -113,22 +114,22 @@ export const Overview: React.FC<OverviewProps> = ({
   }, [selectedCity, selectedLiveWeather]);
 
   return (
-    <div className="space-y-6 font-sans">
+    <div className="space-y-5 font-sans animate-fade-in pb-8">
       
-      {/* Dashboard Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
+      {/* 1. Sleek Dashboard Top Header */}
+      <div className="p-5 sm:p-6 rounded-2xl bg-white border border-[#E5EBE8] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="space-y-1">
           <div className="flex items-center gap-2.5 flex-wrap">
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#17201C] tracking-tight">
-              Tamil Nadu Live Weather & Meteorological Radar
+            <h1 className="text-xl sm:text-2xl font-black text-[#17201C] tracking-tight">
+              Tamil Nadu Weather Radar & Telemetry
             </h1>
-            <span className="px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold inline-flex items-center gap-1.5 shadow-xs">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-              Live Synoptic Telemetry
+            <span className="px-2.5 py-0.5 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#047857] text-[11px] font-bold inline-flex items-center gap-1.5 shadow-2xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-ping" />
+              Live Telemetry
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-[#64706A] mt-1 font-medium">
-            Real-Time 38-District Meteorological Station Network · Open-Meteo Planetary API
+          <p className="text-xs text-[#64706A]">
+            Real-Time 38-District Meteorological Station Network · Synoptic Observations & AI Forecasting
           </p>
         </div>
 
@@ -138,134 +139,117 @@ export const Overview: React.FC<OverviewProps> = ({
             <button
               onClick={onRefreshLive}
               disabled={isLiveLoading}
-              className="px-3.5 py-2.5 rounded-xl bg-white hover:bg-[#F8FAF9] border border-[#DDE5E1] text-[#17201C] text-xs font-bold transition flex items-center gap-1.5 shadow-sm disabled:opacity-50"
+              className="px-3.5 py-2 rounded-xl bg-[#F8FAF9] hover:bg-[#F0F4F2] border border-[#DDE5E1] text-[#17201C] text-xs font-bold transition flex items-center gap-1.5 shadow-2xs cursor-pointer disabled:opacity-50"
             >
               <RefreshCw className={`w-3.5 h-3.5 text-[#059669] ${isLiveLoading ? 'animate-spin' : ''}`} />
-              <span>Sync Now</span>
+              <span>Sync Stations</span>
             </button>
           )}
 
           <button
-            onClick={() => onNavigate('explorer')}
-            className="px-3.5 py-2.5 rounded-xl bg-white hover:bg-[#F8FAF9] border border-[#DDE5E1] text-[#17201C] text-xs font-bold shadow-xs flex items-center gap-1.5 transition-all cursor-pointer"
-          >
-            <MapPin className="w-4 h-4 text-[#059669]" />
-            <span>38-District Radar</span>
-          </button>
-
-          <button
             onClick={() => onNavigate('ai_predict')}
-            className="px-4 py-2.5 rounded-xl bg-[#059669] hover:bg-[#047857] text-white text-xs font-bold shadow-sm shadow-[#059669]/20 flex items-center gap-2 transition-all transform hover:scale-[1.02] active:scale-95 cursor-pointer"
+            className="px-4 py-2 rounded-xl bg-[#059669] hover:bg-[#047857] text-white text-xs font-black shadow-xs shadow-[#059669]/25 flex items-center gap-2 transition-all transform hover:scale-[1.02] active:scale-95 cursor-pointer"
           >
             <Sparkles className="w-4 h-4" />
-            <span>AI Predictor Studio</span>
-            <ArrowRight className="w-4 h-4" />
+            <span>AI Predictor</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
 
-      {/* Top 4 Real-Time Atmospheric Telemetry Highlights */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+      {/* 2. Unified Modern Weather Metrics Strip (Consolidated & Clean) */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-white border border-[#E5EBE8] shadow-xs space-y-3">
         
-        {/* Metric 1: Temperature */}
-        <div className="bg-white border border-[#DDE5E1] rounded-2xl p-4 flex items-center gap-3.5 shadow-sm">
-          <div className="w-10 h-10 rounded-xl bg-[#ECFDF5] border border-[#D1FAE5] flex items-center justify-center flex-shrink-0">
-            <Thermometer className="w-5 h-5 text-[#059669]" />
+        {/* Metric Cards Grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          
+          {/* Temperature */}
+          <div className="p-3 sm:p-3.5 rounded-xl bg-[#F8FAF9] border border-[#E5EBE8] flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-[#ECFDF5] border border-[#D1FAE5] flex items-center justify-center text-[#059669] flex-shrink-0">
+              <Thermometer className="w-4 h-4" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-[10px] text-[#64706A] uppercase font-bold tracking-wider">Avg Temperature</div>
+              <div className="text-lg sm:text-xl font-extrabold text-[#17201C] tracking-tight">
+                {liveSummary ? liveSummary.stateAvgTempC : '31.4'} <span className="text-xs font-semibold text-[#64706A]">°C</span>
+              </div>
+              <div className="text-[10px] text-[#059669] font-semibold truncate">
+                {liveSummary ? `Coolest: ${liveSummary.coolestDistrict.tempC}°C (${liveSummary.coolestDistrict.district})` : 'All 38 Districts'}
+              </div>
+            </div>
           </div>
-          <div className="min-w-0">
-            <div className="text-xs text-[#64706A] uppercase font-bold flex items-center gap-1.5">
-              <span>Live State Temp</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+
+          {/* Humidity */}
+          <div className="p-3 sm:p-3.5 rounded-xl bg-[#F8FAF9] border border-[#E5EBE8] flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-[#ECFDF5] border border-[#D1FAE5] flex items-center justify-center text-[#059669] flex-shrink-0">
+              <Droplets className="w-4 h-4" />
             </div>
-            <div className="text-xl sm:text-2xl font-extrabold text-[#17201C] tracking-tight">
-              {liveSummary ? liveSummary.stateAvgTempC : '31.4'} <span className="text-xs font-normal text-[#64706A]">°C</span>
-            </div>
-            <div className="text-[10px] text-[#64706A] truncate">
-              {liveSummary ? `Coolest: ${liveSummary.coolestDistrict.tempC}° (${liveSummary.coolestDistrict.district})` : 'All 38 Districts'}
+            <div className="min-w-0">
+              <div className="text-[10px] text-[#64706A] uppercase font-bold tracking-wider">State Humidity</div>
+              <div className="text-lg sm:text-xl font-extrabold text-[#17201C] tracking-tight">
+                {liveSummary ? liveSummary.stateAvgHumidityPct : '66'} <span className="text-xs font-semibold text-[#64706A]">%</span>
+              </div>
+              <div className="text-[10px] text-[#64706A] font-semibold truncate">
+                Ambient Sensor Average
+              </div>
             </div>
           </div>
+
+          {/* Wind Speed */}
+          <div className="p-3 sm:p-3.5 rounded-xl bg-[#F8FAF9] border border-[#E5EBE8] flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-[#ECFDF5] border border-[#D1FAE5] flex items-center justify-center text-[#059669] flex-shrink-0">
+              <Wind className="w-4 h-4" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-[10px] text-[#64706A] uppercase font-bold tracking-wider">Wind Velocity</div>
+              <div className="text-lg sm:text-xl font-extrabold text-[#17201C] tracking-tight">
+                {liveSummary ? liveSummary.stateAvgWindKmh : '12.8'} <span className="text-xs font-semibold text-[#64706A]">km/h</span>
+              </div>
+              <div className="text-[10px] text-[#64706A] font-semibold truncate">
+                {liveSummary ? `Warmest: ${liveSummary.warmestDistrict.tempC}°C (${liveSummary.warmestDistrict.district})` : 'Surface Anemometers'}
+              </div>
+            </div>
+          </div>
+
+          {/* Surface Stations */}
+          <div className="p-3 sm:p-3.5 rounded-xl bg-[#F8FAF9] border border-[#E5EBE8] flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-[#ECFDF5] border border-[#D1FAE5] flex items-center justify-center text-[#059669] flex-shrink-0">
+              <Radio className="w-4 h-4" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-[10px] text-[#64706A] uppercase font-bold tracking-wider">Telemetry Stations</div>
+              <div className="text-lg sm:text-xl font-extrabold text-[#17201C] tracking-tight">
+                {liveDistrictData.length > 0 ? liveDistrictData.length : '38'} <span className="text-xs font-semibold text-[#64706A]">/ 38</span>
+              </div>
+              <div className="text-[10px] text-[#059669] font-bold truncate">
+                100% Online & Synced
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        {/* Metric 2: Humidity */}
-        <div className="bg-white border border-[#DDE5E1] rounded-2xl p-4 flex items-center gap-3.5 shadow-sm">
-          <div className="w-10 h-10 rounded-xl bg-[#ECFDF5] border border-[#D1FAE5] flex items-center justify-center flex-shrink-0">
-            <Droplets className="w-5 h-5 text-[#059669]" />
-          </div>
-          <div className="min-w-0">
-            <div className="text-xs text-[#64706A] uppercase font-bold">Relative Humidity</div>
-            <div className="text-xl sm:text-2xl font-extrabold text-[#17201C] tracking-tight">
-              {liveSummary ? liveSummary.stateAvgHumidityPct : '66'} <span className="text-xs font-normal text-[#64706A]">%</span>
+        {/* Live Weather Status Bar */}
+        {liveSummary && (
+          <div className="pt-2.5 border-t border-[#E5EBE8] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+            <div className="flex items-center gap-2 text-[#17201C] font-semibold">
+              <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
+              <span>Statewide Condition: <strong className="text-[#059669]">{liveSummary.dominantWeather || 'Fair & Tropical Skies'}</strong></span>
             </div>
-            <div className="text-[10px] text-[#64706A] truncate">
-              Real-time Ambient Sensor Average
-            </div>
+            <span className="text-[11px] text-[#64706A]">
+              Planetary Meteorological Model · Updated Live
+            </span>
           </div>
-        </div>
-
-        {/* Metric 3: Wind */}
-        <div className="bg-white border border-[#DDE5E1] rounded-2xl p-4 flex items-center gap-3.5 shadow-sm">
-          <div className="w-10 h-10 rounded-xl bg-[#ECFDF5] border border-[#D1FAE5] flex items-center justify-center flex-shrink-0">
-            <Wind className="w-5 h-5 text-[#059669]" />
-          </div>
-          <div className="min-w-0">
-            <div className="text-xs text-[#64706A] uppercase font-bold">Avg Wind Speed</div>
-            <div className="text-xl sm:text-2xl font-extrabold text-[#17201C] tracking-tight">
-              {liveSummary ? liveSummary.stateAvgWindKmh : '12.8'} <span className="text-xs font-normal text-[#64706A]">km/h</span>
-            </div>
-            <div className="text-[10px] text-[#64706A] truncate">
-              {liveSummary ? `Warmest: ${liveSummary.warmestDistrict.tempC}° (${liveSummary.warmestDistrict.district})` : 'Surface Anemometers'}
-            </div>
-          </div>
-        </div>
-
-        {/* Metric 4: Pressure */}
-        <div className="bg-white border border-[#DDE5E1] rounded-2xl p-4 flex items-center gap-3.5 shadow-sm">
-          <div className="w-10 h-10 rounded-xl bg-[#ECFDF5] border border-[#D1FAE5] flex items-center justify-center flex-shrink-0">
-            <Gauge className="w-5 h-5 text-[#059669]" />
-          </div>
-          <div className="min-w-0">
-            <div className="text-xs text-[#64706A] uppercase font-bold">Surface Stations</div>
-            <div className="text-xl sm:text-2xl font-extrabold text-[#17201C] tracking-tight">
-              {liveDistrictData.length > 0 ? liveDistrictData.length : '38'} <span className="text-xs font-normal text-[#64706A]">/ 38</span>
-            </div>
-            <div className="text-[10px] text-[#059669] font-bold truncate">
-              100% Online & Synced
-            </div>
-          </div>
-        </div>
-
+        )}
       </div>
 
-      {/* Real-Time Live Weather Telemetry Highlights Banner */}
-      {liveSummary && (
-        <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-[#059669]/10 to-sky-500/10 border border-emerald-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-3 flex-wrap">
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-[#059669] text-white font-bold">
-              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-              <span>LIVE TELEMETRY</span>
-            </div>
-            <span className="font-bold text-[#17201C]">
-              Statewide Status: <strong className="text-[#059669]">{liveSummary.dominantWeather || 'Fair & Tropical Skies'}</strong>
-            </span>
-            <span className="text-[#64706A] hidden sm:inline">
-              · Warmest: <strong className="text-amber-700">{liveSummary.warmestDistrict.district} ({liveSummary.warmestDistrict.tempC}°C)</strong>
-              · Coolest: <strong className="text-sky-700">{liveSummary.coolestDistrict.district} ({liveSummary.coolestDistrict.tempC}°C)</strong>
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] text-[#64706A]">
-              Open-Meteo API · 38 Stations Active
-            </span>
-          </div>
-        </div>
-      )}
-
-      {/* District Quick Focus Bar */}
-      <div className="bg-white border border-[#DDE5E1] rounded-2xl p-3.5 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-sm">
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
-          <span className="text-[11px] font-bold text-[#17201C] uppercase tracking-wider flex items-center gap-1 flex-shrink-0">
-            <MapPin className="w-3.5 h-3.5 text-[#059669]" /> Focus District:
+      {/* 3. District Quick-Focus Selector & Radar Field Toolbar */}
+      <div className="bg-white border border-[#E5EBE8] rounded-2xl p-3 sm:p-3.5 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-xs">
+        
+        {/* District Chips */}
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
+          <span className="text-[10px] font-bold text-[#64706A] uppercase tracking-wider flex items-center gap-1 flex-shrink-0 mr-1">
+            <MapPin className="w-3.5 h-3.5 text-[#059669]" /> Select:
           </span>
           {FEATURED_DISTRICTS.map((dName) => {
             const isSelected = selectedDistrict.toLowerCase() === dName.toLowerCase();
@@ -276,18 +260,22 @@ export const Overview: React.FC<OverviewProps> = ({
               <button
                 key={dName}
                 onClick={() => setSelectedDistrict(dName)}
-                className={`px-3 py-1 rounded-xl text-xs font-bold transition-all flex-shrink-0 border flex items-center gap-1.5 ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex-shrink-0 border flex items-center gap-1.5 cursor-pointer ${
                   isSelected
-                    ? 'bg-[#ECFDF5] text-[#047857] border-[#059669] shadow-xs'
-                    : 'bg-[#F8FAF9] text-[#64706A] hover:text-[#17201C] border-[#DDE5E1]'
+                    ? 'bg-[#059669] text-white border-[#059669] shadow-xs'
+                    : 'bg-[#F8FAF9] text-[#64706A] hover:text-[#17201C] border-[#E5EBE8] hover:bg-white'
                 }`}
               >
                 <span>{dName}</span>
                 {districtLive && (
                   <span className={`text-[10px] font-mono px-1 rounded ${
-                    districtLive.temperatureC <= 20 ? 'bg-sky-100 text-sky-700' :
-                    districtLive.temperatureC >= 32 ? 'bg-amber-100 text-amber-700' :
-                    'bg-emerald-100 text-emerald-700'
+                    isSelected
+                      ? 'bg-white/20 text-white'
+                      : districtLive.temperatureC <= 20
+                      ? 'bg-sky-100 text-sky-700'
+                      : districtLive.temperatureC >= 32
+                      ? 'bg-amber-100 text-amber-700'
+                      : 'bg-emerald-100 text-emerald-700'
                   }`}>
                     {Math.round(districtLive.temperatureC)}°
                   </span>
@@ -297,16 +285,16 @@ export const Overview: React.FC<OverviewProps> = ({
           })}
         </div>
 
-        {/* Climate Variable Selector for Tamil Nadu Map */}
-        <div className="flex items-center gap-1.5 flex-shrink-0 bg-[#F8FAF9] p-1 rounded-xl border border-[#DDE5E1]">
-          <span className="text-[10px] text-[#64706A] font-bold px-2 uppercase tracking-wider">Field:</span>
+        {/* Climate Variable Selector */}
+        <div className="flex items-center gap-1 flex-shrink-0 bg-[#F8FAF9] p-1 rounded-xl border border-[#E5EBE8]">
+          <span className="text-[10px] text-[#64706A] font-bold px-1.5 uppercase tracking-wider">Layer:</span>
           {CLIMATE_VARIABLES.slice(0, 4).map((v, vIdx) => {
             const isVarActive = activeVarIdx === vIdx;
             return (
               <button
                 key={v.id}
                 onClick={() => setActiveVarIdx(vIdx)}
-                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
                   isVarActive
                     ? 'bg-[#059669] text-white shadow-xs'
                     : 'text-[#64706A] hover:text-[#17201C]'
@@ -320,7 +308,7 @@ export const Overview: React.FC<OverviewProps> = ({
         </div>
       </div>
 
-      {/* Full-Width Tamil Nadu 38-District GIS Climate Map */}
+      {/* 4. Full-Width Tamil Nadu 38-District GIS Climate Radar Map */}
       <div className="w-full">
         <TamilNaduDistrictMap
           selectedDistrictName={selectedDistrict}
@@ -330,78 +318,98 @@ export const Overview: React.FC<OverviewProps> = ({
           liveDistrictData={liveDistrictData}
           onRefreshLive={onRefreshLive}
           isLiveLoading={isLiveLoading}
-          className="w-full min-h-[580px] shadow-sm"
+          className="w-full min-h-[560px] shadow-xs rounded-2xl border border-[#E5EBE8]"
         />
       </div>
 
-      {/* Modern Meteorological Frog Card for Selected District */}
+      {/* 5. Meteorological Observation Card for Selected District */}
       <div>
         <WeatherFrogCard
           locationName={selectedCity.district === 'Nilgiris' ? 'Nilgiris (Ooty)' : selectedCity.name}
           districtName={selectedCity.district}
           observation={activeObs}
           liveWeather={selectedLiveWeather}
-          className="shadow-sm"
+          className="shadow-xs rounded-2xl border border-[#E5EBE8]"
         />
       </div>
 
-      {/* 4 Pure Live Sub-Navigation Feature Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+      {/* 6. Quick-Access Feature Hub Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 pt-1">
         
+        {/* Card 1: 38-District Explorer */}
         <div
           onClick={() => onNavigate('explorer')}
-          className="p-5 rounded-2xl bg-white hover:bg-[#F8FAF9] border border-[#DDE5E1] hover:border-[#059669] transition-all cursor-pointer shadow-sm space-y-2 group"
+          className="p-4 rounded-2xl bg-white border border-[#E5EBE8] hover:border-[#059669] transition-all shadow-xs cursor-pointer group space-y-2 hover:-translate-y-0.5"
         >
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#059669] uppercase tracking-wider">38 Districts Map</span>
-            <Compass className="w-4 h-4 text-[#64706A] group-hover:text-[#059669] transition" />
+          <div className="w-9 h-9 rounded-xl bg-[#ECFDF5] border border-[#D1FAE5] flex items-center justify-center text-[#059669] group-hover:scale-105 transition-transform">
+            <Compass className="w-4 h-4" />
           </div>
-          <div className="text-sm font-bold text-[#17201C]">Interactive Weather Map</div>
-          <p className="text-xs text-[#64706A]">
-            Real-time weather station readings, 24-hour temperature charts, and district radar.
-          </p>
+          <div>
+            <div className="text-xs font-bold text-[#17201C] group-hover:text-[#059669] transition-colors flex items-center justify-between">
+              <span>District Explorer</span>
+              <ChevronRight className="w-3.5 h-3.5 text-[#64706A] group-hover:translate-x-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-[#64706A] mt-0.5">
+              Detailed station telemetry for all 38 districts.
+            </p>
+          </div>
         </div>
 
+        {/* Card 2: AI Weather Predictor */}
         <div
           onClick={() => onNavigate('ai_predict')}
-          className="p-5 rounded-2xl bg-white hover:bg-[#ECFDF5] border border-[#DDE5E1] hover:border-[#059669] transition-all cursor-pointer shadow-sm space-y-2 group"
+          className="p-4 rounded-2xl bg-white border border-[#E5EBE8] hover:border-[#059669] transition-all shadow-xs cursor-pointer group space-y-2 hover:-translate-y-0.5"
         >
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#059669] uppercase tracking-wider">AI Weather Predictor</span>
-            <Activity className="w-4 h-4 text-[#64706A] group-hover:text-[#059669] transition" />
+          <div className="w-9 h-9 rounded-xl bg-[#ECFDF5] border border-[#D1FAE5] flex items-center justify-center text-[#059669] group-hover:scale-105 transition-transform">
+            <Sparkles className="w-4 h-4" />
           </div>
-          <div className="text-sm font-bold text-[#17201C]">24h & 3-Day Future Forecast</div>
-          <p className="text-xs text-[#64706A]">
-            Hour-by-hour predicted temperature curves, confidence bounds, and weather alerts.
-          </p>
+          <div>
+            <div className="text-xs font-bold text-[#17201C] group-hover:text-[#059669] transition-colors flex items-center justify-between">
+              <span>AI Weather Forecast</span>
+              <ChevronRight className="w-3.5 h-3.5 text-[#64706A] group-hover:translate-x-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-[#64706A] mt-0.5">
+              7-Day ML prediction model & meteorological simulator.
+            </p>
+          </div>
         </div>
 
+        {/* Card 3: Crop Suggestions Studio */}
+        <div
+          onClick={() => onNavigate('crop_suggestions')}
+          className="p-4 rounded-2xl bg-white border border-[#E5EBE8] hover:border-[#059669] transition-all shadow-xs cursor-pointer group space-y-2 hover:-translate-y-0.5"
+        >
+          <div className="w-9 h-9 rounded-xl bg-[#ECFDF5] border border-[#D1FAE5] flex items-center justify-center text-[#059669] group-hover:scale-105 transition-transform">
+            <Sprout className="w-4 h-4" />
+          </div>
+          <div>
+            <div className="text-xs font-bold text-[#17201C] group-hover:text-[#059669] transition-colors flex items-center justify-between">
+              <span>Crop Suggestions & Calculator</span>
+              <ChevronRight className="w-3.5 h-3.5 text-[#64706A] group-hover:translate-x-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-[#64706A] mt-0.5">
+              GPS soil analysis & seed-fertilizer acreage calculator.
+            </p>
+          </div>
+        </div>
+
+        {/* Card 4: Weather Analytics */}
         <div
           onClick={() => onNavigate('analytics')}
-          className="p-5 rounded-2xl bg-white hover:bg-[#F8FAF9] border border-[#DDE5E1] hover:border-[#059669] transition-all cursor-pointer shadow-sm space-y-2 group"
+          className="p-4 rounded-2xl bg-white border border-[#E5EBE8] hover:border-[#059669] transition-all shadow-xs cursor-pointer group space-y-2 hover:-translate-y-0.5"
         >
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#059669] uppercase tracking-wider">Weather Analytics</span>
-            <BarChart3 className="w-4 h-4 text-[#64706A] group-hover:text-[#059669] transition" />
+          <div className="w-9 h-9 rounded-xl bg-[#ECFDF5] border border-[#D1FAE5] flex items-center justify-center text-[#059669] group-hover:scale-105 transition-transform">
+            <BarChart3 className="w-4 h-4" />
           </div>
-          <div className="text-sm font-bold text-[#17201C]">District Rankings & Stats</div>
-          <p className="text-xs text-[#64706A]">
-            Warmest vs coolest districts, statewide averages, and live comparison tables.
-          </p>
-        </div>
-
-        <div
-          onClick={() => onNavigate('crops')}
-          className="p-5 rounded-2xl bg-white hover:bg-[#F8FAF9] border border-[#DDE5E1] hover:border-[#059669] transition-all cursor-pointer shadow-sm space-y-2 group"
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#059669] uppercase tracking-wider">Crop Suggestions</span>
-            <Sprout className="w-4 h-4 text-[#64706A] group-hover:text-[#059669] transition" />
+          <div>
+            <div className="text-xs font-bold text-[#17201C] group-hover:text-[#059669] transition-colors flex items-center justify-between">
+              <span>Weather Analytics</span>
+              <ChevronRight className="w-3.5 h-3.5 text-[#64706A] group-hover:translate-x-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-[#64706A] mt-0.5">
+              Statewide thermal, wind, and humidity rankings.
+            </p>
           </div>
-          <div className="text-sm font-bold text-[#17201C]">GPS Soil & 12-Month Sowing</div>
-          <p className="text-xs text-[#64706A]">
-            Coordinate-based soil matching, live weather suitability, and 12-month sowing calendars.
-          </p>
         </div>
 
       </div>
