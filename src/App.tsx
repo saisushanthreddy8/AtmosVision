@@ -5,6 +5,7 @@ import { Overview } from './components/Overview';
 import { TamilNaduExplorer } from './components/TamilNaduExplorer';
 import { LiveAnalytics } from './components/LiveAnalytics';
 import { ExtendedForecast } from './components/ExtendedForecast';
+import { AIPredictorStudio } from './components/AIPredictorStudio';
 import { AtmosphericBackground } from './components/AtmosphericBackground';
 import { Settings, X, CheckCircle2, RotateCcw, CloudSun, Radio } from 'lucide-react';
 import { TabId, LiveDistrictWeather, LiveStatewideSummary } from './types';
@@ -158,6 +159,15 @@ export default function App() {
                 liveDistrictData={liveDistrictData}
                 onRefreshLive={() => loadLiveWeatherData(true)}
                 isLiveLoading={isLiveLoading}
+              />
+            )}
+
+            {activeTab === 'ai_predict' && (
+              <AIPredictorStudio
+                liveDistrictData={liveDistrictData}
+                onRefreshLive={() => loadLiveWeatherData(true)}
+                isLiveLoading={isLiveLoading}
+                initialDistrictName={selectedDistrictForExplorer || 'Nilgiris'}
               />
             )}
 

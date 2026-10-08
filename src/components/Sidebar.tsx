@@ -30,13 +30,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
       id: 'overview' as TabId,
       label: 'Live Dashboard',
       icon: LayoutDashboard,
-      badge: 'Real-Time'
+      badge: 'Actual'
     },
     {
       id: 'explorer' as TabId,
       label: '38-District Radar',
       icon: MapPin,
       badge: 'Soil & Crops'
+    },
+    {
+      id: 'ai_predict' as TabId,
+      label: 'AI Predictor Studio',
+      icon: Activity,
+      badge: 'Bi-LSTM'
     },
     {
       id: 'analytics' as TabId,

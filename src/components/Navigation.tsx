@@ -35,6 +35,12 @@ export const NAV_ITEMS: NavItem[] = [
     icon: MapPin,
   },
   {
+    id: 'ai_predict',
+    label: 'AI PREDICTOR STUDIO',
+    sublabel: 'Neural Bi-LSTM Weather Forecast',
+    icon: Activity,
+  },
+  {
     id: 'analytics',
     label: 'STATEWIDE ANALYTICS',
     sublabel: 'Rankings & Microclimates',

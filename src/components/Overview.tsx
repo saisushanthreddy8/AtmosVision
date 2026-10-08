@@ -132,7 +132,7 @@ export const Overview: React.FC<OverviewProps> = ({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           {onRefreshLive && (
             <button
               onClick={onRefreshLive}
@@ -146,10 +146,18 @@ export const Overview: React.FC<OverviewProps> = ({
 
           <button
             onClick={() => onNavigate('explorer')}
+            className="px-3.5 py-2.5 rounded-xl bg-white hover:bg-[#F8FAF9] border border-[#DDE5E1] text-[#17201C] text-xs font-bold shadow-xs flex items-center gap-1.5 transition-all cursor-pointer"
+          >
+            <MapPin className="w-4 h-4 text-[#059669]" />
+            <span>38-District Radar</span>
+          </button>
+
+          <button
+            onClick={() => onNavigate('ai_predict')}
             className="px-4 py-2.5 rounded-xl bg-[#059669] hover:bg-[#047857] text-white text-xs font-bold shadow-sm shadow-[#059669]/20 flex items-center gap-2 transition-all transform hover:scale-[1.02] active:scale-95 cursor-pointer"
           >
             <Sparkles className="w-4 h-4" />
-            <span>38-District GIS Radar</span>
+            <span>AI Predictor Studio</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
@@ -354,6 +362,20 @@ export const Overview: React.FC<OverviewProps> = ({
         </div>
 
         <div
+          onClick={() => onNavigate('ai_predict')}
+          className="p-5 rounded-2xl bg-white hover:bg-[#ECFDF5] border border-[#DDE5E1] hover:border-[#059669] transition-all cursor-pointer shadow-sm space-y-2 group"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-[#059669] uppercase tracking-wider">AI Predictor Studio</span>
+            <Activity className="w-4 h-4 text-[#64706A] group-hover:text-[#059669] transition" />
+          </div>
+          <div className="text-sm font-bold text-[#17201C]">Neural Bi-LSTM Forecasting</div>
+          <p className="text-xs text-[#64706A]">
+            Multi-step 24h/72h trajectory prediction, 90% confidence bounds, and What-If scenario simulation.
+          </p>
+        </div>
+
+        <div
           onClick={() => onNavigate('analytics')}
           className="p-5 rounded-2xl bg-white hover:bg-[#F8FAF9] border border-[#DDE5E1] hover:border-[#059669] transition-all cursor-pointer shadow-sm space-y-2 group"
         >
@@ -378,20 +400,6 @@ export const Overview: React.FC<OverviewProps> = ({
           <div className="text-sm font-bold text-[#17201C]">Numerical Weather Model</div>
           <p className="text-xs text-[#64706A]">
             Multi-day temperature envelopes, rain probability bars, and wind kinematics across all districts.
-          </p>
-        </div>
-
-        <div
-          onClick={() => onNavigate('analytics')}
-          className="p-5 rounded-2xl bg-white hover:bg-[#F8FAF9] border border-[#DDE5E1] hover:border-[#059669] transition-all cursor-pointer shadow-sm space-y-2 group"
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#059669] uppercase tracking-wider">Microclimate Zones</span>
-            <Activity className="w-4 h-4 text-[#64706A] group-hover:text-[#059669] transition" />
-          </div>
-          <div className="text-sm font-bold text-[#17201C]">4 Regional Divisions</div>
-          <p className="text-xs text-[#64706A]">
-            Western Ghats, Coromandel Maritime Coast, Interior Kaveri Basin, and Northern Plateau.
           </p>
         </div>
 

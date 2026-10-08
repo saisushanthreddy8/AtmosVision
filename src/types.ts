@@ -30,7 +30,55 @@ export interface CityLocation {
   description: string;
 }
 
-export type TabId = 'overview' | 'explorer' | 'analytics' | 'forecast';
+export type TabId = 'overview' | 'explorer' | 'ai_predict' | 'analytics' | 'forecast';
+
+export interface AIPredictionStep {
+  timeLabel: string;
+  hourOffset: number;
+  predictedTempC: number;
+  lowerConfidenceTempC: number;
+  upperConfidenceTempC: number;
+  precipitationProb: number;
+  predictedHumidityPct: number;
+  predictedWindKmh: number;
+  predictedPressureHpa: number;
+  heatIndexC: number;
+  weatherType: 'clear' | 'wind' | 'cool' | 'hot' | 'rain';
+  conditionText: string;
+}
+
+export interface XAIImportanceFactor {
+  name: string;
+  category: string;
+  weightPct: number;
+  direction: 'increase' | 'decrease' | 'neutral';
+  impactDescription: string;
+}
+
+export interface AIAnomalyAlert {
+  severity: 'low' | 'moderate' | 'high' | 'critical';
+  title: string;
+  description: string;
+  timeWindow: string;
+  recommendation: string;
+}
+
+export interface AIPredictionResult {
+  cityId: string;
+  district: string;
+  modelName: string;
+  inferenceTimeMs: number;
+  confidenceScore: number;
+  rmseC: number;
+  steps: AIPredictionStep[];
+  xaiFactors: XAIImportanceFactor[];
+  anomalyAlerts: AIAnomalyAlert[];
+  scenarioApplied?: {
+    tempOffsetC: number;
+    humidityOffsetPct: number;
+    pressureOffsetHpa: number;
+  };
+}
 
 export interface CityClimateObservation {
   city: CityLocation;
