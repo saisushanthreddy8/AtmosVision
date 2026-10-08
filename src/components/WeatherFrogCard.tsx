@@ -70,24 +70,36 @@ export const WeatherFrogCard: React.FC<WeatherFrogCardProps> = ({
     ? liveWeather.weatherType
     : observation?.derivedCondition?.weatherType || 'clear';
 
-  // 7-Day Extended Meteorological Forecast
-  const daysOfWeek = ['Today', 'Tomorrow', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'];
-  const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  // Dynamic 7-Day Extended Meteorological Forecast based on current date
+  const fullDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const now = new Date();
   
   const sevenDayForecast = liveWeather?.daily7d && liveWeather.daily7d.length >= 7
-    ? liveWeather.daily7d.map((d, idx) => ({
-        dayIndex: idx,
-        label: d.dayLabel,
-        dayShort: d.dayLabel === 'Today' ? 'Now' : d.dayLabel === 'Tomorrow' ? 'Tmrw' : d.dayLabel,
-        high: Math.round(d.maxTempC),
-        low: Math.round(d.minTempC),
-        type: (d.weatherType === 'rain' ? 'rain' : d.weatherType === 'hot' ? 'sunny' : d.weatherType === 'cool' ? 'partly-cloudy' : 'sunny') as 'sunny' | 'partly-cloudy' | 'cloudy' | 'rain' | 'storm',
-        precipPct: d.precipitationProbMax,
-        summary: d.weatherCondition,
-        windKmh: baseWind,
-        humidity: baseRh
-      }))
-    : daysOfWeek.map((label, idx) => {
+    ? liveWeather.daily7d.map((d, idx) => {
+        const targetDate = new Date();
+        targetDate.setDate(now.getDate() + idx);
+        const dayOfWeekShort = fullDayNames[targetDate.getDay()];
+        const label = idx === 0 ? 'Today' : idx === 1 ? 'Tomorrow' : `Day ${idx + 1}`;
+
+        return {
+          dayIndex: idx,
+          label: label,
+          dayShort: dayOfWeekShort,
+          high: Math.round(d.maxTempC),
+          low: Math.round(d.minTempC),
+          type: (d.weatherType === 'rain' ? 'rain' : d.weatherType === 'hot' ? 'sunny' : d.weatherType === 'cool' ? 'partly-cloudy' : 'sunny') as 'sunny' | 'partly-cloudy' | 'cloudy' | 'rain' | 'storm',
+          precipPct: d.precipitationProbMax,
+          summary: d.weatherCondition,
+          windKmh: baseWind,
+          humidity: baseRh
+        };
+      })
+    : Array.from({ length: 7 }).map((_, idx) => {
+        const targetDate = new Date();
+        targetDate.setDate(now.getDate() + idx);
+        const dayOfWeekShort = fullDayNames[targetDate.getDay()];
+        const label = idx === 0 ? 'Today' : idx === 1 ? 'Tomorrow' : `Day ${idx + 1}`;
+
         const offset = Math.sin(idx * 1.25) * 2.5;
         const high = Math.round(baseTemp + 4 + offset);
         const low = Math.round(Math.max(10, baseTemp - 4 + offset * 0.5));
@@ -113,7 +125,7 @@ export const WeatherFrogCard: React.FC<WeatherFrogCardProps> = ({
         return {
           dayIndex: idx,
           label,
-          dayShort: dayNames[idx % 7],
+          dayShort: dayOfWeekShort,
           high,
           low,
           type,
