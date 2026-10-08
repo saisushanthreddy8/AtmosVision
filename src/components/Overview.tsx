@@ -20,7 +20,6 @@ import {
   Sun
 } from 'lucide-react';
 import { TabId, LiveDistrictWeather, LiveStatewideSummary, CityClimateObservation } from '../types';
-import { GlobeVisualizer } from './GlobeVisualizer';
 import { TamilNaduDistrictMap } from './TamilNaduDistrictMap';
 import { WeatherFrogCard } from './WeatherFrogCard';
 import { CITIES_TAMIL_NADU } from '../data/cities';
@@ -312,35 +311,18 @@ export const Overview: React.FC<OverviewProps> = ({
         </div>
       </div>
 
-      {/* Main 2-Column Core Visualizer: Rotating Earth Globe + Glowing Tamil Nadu Map */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-        
-        {/* Panel 1: Enlarged Rotating 3D Earth Globe */}
-        <div className="h-full flex flex-col">
-          <GlobeVisualizer
-            title="Global Earth Atmospheric Orbiter"
-            autoRotate={true}
-            interactive={true}
-            highlightTamilNadu={true}
-            showSatellites={true}
-            className="flex-1 min-h-[540px] shadow-sm"
-          />
-        </div>
-
-        {/* Panel 2: Enlarged Glowing Tamil Nadu 38-District Climate Map */}
-        <div className="h-full flex flex-col">
-          <TamilNaduDistrictMap
-            selectedDistrictName={selectedDistrict}
-            onSelectDistrict={(d) => setSelectedDistrict(d)}
-            activeVariableIdx={activeVarIdx}
-            showTitle={true}
-            liveDistrictData={liveDistrictData}
-            onRefreshLive={onRefreshLive}
-            isLiveLoading={isLiveLoading}
-            className="flex-1 min-h-[540px] shadow-sm"
-          />
-        </div>
-
+      {/* Full-Width Tamil Nadu 38-District GIS Climate Map */}
+      <div className="w-full">
+        <TamilNaduDistrictMap
+          selectedDistrictName={selectedDistrict}
+          onSelectDistrict={(d) => setSelectedDistrict(d)}
+          activeVariableIdx={activeVarIdx}
+          showTitle={true}
+          liveDistrictData={liveDistrictData}
+          onRefreshLive={onRefreshLive}
+          isLiveLoading={isLiveLoading}
+          className="w-full min-h-[580px] shadow-sm"
+        />
       </div>
 
       {/* Modern Meteorological Frog Card for Selected District */}
