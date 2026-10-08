@@ -8,7 +8,8 @@ import {
   RotateCcw,
   CloudSun,
   Activity,
-  Radio
+  Radio,
+  Sprout
 } from 'lucide-react';
 import { TabId } from '../types';
 
@@ -36,7 +37,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       id: 'explorer' as TabId,
       label: '38-District Radar',
       icon: MapPin,
-      badge: 'Soil & Crops'
+      badge: 'GIS Map'
     },
     {
       id: 'ai_predict' as TabId,
@@ -45,16 +46,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
       badge: 'Bi-LSTM'
     },
     {
+      id: 'crops' as TabId,
+      label: 'Crop Advisory',
+      icon: Sprout,
+      badge: '12-Month'
+    },
+    {
       id: 'analytics' as TabId,
       label: 'Statewide Analytics',
       icon: BarChart3,
       badge: 'Rankings'
-    },
-    {
-      id: 'forecast' as TabId,
-      label: '7-Day Forecast',
-      icon: Calendar,
-      badge: 'Synoptic'
     },
   ];
 

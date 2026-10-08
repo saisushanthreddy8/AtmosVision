@@ -30,7 +30,33 @@ export interface CityLocation {
   description: string;
 }
 
-export type TabId = 'overview' | 'explorer' | 'ai_predict' | 'analytics' | 'forecast';
+export type TabId = 'overview' | 'explorer' | 'ai_predict' | 'crops' | 'analytics';
+
+export interface MonthlyCropItem {
+  name: string;
+  tamilName: string;
+  category: 'Food Grain' | 'Commercial / Cash Crop' | 'Plantation & Hill' | 'Horticulture & Fruits' | 'Spices' | 'Pulses & Oilseeds' | 'Vegetables';
+  waterNeed: 'Low' | 'Moderate' | 'High' | 'Very High';
+  idealSoil: string;
+  durationDays: string;
+  description: string;
+  idealTempRangeC: [number, number];
+  idealHumidityRange: [number, number];
+  suitableAgroZones: string[];
+}
+
+export interface MonthlyCropSchedule {
+  monthIndex: number;
+  monthName: string;
+  tamilMonth: string;
+  seasonName: string;
+  seasonTamil: string;
+  agroClimateOverview: string;
+  recommendedSowingCrops: MonthlyCropItem[];
+  harvestingCrops: string[];
+  irrigationStrategy: string;
+  pestAndDiseaseAdvisory: string;
+}
 
 export interface AIPredictionStep {
   timeLabel: string;

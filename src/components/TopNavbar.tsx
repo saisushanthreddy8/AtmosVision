@@ -15,7 +15,8 @@ import {
   Thermometer,
   Layers,
   BarChart3,
-  Calendar
+  Calendar,
+  Sprout
 } from 'lucide-react';
 import { TabId, LiveStatewideSummary } from '../types';
 import { DISTRICT_REGIONS } from '../data/tamilNaduGeo';
@@ -173,11 +174,11 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
                     <span>Analytics</span>
                   </button>
                   <button
-                    onClick={() => { onNavigate('forecast'); setIsSearchOpen(false); setSearchQuery(''); }}
+                    onClick={() => { onNavigate('crops'); setIsSearchOpen(false); setSearchQuery(''); }}
                     className="flex items-center gap-1.5 px-2 py-1.5 rounded hover:bg-[#ECFDF5] text-[#17201C] text-[11px]"
                   >
-                    <Calendar className="w-3 h-3 text-[#059669]" />
-                    <span>7-Day Run</span>
+                    <Sprout className="w-3 h-3 text-[#059669]" />
+                    <span>Crop Advisory</span>
                   </button>
                 </div>
               </div>

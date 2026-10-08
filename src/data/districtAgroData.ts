@@ -1,7 +1,5 @@
-/**
- * Tamil Nadu 38-District Soil Classification & Agro-Meteorological Crop Advisory
- * Grounded in Tamil Nadu Agricultural University (TNAU) & Department of Agriculture data.
- */
+import { MonthlyCropSchedule, MonthlyCropItem } from '../types';
+import { CITIES_TAMIL_NADU } from './cities';
 
 export interface CropSuggestion {
   name: string;
@@ -814,4 +812,705 @@ export function getDistrictAgroProfile(districtName: string): DistrictAgroProfil
       }
     ]
   };
+};
+
+/**
+ * Authentic 12-Month Agro-Climatic Sowing & Harvesting Calendar for Tamil Nadu
+ * Calibrated against TNAU Agro-Advisory & Seasonal Crop Sowing Schedules
+ */
+export const TAMIL_NADU_12_MONTH_CROP_CALENDAR: MonthlyCropSchedule[] = [
+  {
+    monthIndex: 0,
+    monthName: 'January',
+    tamilMonth: 'தை (Thai)',
+    seasonName: 'Navarai / Late Thaladi (Winter Sowing)',
+    seasonTamil: 'தைப்பட்டம் / நவரை பருவம்',
+    agroClimateOverview: 'Pleasant winter temperatures with moderate morning dew and minimum rainfall. Favorable for rice-fallow pulses, watermelon, summer groundnut, and vegetables.',
+    irrigationStrategy: 'Light frequent irrigations for seedlings. Protect soil moisture in delta wetlands as monsoon water recedes.',
+    pestAndDiseaseAdvisory: 'Watch for powdery mildew in pulses and thrips in chillies during warm daytime hours.',
+    harvestingCrops: ['Samba Paddy (மெயின் சம்பா நெல்)', 'Sugarcane (கரும்பு)', 'Cotton (பருத்தி - First Picking)', 'Turmeric (மஞ்சள்)'],
+    recommendedSowingCrops: [
+      {
+        name: 'Rice Fallow Blackgram (ADT-3, VBN-8)',
+        tamilName: 'உளுந்து (நெல் தரிசு)',
+        category: 'Pulses & Oilseeds',
+        waterNeed: 'Low',
+        idealSoil: 'Clayey Delta Alluvium retaining residual moisture post-paddy.',
+        durationDays: '65 - 70 days',
+        description: 'Broadcasted 4-6 days before paddy harvest into standing crop to capture residual moisture.',
+        idealTempRangeC: [20, 32],
+        idealHumidityRange: [50, 75],
+        suitableAgroZones: ['Cauvery Delta', 'Northern Coastal', 'Southern Plains']
+      },
+      {
+        name: 'Summer Watermelon & Muskmelon',
+        tamilName: 'தர்பூசணி / முலாம் பழம்',
+        category: 'Horticulture & Fruits',
+        waterNeed: 'Moderate',
+        idealSoil: 'Sandy River Loam / Coastal Riverbeds with high drainage.',
+        durationDays: '75 - 85 days',
+        description: 'Prime month for sowing to capture peak summer market demand in April-May.',
+        idealTempRangeC: [22, 35],
+        idealHumidityRange: [45, 70],
+        suitableAgroZones: ['River Basins', 'Coastal Belt', 'Central Plains']
+      },
+      {
+        name: 'Navarai Short Duration Paddy (CO-51, ADT-43)',
+        tamilName: 'நவரை நெல்',
+        category: 'Food Grain',
+        waterNeed: 'Very High',
+        idealSoil: 'Alluvial and clayey wetland soils with assured well/tank irrigation.',
+        durationDays: '105 - 115 days',
+        description: 'High solar radiation during vegetative stage promotes profuse tillering.',
+        idealTempRangeC: [22, 34],
+        idealHumidityRange: [60, 85],
+        suitableAgroZones: ['Northern Tamil Nadu', 'Kanchipuram', 'Tiruvallur']
+      },
+      {
+        name: 'Summer Sesame (Gingelly - TMV-7)',
+        tamilName: 'எள் (கோடை எள்)',
+        category: 'Pulses & Oilseeds',
+        waterNeed: 'Low',
+        idealSoil: 'Well-drained red sandy loam and light alluvial soils.',
+        durationDays: '80 - 85 days',
+        description: 'Excellent cash crop requiring only 2-3 protective irrigations.',
+        idealTempRangeC: [24, 36],
+        idealHumidityRange: [40, 65],
+        suitableAgroZones: ['Statewide', 'Delta', 'Southern Drylands']
+      }
+    ]
+  },
+  {
+    monthIndex: 1,
+    monthName: 'February',
+    tamilMonth: 'மாசி (Masi)',
+    seasonName: 'Masi Pattam (Early Summer Crop Cycle)',
+    seasonTamil: 'மாசிப்பட்டம் (கோடை முன் பருவம்)',
+    agroClimateOverview: 'Rising daytime temperatures and clear skies. Excellent solar radiation for flowering in pulses and fruit setting in vegetables.',
+    irrigationStrategy: 'Initiate drip fertigation for horticultural crops; schedule irrigation in early morning hours.',
+    pestAndDiseaseAdvisory: 'Monitor red spider mites in bhendi and shoot & fruit borer in brinjal.',
+    harvestingCrops: ['Late Samba Paddy (தாளடி நெல்)', 'Chillies (மிளகாய் - Main Flush)', 'Tobacco (புகையிலை)'],
+    recommendedSowingCrops: [
+      {
+        name: 'Hybrid Bhendi / Okra (Co-4, Arka Anamika)',
+        tamilName: 'வெண்டைக்காய்',
+        category: 'Vegetables',
+        waterNeed: 'Moderate',
+        idealSoil: 'Rich loamy soil with neutral pH (6.5 - 7.5).',
+        durationDays: '85 - 90 days',
+        description: 'Sow in ridges and furrows. High resistance to Yellow Vein Mosaic Virus.',
+        idealTempRangeC: [24, 35],
+        idealHumidityRange: [45, 75],
+        suitableAgroZones: ['Statewide Plains', 'Coimbatore', 'Salem']
+      },
+      {
+        name: 'Bitter Gourd & Snake Gourd',
+        tamilName: 'பாகற்காய் / புடலங்காய்',
+        category: 'Vegetables',
+        waterNeed: 'Moderate',
+        idealSoil: 'Sandy loam with organic compost pits.',
+        durationDays: '100 - 120 days',
+        description: 'Pandal (trellis) cultivation delivers premium quality export-grade gourds.',
+        idealTempRangeC: [25, 36],
+        idealHumidityRange: [50, 75],
+        suitableAgroZones: ['Dindigul', 'Theni', 'Coimbatore', 'Tiruppur']
+      },
+      {
+        name: 'Madurai Jasmine (Jasminum sambac)',
+        tamilName: 'மதுரை மல்லிகை (புதிய நடவு)',
+        category: 'Commercial / Cash Crop',
+        waterNeed: 'Moderate',
+        idealSoil: 'Well-drained red loam with gravelly subsoil.',
+        durationDays: 'Perennial (Pruning season)',
+        description: 'Spring pruning and organic manuring induces intense flower bud initiation for summer.',
+        idealTempRangeC: [24, 34],
+        idealHumidityRange: [50, 70],
+        suitableAgroZones: ['Madurai', 'Virudhunagar', 'Dindigul', 'Erode']
+      },
+      {
+        name: 'Cluster Beans & Cowpea',
+        tamilName: 'கொத்தவரங்காய் / காராமணி',
+        category: 'Vegetables',
+        waterNeed: 'Low',
+        idealSoil: 'Drought-tolerant in light red and black soils.',
+        durationDays: '70 - 80 days',
+        description: 'Fixes atmospheric nitrogen while yielding continuous vegetable flushes.',
+        idealTempRangeC: [25, 38],
+        idealHumidityRange: [40, 65],
+        suitableAgroZones: ['Southern Drylands', 'Interior Plains']
+      }
+    ]
+  },
+  {
+    monthIndex: 2,
+    monthName: 'March',
+    tamilMonth: 'பங்குனி (Panguni)',
+    seasonName: 'Summer Irrigated / Zaid Season',
+    seasonTamil: 'பங்குனிப்பட்டம் / கோடை பாசனப் பருவம்',
+    agroClimateOverview: 'Dry tropical atmosphere with thermal highs reaching 34°C - 38°C in interior plains. Focus on drought-hardy and irrigated cash crops.',
+    irrigationStrategy: 'Apply mulching (sugarcane trash or coir pith) around fruit trees and vegetables to cut evaporation losses by 40%.',
+    pestAndDiseaseAdvisory: 'Watch for yellowing in groundnut due to iron chlorosis in calcareous soils; apply ferrous sulfate spray.',
+    harvestingCrops: ['Summer Sesame (எள் அறுவடை)', 'Coriander (கொத்தமல்லி)', 'Sunflower (சூரியகாந்தி)'],
+    recommendedSowingCrops: [
+      {
+        name: 'Summer Irrigated Groundnut (TMV-13, VRI-8)',
+        tamilName: 'கோடை நிலக்கடலை',
+        category: 'Pulses & Oilseeds',
+        waterNeed: 'Moderate',
+        idealSoil: 'Red sandy loam with friable texture for easy peg penetration.',
+        durationDays: '100 - 105 days',
+        description: 'Gypsum application at 40-45 days ensures bold kernels and high oil percentage.',
+        idealTempRangeC: [25, 36],
+        idealHumidityRange: [40, 65],
+        suitableAgroZones: ['Vellore', 'Tiruvannamalai', 'Villupuram', 'Cuddalore']
+      },
+      {
+        name: 'Fodder Sorghum & Co-FS-29',
+        tamilName: 'தீவனச் சோளம்',
+        category: 'Food Grain',
+        waterNeed: 'Low',
+        idealSoil: 'Adaptable to medium black and red soils.',
+        durationDays: '60 days (Multi-cut)',
+        description: 'Crucial green fodder security for dairy cattle during dry summer months.',
+        idealTempRangeC: [26, 38],
+        idealHumidityRange: [35, 60],
+        suitableAgroZones: ['Coimbatore', 'Erode', 'Namakkal', 'Dindigul']
+      },
+      {
+        name: 'Cucumber & Gherkins',
+        tamilName: 'வெள்ளரிக்காய்',
+        category: 'Vegetables',
+        waterNeed: 'Moderate',
+        idealSoil: 'Sandy alluvial soils with rapid drainage.',
+        durationDays: '60 - 70 days',
+        description: 'Short duration cash generator with ready local market acceptance.',
+        idealTempRangeC: [25, 36],
+        idealHumidityRange: [45, 70],
+        suitableAgroZones: ['Dharmapuri', 'Krishnagiri', 'Salem']
+      }
+    ]
+  },
+  {
+    monthIndex: 3,
+    monthName: 'April',
+    tamilMonth: 'சித்திரை (Chithirai)',
+    seasonName: 'Chithirai Pattam (Summer Sowing & Green Manure)',
+    seasonTamil: 'சித்திரைப்பட்டம் (பசுந்தாள் உரம் & கோடை விதைப்பு)',
+    agroClimateOverview: 'Peak summer heat across Tamil Nadu plains (36°C - 41°C). Sowing of green manure crops to rejuvenate soil organic matter ahead of Kuruvai.',
+    irrigationStrategy: 'Night-time or early dawn irrigation avoids thermal shock to crop root systems.',
+    pestAndDiseaseAdvisory: 'Protect nurseries with 50% green agro-shade nets against scorching solar flux.',
+    harvestingCrops: ['Alphonso & Banganapalli Mango (மாம்பழம்)', 'Summer Groundnut (கோடை நிலக்கடலை)'],
+    recommendedSowingCrops: [
+      {
+        name: 'Green Manure Daincha & Sunnhemp',
+        tamilName: 'தக்கைப்பூண்டு / சணப்பை (பசுந்தாள் உரம்)',
+        category: 'Commercial / Cash Crop',
+        waterNeed: 'Low',
+        idealSoil: 'All wetland and dryland soils; dissolves hard clay pan.',
+        durationDays: '45 days (Plough back into soil)',
+        description: 'Adds 15-20 tonnes/ha of organic biomass and fixes 80kg of atmospheric nitrogen.',
+        idealTempRangeC: [28, 40],
+        idealHumidityRange: [35, 65],
+        suitableAgroZones: ['Cauvery Delta', 'Statewide Wetlands']
+      },
+      {
+        name: 'Summer Ragi / Finger Millet (CO-15)',
+        tamilName: 'கேழ்வரகு (சித்திரை ராகி)',
+        category: 'Food Grain',
+        waterNeed: 'Low',
+        idealSoil: 'Red sandy loam and gravelly soils.',
+        durationDays: '95 - 105 days',
+        description: 'Highly nutritious drought-resilient cereal with high calcium content.',
+        idealTempRangeC: [26, 38],
+        idealHumidityRange: [40, 65],
+        suitableAgroZones: ['Salem', 'Dharmapuri', 'Krishnagiri']
+      },
+      {
+        name: 'Sweet Corn & Baby Corn',
+        tamilName: 'இனிப்புச் சோளம்',
+        category: 'Commercial / Cash Crop',
+        waterNeed: 'Moderate',
+        idealSoil: 'Deep, fertile well-drained loams.',
+        durationDays: '75 - 80 days',
+        description: 'Short duration peri-urban crop with high profit margins.',
+        idealTempRangeC: [25, 37],
+        idealHumidityRange: [45, 70],
+        suitableAgroZones: ['Tiruvallur', 'Coimbatore', 'Madurai']
+      }
+    ]
+  },
+  {
+    monthIndex: 4,
+    monthName: 'May',
+    tamilMonth: 'வைகாசி (Vaigasi)',
+    seasonName: 'Vaigasi Pattam (Pre-Monsoon Preparation & Kuruvai Nursery)',
+    seasonTamil: 'வைகாசிப்பட்டம் (குறுவை நாற்றங்கால் பருவம்)',
+    agroClimateOverview: 'Summer thunderstorms (Summer Convective Showers) begin in Western and Southern zones. Optimum window for raising Kuruvai paddy mat nurseries.',
+    irrigationStrategy: 'Prepare raised nursery beds (Modified Mat Nursery) for mechanized transplanter operations.',
+    pestAndDiseaseAdvisory: 'Seed treatment with Pseudomonas fluorescens (10g/kg seed) to prevent blast and bacterial leaf blight.',
+    harvestingCrops: ['Summer Watermelon', 'Banana (வாழை - Ratoon Crop)'],
+    recommendedSowingCrops: [
+      {
+        name: 'Kuruvai Paddy Nursery (CO-51, ADT-37, ASD-16)',
+        tamilName: 'குறுவை நெல் நாற்றங்கால்',
+        category: 'Food Grain',
+        waterNeed: 'High',
+        idealSoil: 'Fertile wetland alluvium with high organic matter.',
+        durationDays: '15-18 days nursery stage',
+        description: 'Mat nursery method uses 80% less water and ensures robust seedlings.',
+        idealTempRangeC: [26, 36],
+        idealHumidityRange: [55, 85],
+        suitableAgroZones: ['Thanjavur', 'Tiruvarur', 'Nagapattinam', 'Mayiladuthurai']
+      },
+      {
+        name: 'Erode Turmeric (Rhizome Planting)',
+        tamilName: 'மஞ்சள் (ஈரோடு மஞ்சள் நடவு)',
+        category: 'Spices',
+        waterNeed: 'High',
+        idealSoil: 'Deep, friable rich red and black clay loam.',
+        durationDays: '270 - 290 days',
+        description: 'Ridge planting with drip irrigation prevents rhizome rot and enhances curcumin levels.',
+        idealTempRangeC: [25, 35],
+        idealHumidityRange: [60, 85],
+        suitableAgroZones: ['Erode', 'Salem', 'Coimbatore', 'Karur']
+      },
+      {
+        name: 'Summer Irrigated Cotton (SVPR-4, Suraj)',
+        tamilName: 'பருத்தி (கோடை இறவை)',
+        category: 'Commercial / Cash Crop',
+        waterNeed: 'Moderate',
+        idealSoil: 'Deep black cotton soil (Vertisols) with high clay content.',
+        durationDays: '150 - 160 days',
+        description: 'Pre-monsoon sowing enables root establishment before heavy rains.',
+        idealTempRangeC: [26, 37],
+        idealHumidityRange: [50, 75],
+        suitableAgroZones: ['Virudhunagar', 'Theni', 'Madurai', 'Tirunelveli']
+      }
+    ]
+  },
+  {
+    monthIndex: 5,
+    monthName: 'June',
+    tamilMonth: 'ஆனி (Aani)',
+    seasonName: 'Kuruvai / Sornavari Prime Sowing',
+    seasonTamil: 'ஆனிப்பட்டம் / குறுவை / சொர்ணவாரி பருவம்',
+    agroClimateOverview: 'Southwest Monsoon winds active along Western Ghats. Inflow in Mettur dam feeds Cauvery delta canals. Intensive transplanting phase.',
+    irrigationStrategy: 'Maintain 2.5cm shallow water depth during initial tillering stage of transplanted paddy.',
+    pestAndDiseaseAdvisory: 'Apply zinc sulfate (25 kg/ha) basal to eliminate khaira disease in delta soils.',
+    harvestingCrops: ['Summer Pulses', 'Mango (மாம்பழம் இறுதி அறுவடை)'],
+    recommendedSowingCrops: [
+      {
+        name: 'Kuruvai Main Paddy (ADT-43, TPS-5, CO-51)',
+        tamilName: 'குறுவை நெல் நடவு',
+        category: 'Food Grain',
+        waterNeed: 'Very High',
+        idealSoil: 'Deltaic alluvial clay and fertile clay loams.',
+        durationDays: '105 - 115 days',
+        description: 'Prime agricultural season in Cauvery basin with maximum solar energy conversion.',
+        idealTempRangeC: [25, 35],
+        idealHumidityRange: [65, 88],
+        suitableAgroZones: ['Delta Zone', 'Northern Plains']
+      },
+      {
+        name: 'Pearl Millet / Cumbu (CO-10)',
+        tamilName: 'கம்பு',
+        category: 'Food Grain',
+        waterNeed: 'Low',
+        idealSoil: 'Light sandy soils and porous red soils.',
+        durationDays: '85 - 90 days',
+        description: 'Highly heat-tolerant millets with high iron and zinc density.',
+        idealTempRangeC: [26, 38],
+        idealHumidityRange: [40, 70],
+        suitableAgroZones: ['Tuticorin', 'Ramanathapuram', 'Villupuram', 'Perambalur']
+      },
+      {
+        name: 'Commercial Tapioca / Cassava (Kunguma Rose)',
+        tamilName: 'மரவள்ளிக்கிழங்கு',
+        category: 'Commercial / Cash Crop',
+        waterNeed: 'Moderate',
+        idealSoil: 'Well-drained red loam with low compaction.',
+        durationDays: '270 - 300 days',
+        description: 'Major raw material for sago and starch industrial mills in Salem-Namakkal belt.',
+        idealTempRangeC: [25, 36],
+        idealHumidityRange: [55, 80],
+        suitableAgroZones: ['Salem', 'Namakkal', 'Dharmapuri', 'Villupuram']
+      }
+    ]
+  },
+  {
+    monthIndex: 6,
+    monthName: 'July',
+    tamilMonth: 'ஆடி (Aadi)',
+    seasonName: 'Aadi Pattam (Grand Sowing Season - ஆடிப்பட்டம் தேடி விதை)',
+    seasonTamil: 'ஆடிப்பட்டம் (தமிழகத்தின் முதன்மை விதைப்புப் பருவம்)',
+    agroClimateOverview: 'The most revered traditional sowing window across Tamil Nadu. High atmospheric moisture, steady cloud cover, and moderate temperatures.',
+    irrigationStrategy: 'Ideal moisture profile for dryland rainfed seeding. Conserve rainwater in farm ponds.',
+    pestAndDiseaseAdvisory: 'Treat groundnut seeds with Trichoderma viride to prevent collar rot.',
+    harvestingCrops: ['Green Manure (மண்ணில் மடக்க உழுதல்)'],
+    recommendedSowingCrops: [
+      {
+        name: 'Rainfed Groundnut (VRI-2, TMV-7, Kadiri-6)',
+        tamilName: 'ஆடிப்பட்ட நிலக்கடலை',
+        category: 'Pulses & Oilseeds',
+        waterNeed: 'Moderate',
+        idealSoil: 'Red gravelly loam and sandy soils.',
+        durationDays: '105 - 110 days',
+        description: 'Traditional Aadi sowing ensures highest pod filling and kernel weight.',
+        idealTempRangeC: [24, 34],
+        idealHumidityRange: [55, 80],
+        suitableAgroZones: ['Tiruvannamalai', 'Vellore', 'Namakkal', 'Pudukkottai']
+      },
+      {
+        name: 'Rainfed Cotton (KC-3, SVPR-2, Bt Cotton)',
+        tamilName: 'மானாவாரிப் பருத்தி',
+        category: 'Commercial / Cash Crop',
+        waterNeed: 'Moderate',
+        idealSoil: 'Deep black soils (Vertisols) with deep moisture retention.',
+        durationDays: '150 - 165 days',
+        description: 'Sow at 90x45cm spacing with bio-fertilizers.',
+        idealTempRangeC: [25, 35],
+        idealHumidityRange: [50, 75],
+        suitableAgroZones: ['Perambalur', 'Ariyalur', 'Virudhunagar', 'Tuticorin']
+      },
+      {
+        name: 'Redgram / Pigeonpea (CO-8, VBN-3)',
+        tamilName: 'துவரை (மானாவாரி)',
+        category: 'Pulses & Oilseeds',
+        waterNeed: 'Low',
+        idealSoil: 'Well-drained red loam, intercropped with groundnut/cotton.',
+        durationDays: '160 - 180 days',
+        description: 'Essential protein pulse, deep taproot breaks compacted subsoil.',
+        idealTempRangeC: [24, 35],
+        idealHumidityRange: [50, 75],
+        suitableAgroZones: ['Krishnagiri', 'Dharmapuri', 'Salem', 'Tiruvannamalai']
+      },
+      {
+        name: 'Commercial Tomato & Brinjal Nursery',
+        tamilName: 'தக்காளி / கத்தரி நாற்றங்கால்',
+        category: 'Vegetables',
+        waterNeed: 'Moderate',
+        idealSoil: 'Sterilized raised nursery beds with vermicompost.',
+        durationDays: '25 days nursery -> 120 days crop',
+        description: 'High yielding hybrids (Shivam, US-440) for festive winter harvest.',
+        idealTempRangeC: [22, 32],
+        idealHumidityRange: [60, 85],
+        suitableAgroZones: ['Dindigul', 'Krishnagiri', 'Coimbatore', 'Salem']
+      }
+    ]
+  },
+  {
+    monthIndex: 7,
+    monthName: 'August',
+    tamilMonth: 'ஆவணி (Aavani)',
+    seasonName: 'Samba Nursery & Pre-Northeast Monsoon Planting',
+    seasonTamil: 'ஆவணிப்பட்டம் (சம்பா நெல் நாற்றங்கால் பருவம்)',
+    agroClimateOverview: 'Transition towards Northeast Monsoon. Rising humidity and pleasant breeze. Prime time for long-duration Samba paddy nursery raising.',
+    irrigationStrategy: 'Ensure weed-free nursery beds. Adopt cono-weeder in early transplanted plots.',
+    pestAndDiseaseAdvisory: 'Set up light traps and pheromone traps for yellow stem borer in paddy.',
+    harvestingCrops: ['Sesame (எள்)', 'Early Vegetables'],
+    recommendedSowingCrops: [
+      {
+        name: 'Samba Long Duration Paddy (CR-1009 Sub-1, BPT-5204)',
+        tamilName: 'சம்பா நெல் நாற்றங்கால்',
+        category: 'Food Grain',
+        waterNeed: 'Very High',
+        idealSoil: 'Heavy deltaic clay and river basin soils.',
+        durationDays: '145 - 155 days',
+        description: 'Flood-tolerant submergence gene (Sub-1) protects against monsoon waterlogging.',
+        idealTempRangeC: [24, 33],
+        idealHumidityRange: [65, 90],
+        suitableAgroZones: ['Cauvery Delta', 'Cuddalore', 'Kanchipuram']
+      },
+      {
+        name: 'Small Onion / Shallots (CO-5, CO-On-5)',
+        tamilName: 'சின்ன வெங்காயம் (சாம்பார் வெங்காயம்)',
+        category: 'Vegetables',
+        waterNeed: 'Moderate',
+        idealSoil: 'Friable red sandy loam with organic poultry manure.',
+        durationDays: '65 - 75 days',
+        description: 'Extremely profitable cash crop in Dindigul-Perambalur belt.',
+        idealTempRangeC: [22, 32],
+        idealHumidityRange: [55, 80],
+        suitableAgroZones: ['Perambalur', 'Dindigul', 'Tiruppur', 'Namakkal']
+      },
+      {
+        name: 'Maize / Corn (CO-6, Pioneer Hybrid)',
+        tamilName: 'மக்காச்சோளம்',
+        category: 'Food Grain',
+        waterNeed: 'Moderate',
+        idealSoil: 'Deep black and fertile red loams.',
+        durationDays: '105 - 110 days',
+        description: 'Major poultry feed grain in Namakkal and Udumalpet belts.',
+        idealTempRangeC: [24, 34],
+        idealHumidityRange: [50, 75],
+        suitableAgroZones: ['Namakkal', 'Perambalur', 'Coimbatore', 'Tiruppur']
+      }
+    ]
+  },
+  {
+    monthIndex: 8,
+    monthName: 'September',
+    tamilMonth: 'புரட்டாசி (Purattasi)',
+    seasonName: 'Main Samba Transplanting & Rainfed Millets',
+    seasonTamil: 'புரட்டாசிப்பட்டம் (பெருஞ் சம்பா நடவு & சிறுதானியங்கள்)',
+    agroClimateOverview: 'Pre-monsoon cloudiness increases. Thunderstorms provide soil saturation. Peak transplanting activity for Samba paddy in Tamil Nadu.',
+    irrigationStrategy: 'Level fields meticulously to ensure uniform water depth and prevent seedling drowning.',
+    pestAndDiseaseAdvisory: 'Incorporate neem cake (250 kg/ha) into soil to suppress root nematodes and soil grubs.',
+    harvestingCrops: ['Kuruvai Paddy (குறுவை நெல் அறுவடை)', 'Pearl Millet / Cumbu'],
+    recommendedSowingCrops: [
+      {
+        name: 'Main Samba Paddy Transplanting (ADT-45, TKM-13, Deluxe Ponni)',
+        tamilName: 'பெருஞ்சம்பா நெல் நடவு',
+        category: 'Food Grain',
+        waterNeed: 'Very High',
+        idealSoil: 'Clayey alluvium and fertile wetlands.',
+        durationDays: '135 - 145 days',
+        description: 'Mainstay rice crop of Tamil Nadu covering over 12 lakh hectares.',
+        idealTempRangeC: [23, 33],
+        idealHumidityRange: [70, 92],
+        suitableAgroZones: ['Cauvery Delta', 'Northern Tamil Nadu', 'Coastal Belts']
+      },
+      {
+        name: 'Minor Millets (Kodo, Little Millet, Foxtail)',
+        tamilName: 'சிறு தானியங்கள் (வரகு, சாமை, தினை)',
+        category: 'Food Grain',
+        waterNeed: 'Low',
+        idealSoil: 'Marginal red gravelly and drought-prone rocky soils.',
+        durationDays: '80 - 90 days',
+        description: 'Nutritional powerhouses with minimal fertilizer requirements.',
+        idealTempRangeC: [24, 35],
+        idealHumidityRange: [45, 70],
+        suitableAgroZones: ['Dharmapuri', 'Pudukkottai', 'Ramanathapuram']
+      },
+      {
+        name: 'Rainfed Sunflower (CO-2, Sunbred)',
+        tamilName: 'சூரியகாந்தி',
+        category: 'Pulses & Oilseeds',
+        waterNeed: 'Moderate',
+        idealSoil: 'Black soil with deep root zone.',
+        durationDays: '85 - 90 days',
+        description: 'High oil recovery percentage with good drought tolerance.',
+        idealTempRangeC: [22, 33],
+        idealHumidityRange: [50, 75],
+        suitableAgroZones: ['Virudhunagar', 'Tuticorin', 'Tirunelveli']
+      }
+    ]
+  },
+  {
+    monthIndex: 9,
+    monthName: 'October',
+    tamilMonth: 'ஐப்பசி (Aippasi)',
+    seasonName: 'Thaladi & Northeast Monsoon Sowing Cycle',
+    seasonTamil: 'ஐப்பசிப்பட்டம் / தாளடி / வடகிழக்குப் பருவமழை பருவம்',
+    agroClimateOverview: 'Arrival of Northeast Monsoon (Oct-Dec) bringing 60% of Tamil Nadu annual rainfall. Cyclonic depressions and heavy coastal rain showers.',
+    irrigationStrategy: 'Provide deep field drainage trenches every 6 meters to evacuate excess storm runoff.',
+    pestAndDiseaseAdvisory: 'Watch for Bacterial Leaf Blight and Brown Plant Hopper (BPH) in flooded paddy; drain water immediately.',
+    harvestingCrops: ['Kuruvai Final Harvest (குறுவை இறுதி அறுவடை)'],
+    recommendedSowingCrops: [
+      {
+        name: 'Thaladi Paddy (ADT-38, CR-1009 Sub-1, CO-52)',
+        tamilName: 'தாளடி நெல் (இரண்டாம் போகம்)',
+        category: 'Food Grain',
+        waterNeed: 'Very High',
+        idealSoil: 'Double-cropped delta wetlands following Kuruvai.',
+        durationDays: '130 - 140 days',
+        description: 'Tolerates cooler winter flowering period and high monsoon humidity.',
+        idealTempRangeC: [22, 31],
+        idealHumidityRange: [75, 95],
+        suitableAgroZones: ['Cauvery Delta', 'Kallakurichi', 'Villupuram']
+      },
+      {
+        name: 'Bengal Gram / Chickpea (CO-4, JAKI-9218)',
+        tamilName: 'கொண்டைக்கடலை (சுண்டல்)',
+        category: 'Pulses & Oilseeds',
+        waterNeed: 'Low',
+        idealSoil: 'Deep black cotton soils (Vertisols) with residual monsoon moisture.',
+        durationDays: '90 - 100 days',
+        description: 'Winter crop thriving on morning dew in southern black soil tracts.',
+        idealTempRangeC: [18, 28],
+        idealHumidityRange: [50, 75],
+        suitableAgroZones: ['Coimbatore', 'Tiruppur', 'Virudhunagar', 'Tuticorin']
+      },
+      {
+        name: 'Coriander / Cilantro (CO-4, CS-11)',
+        tamilName: 'கொத்தமல்லி (மானாவாரி)',
+        category: 'Spices',
+        waterNeed: 'Low',
+        idealSoil: 'Black clay loam with high moisture holding capacity.',
+        durationDays: '70 - 75 days',
+        description: 'Commercial spice crop sown as winter rainfed crop in southern districts.',
+        idealTempRangeC: [20, 30],
+        idealHumidityRange: [55, 80],
+        suitableAgroZones: ['Ramanathapuram', 'Tuticorin', 'Virudhunagar']
+      },
+      {
+        name: 'Hill Winter Carrots, Garlic & Potato',
+        tamilName: 'மலைக்காய்கறிகள் (கேரட், பூண்டு, உருளை)',
+        category: 'Vegetables',
+        waterNeed: 'Moderate',
+        idealSoil: 'Highland acidic forest loam (Nilgiris / Kodaikanal).',
+        durationDays: '90 - 120 days',
+        description: 'High-value temperate vegetable production in Western Ghats.',
+        idealTempRangeC: [10, 18],
+        idealHumidityRange: [65, 90],
+        suitableAgroZones: ['Nilgiris', 'Dindigul (Kodaikanal)', 'Yercaud']
+      }
+    ]
+  },
+  {
+    monthIndex: 10,
+    monthName: 'November',
+    tamilMonth: 'கார்த்திகை (Karthigai)',
+    seasonName: 'Late Monsoon / Post-Rain Sowing Cycle',
+    seasonTamil: 'கார்த்திகைப் பட்டம் (பின்பருவ மழை விதைப்பு)',
+    agroClimateOverview: 'Peak Northeast Monsoon precipitation in coastal zones. Decreasing night temperatures (20°C - 24°C). Ideal for sowing winter cash crops.',
+    irrigationStrategy: 'Utilize monsoon soil recharge; maintain bunds to prevent topsoil nutrient leaching.',
+    pestAndDiseaseAdvisory: 'Spray copper oxychloride (0.25%) against fungal fruit rot in chillies and vegetables.',
+    harvestingCrops: ['Rainfed Groundnut (மானாவாரி நிலக்கடலை)', 'Maize (மக்காச்சோளம்)'],
+    recommendedSowingCrops: [
+      {
+        name: 'Samba Chilli / Guntur Hybrid (K1, K2, Teja)',
+        tamilName: 'மிளகாய் (கார்த்திகை நடவு)',
+        category: 'Spices',
+        waterNeed: 'Moderate',
+        idealSoil: 'Well-drained red loam and black clay loam.',
+        durationDays: '150 - 180 days',
+        description: 'High capsaicin content and vibrant red color development.',
+        idealTempRangeC: [20, 30],
+        idealHumidityRange: [60, 85],
+        suitableAgroZones: ['Ramanathapuram', 'Tuticorin', 'Sivagangai', 'Madurai']
+      },
+      {
+        name: 'Tobacco (Chewing & Bidi Tobacco)',
+        tamilName: 'புகையிலை',
+        category: 'Commercial / Cash Crop',
+        waterNeed: 'Moderate',
+        idealSoil: 'Deep, well-drained red gravelly soils with high potassium.',
+        durationDays: '120 - 130 days',
+        description: 'Traditional cash crop in Dindigul (Vedasandur) and Erode districts.',
+        idealTempRangeC: [20, 31],
+        idealHumidityRange: [55, 75],
+        suitableAgroZones: ['Dindigul', 'Erode', 'Tiruppur']
+      },
+      {
+        name: 'Winter Watermelon & Gourds',
+        tamilName: 'குளிர்கால தர்பூசணி',
+        category: 'Horticulture & Fruits',
+        waterNeed: 'Moderate',
+        idealSoil: 'Sandy coastal and riverbed soils.',
+        durationDays: '80 - 90 days',
+        description: 'Harvest timed for early summer March premium markets.',
+        idealTempRangeC: [22, 32],
+        idealHumidityRange: [50, 75],
+        suitableAgroZones: ['Coastal Belt', 'Kanchipuram', 'Cuddalore']
+      }
+    ]
+  },
+  {
+    monthIndex: 11,
+    monthName: 'December',
+    tamilMonth: 'மார்கழி (Margazhi)',
+    seasonName: 'Navarai / Pishanam Winter Sowing Preparation',
+    seasonTamil: 'மார்கழிப் பட்டம் / பிசானம் / நவரை பருவம்',
+    agroClimateOverview: 'Monsoon tapering off; crisp cool mornings (18°C - 22°C) with clear afternoon skies. Favorable for cool-season pulses and winter rice.',
+    irrigationStrategy: 'Monitor canal closure and switch to borewell/tank irrigation for early vegetative crops.',
+    pestAndDiseaseAdvisory: 'Control blast disease in late-sown paddy using tricyclazole during cool, dewy mornings.',
+    harvestingCrops: ['Early Samba Paddy (முன் சம்பா நெல்)', 'Cotton (பருத்தி முதல்கட்டம்)', 'Turmeric (மஞ்சள் முதிர்வு)'],
+    recommendedSowingCrops: [
+      {
+        name: 'Navarai Winter Paddy (CO-51, ADT-39, ASD-16)',
+        tamilName: 'நவரை குளிர்கால நெல்',
+        category: 'Food Grain',
+        waterNeed: 'Very High',
+        idealSoil: 'Wetland alluvial clay loams with guaranteed water source.',
+        durationDays: '110 - 120 days',
+        description: 'Fast growing short duration varieties escape pre-summer water scarcity.',
+        idealTempRangeC: [19, 30],
+        idealHumidityRange: [65, 88],
+        suitableAgroZones: ['Tirunelveli (Pishanam)', 'Kanyakumari', 'Vellore']
+      },
+      {
+        name: 'Greengram / Moong (VBN-4, CO-8)',
+        tamilName: 'பாசிப்பயறு (பச்சைப்பயறு)',
+        category: 'Pulses & Oilseeds',
+        waterNeed: 'Low',
+        idealSoil: 'Residual moisture soils and light alluvium.',
+        durationDays: '60 - 65 days',
+        description: 'Short duration pulse offering rapid financial turnaround.',
+        idealTempRangeC: [20, 31],
+        idealHumidityRange: [55, 75],
+        suitableAgroZones: ['Cauvery Delta', 'Southern Plains']
+      },
+      {
+        name: 'French Beans & Cabbage (Plains & Hills)',
+        tamilName: 'பீன்ஸ் / முட்டைக்கோஸ்',
+        category: 'Vegetables',
+        waterNeed: 'Moderate',
+        idealSoil: 'Fertile loam with high organic compost.',
+        durationDays: '70 - 90 days',
+        description: 'Crisp cool December climate ensures dense, sweet vegetable heads.',
+        idealTempRangeC: [15, 26],
+        idealHumidityRange: [55, 80],
+        suitableAgroZones: ['Krishnagiri', 'Dharmapuri', 'Dindigul', 'Theni']
+      }
+    ]
+  }
+];
+
+export interface CoordinateAgroMatch {
+  latitude: number;
+  longitude: number;
+  nearestDistrict: string;
+  nearestCityName: string;
+  distanceKm: number;
+  agroZone: string;
+  estimatedElevationM: number;
+  soilType: string;
+  soilPh: string;
+  soilTexture: string;
+  waterRetention: 'Low' | 'Moderate' | 'High' | 'Very High';
+  majorNutrientDeficiencies: string[];
+  crops: CropSuggestion[];
+  currentMonthSchedule: MonthlyCropSchedule;
 }
+
+/**
+ * Resolves precision agro-pedology profile & seasonal calendar from GPS Coordinates (Lat, Lon)
+ */
+export function findAgroProfileByCoordinates(lat: number, lon: number): CoordinateAgroMatch {
+  let nearestCity = CITIES_TAMIL_NADU[0];
+  let minDistanceSq = Infinity;
+
+  for (const city of CITIES_TAMIL_NADU) {
+    const dLat = city.lat - lat;
+    const dLon = city.lon - lon;
+    const distSq = dLat * dLat + dLon * dLon;
+    if (distSq < minDistanceSq) {
+      minDistanceSq = distSq;
+      nearestCity = city;
+    }
+  }
+
+  const distanceKm = Number((Math.sqrt(minDistanceSq) * 111).toFixed(1));
+  const profile = DISTRICT_AGRO_PROFILES[nearestCity.district] || DISTRICT_AGRO_PROFILES['Chennai'];
+  const currentMonthIdx = new Date().getMonth();
+  const currentMonthSchedule = TAMIL_NADU_12_MONTH_CROP_CALENDAR[currentMonthIdx];
+
+  return {
+    latitude: lat,
+    longitude: lon,
+    nearestDistrict: nearestCity.district,
+    nearestCityName: nearestCity.name,
+    distanceKm,
+    agroZone: profile.agroZone,
+    estimatedElevationM: nearestCity.elevationM,
+    soilType: profile.soilType,
+    soilPh: profile.soilPh,
+    soilTexture: profile.soilTexture,
+    waterRetention: profile.waterRetention,
+    majorNutrientDeficiencies: profile.majorNutrientDeficiencies,
+    crops: profile.crops,
+    currentMonthSchedule
+  };
+}
+

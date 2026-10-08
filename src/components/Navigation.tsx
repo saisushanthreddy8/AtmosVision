@@ -5,7 +5,8 @@ import {
   BarChart3,
   Calendar,
   CloudSun,
-  Activity
+  Activity,
+  Sprout
 } from 'lucide-react';
 import { TabId } from '../types';
 
@@ -30,8 +31,8 @@ export const NAV_ITEMS: NavItem[] = [
   },
   {
     id: 'explorer',
-    label: '38-DISTRICT RADAR & CROPS',
-    sublabel: 'Soil Classification & Crop Advisory',
+    label: '38-DISTRICT RADAR',
+    sublabel: 'Station Telemetry & Map',
     icon: MapPin,
   },
   {
@@ -41,16 +42,16 @@ export const NAV_ITEMS: NavItem[] = [
     icon: Activity,
   },
   {
+    id: 'crops',
+    label: 'CROP ADVISORY & CALENDAR',
+    sublabel: 'GPS Coordinates & 12-Month Sowing',
+    icon: Sprout,
+  },
+  {
     id: 'analytics',
     label: 'STATEWIDE ANALYTICS',
     sublabel: 'Rankings & Microclimates',
     icon: BarChart3,
-  },
-  {
-    id: 'forecast',
-    label: '7-DAY SYNOPTIC FORECAST',
-    sublabel: 'Numerical Multi-Model Outlook',
-    icon: Calendar,
   },
 ];
 

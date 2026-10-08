@@ -17,7 +17,8 @@ import {
   MapPin,
   BarChart3,
   Radio,
-  Sun
+  Sun,
+  Sprout
 } from 'lucide-react';
 import { TabId, LiveDistrictWeather, LiveStatewideSummary, CityClimateObservation } from '../types';
 import { TamilNaduDistrictMap } from './TamilNaduDistrictMap';
@@ -390,16 +391,16 @@ export const Overview: React.FC<OverviewProps> = ({
         </div>
 
         <div
-          onClick={() => onNavigate('forecast')}
+          onClick={() => onNavigate('crops')}
           className="p-5 rounded-2xl bg-white hover:bg-[#F8FAF9] border border-[#DDE5E1] hover:border-[#059669] transition-all cursor-pointer shadow-sm space-y-2 group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#059669] uppercase tracking-wider">7-Day Synoptic Run</span>
-            <Calendar className="w-4 h-4 text-[#64706A] group-hover:text-[#059669] transition" />
+            <span className="text-xs font-bold text-[#059669] uppercase tracking-wider">Crop Suggestion Studio</span>
+            <Sprout className="w-4 h-4 text-[#64706A] group-hover:text-[#059669] transition" />
           </div>
-          <div className="text-sm font-bold text-[#17201C]">Numerical Weather Model</div>
+          <div className="text-sm font-bold text-[#17201C]">GPS & 12-Month Sowing</div>
           <p className="text-xs text-[#64706A]">
-            Multi-day temperature envelopes, rain probability bars, and wind kinematics across all districts.
+            Coordinate-based soil pedology, live weather suitability, and 12-month seasonal sowing/harvesting calendars.
           </p>
         </div>
 

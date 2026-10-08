@@ -4,7 +4,7 @@ import { TopNavbar } from './components/TopNavbar';
 import { Overview } from './components/Overview';
 import { TamilNaduExplorer } from './components/TamilNaduExplorer';
 import { LiveAnalytics } from './components/LiveAnalytics';
-import { ExtendedForecast } from './components/ExtendedForecast';
+import { CropSuggestionStudio } from './components/CropSuggestionStudio';
 import { AIPredictorStudio } from './components/AIPredictorStudio';
 import { AtmosphericBackground } from './components/AtmosphericBackground';
 import { Settings, X, CheckCircle2, RotateCcw, CloudSun, Radio } from 'lucide-react';
@@ -184,16 +184,12 @@ export default function App() {
               />
             )}
 
-            {activeTab === 'forecast' && (
-              <ExtendedForecast
+            {activeTab === 'crops' && (
+              <CropSuggestionStudio
                 liveDistrictData={liveDistrictData}
-                liveSummary={liveSummary}
                 onRefreshLive={() => loadLiveWeatherData(true)}
                 isLiveLoading={isLiveLoading}
-                onSelectDistrict={(d) => {
-                  setSelectedDistrictForExplorer(d);
-                  setActiveTab('explorer');
-                }}
+                initialDistrictName={selectedDistrictForExplorer || undefined}
               />
             )}
           </main>
