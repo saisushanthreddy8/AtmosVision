@@ -37,6 +37,7 @@ export function generateAIPrediction(
   const isCoastal = city.regionType === 'coastal';
   const isWesternGhats = city.regionType === 'western-ghats';
   const elevationKm = city.elevationM / 1000;
+  const diurnalAmplitude = isHighland ? 5.5 : isCoastal ? 3.5 : 6.8;
 
   // Number of simulation steps (24 hours = 24 hourly steps; 72 hours = 24 3-hour steps)
   const stepCount = 24;
@@ -59,9 +60,6 @@ export function generateAIPrediction(
     // A. Solar Radiation Diurnal Forcing Curve (Peak at 13:30, Minimum at 05:30)
     const solarPhase = ((hourOfDay - 5.5 + 24) % 24) / 24;
     const solarHarmonic = Math.sin(solarPhase * 2 * Math.PI - Math.PI / 2); // -1 at 05:30, +1 at 13:30
-    
-    // Diurnal temperature amplitude (larger for interior plains, smaller for coastal marine areas)
-    const diurnalAmplitude = isHighland ? 5.5 : isCoastal ? 3.5 : 6.8;
     
     // Sea breeze cooling effect in coastal zones (kicks in between 13:00 and 19:00)
     let seaBreezeCooling = 0;
