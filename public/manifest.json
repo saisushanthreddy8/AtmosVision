@@ -1,19 +1,34 @@
 {
-  "name": "AtmosVision AI - Tamil Nadu Weather & Agro Radar",
+  "name": "AtmosVision AI - Tamil Nadu Live Weather & Crop Advisory",
   "short_name": "AtmosVision",
-  "id": "/",
-  "start_url": "/",
+  "id": "com.atmosvision.app",
+  "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
-  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui",
+    "browser"
+  ],
   "background_color": "#F8FAF9",
   "theme_color": "#059669",
   "orientation": "any",
-  "description": "Real-Time 38-District Live Weather, Meteorological GIS, AI Forecasts, and GPS Crop Advisory Studio for Tamil Nadu",
-  "categories": ["weather", "agriculture", "productivity", "utilities"],
+  "description": "Real-Time 38-District Live Weather, Meteorological GIS Radar, AI Weather Predictions, Soil Pedology, and Smart Crop Advisory Studio for Tamil Nadu.",
+  "categories": [
+    "weather",
+    "agriculture",
+    "productivity",
+    "utilities"
+  ],
   "lang": "en",
   "dir": "ltr",
   "prefer_related_applications": false,
+  "related_applications": [],
+  "launch_handler": {
+    "client_mode": "auto"
+  },
+  "handle_links": "preferred",
   "icons": [
     {
       "src": "/icon-192.png",
@@ -34,26 +49,52 @@
       "purpose": "any"
     },
     {
-      "src": "/icon-512.png",
+      "src": "/icon-maskable.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "AtmosVision 38-District Live Radar Desktop Dashboard"
+    },
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "AtmosVision Mobile Weather and Agro Advisory"
     }
   ],
   "shortcuts": [
     {
       "name": "AI Weather Forecast",
       "short_name": "Forecast",
-      "description": "View AI Weather Predictions for Tamil Nadu",
+      "description": "View AI Forward Weather Predictions for Tamil Nadu",
       "url": "/?tab=ai_forecast",
-      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "Crop Advisory & Calculator",
       "short_name": "Crops",
       "description": "Calculate Seed, Fertilizer & Crop Calendar",
       "url": "/?tab=crop_suggestions",
-      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }
