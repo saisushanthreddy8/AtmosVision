@@ -157,22 +157,22 @@ export const AIPredictorStudio: React.FC<AIPredictorStudioProps> = ({
         <div>
           <div className="flex items-center gap-2 text-[#059669] text-xs font-bold uppercase tracking-wider">
             <Brain className="w-4 h-4" />
-            <span>Deep Learning Meteorological Prediction Studio</span>
+            <span>AI Weather Forecast Studio</span>
             <span className="px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-[#047857] text-[10px] font-mono font-bold">
-              Bi-LSTM + Attention v3.2
+              Neural AI Predictor
             </span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-[#17201C] tracking-tight mt-1.5 flex items-center gap-2.5 flex-wrap">
-            <span>AI Predictive Weather Forecasting</span>
+            <span>AI Weather Predictions & Future Outlook</span>
             {isScenarioActive && (
               <span className="px-3 py-1 rounded-xl bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold flex items-center gap-1">
                 <Sliders className="w-3.5 h-3.5 text-amber-700" />
-                Scenario Simulation Active
+                Custom Scenario Active
               </span>
             )}
           </h2>
           <p className="text-xs sm:text-sm text-[#64706A] mt-1 font-medium">
-            Multi-step neural time-series forecasting with uncertainty bounds, extreme weather anomaly detection, and explainable AI attribution.
+            Hour-by-hour temperature trajectories, confidence ranges, weather alerts, and key climate drivers for Tamil Nadu.
           </p>
         </div>
 
@@ -201,11 +201,11 @@ export const AIPredictorStudio: React.FC<AIPredictorStudioProps> = ({
               }`}
             >
               <Calendar className="w-3.5 h-3.5" />
-              <span>Next 72 Hours (3-Day)</span>
+              <span>Next 3 Days (72h)</span>
             </button>
           </div>
 
-          {/* Toggle What-If Simulator */}
+          {/* Toggle Weather Simulator */}
           <button
             onClick={() => setIsSimulatorOpen(!isSimulatorOpen)}
             className={`px-4 py-2.5 rounded-xl text-xs font-bold border transition flex items-center gap-1.5 shadow-xs ${
@@ -215,7 +215,7 @@ export const AIPredictorStudio: React.FC<AIPredictorStudioProps> = ({
             }`}
           >
             <Sliders className="w-3.5 h-3.5 text-amber-600" />
-            <span>What-If Simulator</span>
+            <span>Weather Simulator</span>
             {isScenarioActive && <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping" />}
           </button>
 
@@ -234,14 +234,14 @@ export const AIPredictorStudio: React.FC<AIPredictorStudioProps> = ({
         </div>
       </div>
 
-      {/* "What-If" Scenario Simulation Bar (Collapsible / Dynamic) */}
+      {/* "Weather Simulator" Scenario Simulation Bar */}
       {isSimulatorOpen && (
         <div className="bg-gradient-to-r from-amber-500/5 via-emerald-500/5 to-sky-500/5 border border-amber-200/80 rounded-3xl p-5 space-y-4 shadow-sm animate-fadeIn">
           <div className="flex items-center justify-between border-b border-amber-200/60 pb-3">
             <div className="flex items-center gap-2">
               <Sliders className="w-4 h-4 text-amber-600" />
               <span className="text-xs font-extrabold text-[#17201C] uppercase tracking-wider">
-                Interactive "What-If" Atmospheric Scenario Engine
+                Interactive Weather Simulator & Scenario Testing
               </span>
             </div>
             {isScenarioActive && (
@@ -250,7 +250,7 @@ export const AIPredictorStudio: React.FC<AIPredictorStudioProps> = ({
                 className="px-3 py-1 rounded-xl bg-white hover:bg-amber-100 border border-amber-200 text-amber-800 text-xs font-bold flex items-center gap-1 transition shadow-xs"
               >
                 <RotateCcw className="w-3 h-3" />
-                <span>Reset to Ground Truth</span>
+                <span>Reset to Current Weather</span>
               </button>
             )}
           </div>
@@ -260,7 +260,7 @@ export const AIPredictorStudio: React.FC<AIPredictorStudioProps> = ({
             {/* Temperature Delta Slider */}
             <div className="space-y-1.5 bg-white p-3.5 rounded-2xl border border-[#DDE5E1]">
               <div className="flex justify-between font-bold">
-                <span className="text-[#64706A]">Surface Heat Anomaly:</span>
+                <span className="text-[#64706A]">Temperature Adjustment:</span>
                 <span className={simTempOffset > 0 ? 'text-rose-600' : simTempOffset < 0 ? 'text-sky-600' : 'text-[#17201C]'}>
                   {simTempOffset > 0 ? `+${simTempOffset}` : simTempOffset}°C
                 </span>
@@ -275,16 +275,16 @@ export const AIPredictorStudio: React.FC<AIPredictorStudioProps> = ({
                 className="w-full accent-[#059669] cursor-pointer"
               />
               <div className="flex justify-between text-[10px] text-[#64706A]">
-                <span>-5°C (Cool Dip)</span>
-                <span>0°C (Baseline)</span>
-                <span>+5°C (Heatwave)</span>
+                <span>-5°C (Cooler)</span>
+                <span>0°C (Normal)</span>
+                <span>+5°C (Warmer)</span>
               </div>
             </div>
 
             {/* Moisture Delta Slider */}
             <div className="space-y-1.5 bg-white p-3.5 rounded-2xl border border-[#DDE5E1]">
               <div className="flex justify-between font-bold">
-                <span className="text-[#64706A]">Moisture Inflow Offset:</span>
+                <span className="text-[#64706A]">Humidity Adjustment:</span>
                 <span className={simHumidityOffset > 0 ? 'text-[#059669]' : simHumidityOffset < 0 ? 'text-amber-600' : 'text-[#17201C]'}>
                   {simHumidityOffset > 0 ? `+${simHumidityOffset}` : simHumidityOffset}%
                 </span>
@@ -299,16 +299,16 @@ export const AIPredictorStudio: React.FC<AIPredictorStudioProps> = ({
                 className="w-full accent-[#059669] cursor-pointer"
               />
               <div className="flex justify-between text-[10px] text-[#64706A]">
-                <span>-30% (Dry Air)</span>
-                <span>0% (Baseline)</span>
-                <span>+30% (Deep Monsoon)</span>
+                <span>-30% (Drier)</span>
+                <span>0% (Normal)</span>
+                <span>+30% (Moister)</span>
               </div>
             </div>
 
             {/* Barometric Pressure Delta Slider */}
             <div className="space-y-1.5 bg-white p-3.5 rounded-2xl border border-[#DDE5E1]">
               <div className="flex justify-between font-bold">
-                <span className="text-[#64706A]">Pressure Depression:</span>
+                <span className="text-[#64706A]">Air Pressure Adjustment:</span>
                 <span className={simPressureOffset < 0 ? 'text-purple-600' : simPressureOffset > 0 ? 'text-[#059669]' : 'text-[#17201C]'}>
                   {simPressureOffset > 0 ? `+${simPressureOffset}` : simPressureOffset} hPa
                 </span>
@@ -323,9 +323,9 @@ export const AIPredictorStudio: React.FC<AIPredictorStudioProps> = ({
                 className="w-full accent-[#059669] cursor-pointer"
               />
               <div className="flex justify-between text-[10px] text-[#64706A]">
-                <span>-15 hPa (Cyclone Low)</span>
+                <span>-15 hPa (Low Pressure)</span>
                 <span>0 hPa (Normal)</span>
-                <span>+10 hPa (High Ridge)</span>
+                <span>+10 hPa (High Pressure)</span>
               </div>
             </div>
 
@@ -377,21 +377,21 @@ export const AIPredictorStudio: React.FC<AIPredictorStudioProps> = ({
               </div>
             </div>
 
-            {/* Neural Forecast Trajectory Chart (SVG) */}
+            {/* Forecast Trajectory Chart (SVG) */}
             <div className="space-y-2">
               <div className="flex items-center justify-between text-xs font-bold text-[#17201C]">
                 <div className="flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-[#059669]" />
-                  <span>Predicted Temperature & 90% Confidence Interval Band</span>
+                  <span>Predicted Temperature Curve & Expected Range</span>
                 </div>
                 <div className="flex items-center gap-3 text-[10px] text-[#64706A]">
                   <span className="flex items-center gap-1">
                     <span className="w-2.5 h-2.5 rounded-sm bg-emerald-100 border border-emerald-300" />
-                    <span>90% CI Uncertainty Band</span>
+                    <span>Expected Range</span>
                   </span>
                   <span className="flex items-center gap-1">
                     <span className="w-3 h-1 rounded-full bg-amber-500" />
-                    <span>Neural Trajectory</span>
+                    <span>Forecast Path</span>
                   </span>
                 </div>
               </div>
@@ -439,7 +439,7 @@ export const AIPredictorStudio: React.FC<AIPredictorStudioProps> = ({
                     );
                   })}
 
-                  {/* Shaded 90% Confidence Interval Band */}
+                  {/* Shaded Confidence Interval Band */}
                   <path d={areaPath} fill="url(#aiConfidenceGradient)" />
 
                   {/* Main Predicted Temperature Line */}
@@ -522,45 +522,45 @@ export const AIPredictorStudio: React.FC<AIPredictorStudioProps> = ({
                   </span>
                 </div>
                 <div className="text-xs text-[#64706A]">
-                  Uncertainty Range: <strong className="text-[#17201C]">{activeStep.lowerConfidenceTempC}°C – {activeStep.upperConfidenceTempC}°C</strong>
+                  Expected Range: <strong className="text-[#17201C]">{activeStep.lowerConfidenceTempC}°C – {activeStep.upperConfidenceTempC}°C</strong>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs pt-1">
                 <div className="bg-white p-2.5 rounded-xl border border-[#DDE5E1]">
-                  <div className="text-[10px] text-[#64706A] uppercase font-semibold">Predicted Temp</div>
+                  <div className="text-[10px] text-[#64706A] uppercase font-semibold">Temperature</div>
                   <div className="text-lg font-black text-[#17201C]">{activeStep.predictedTempC}°C</div>
-                  <div className="text-[10px] text-[#64706A]">Heat Index: {activeStep.heatIndexC}°C</div>
+                  <div className="text-[10px] text-[#64706A]">Feels like: {activeStep.heatIndexC}°C</div>
                 </div>
 
                 <div className="bg-white p-2.5 rounded-xl border border-[#DDE5E1]">
-                  <div className="text-[10px] text-[#64706A] uppercase font-semibold">Rain Probability</div>
+                  <div className="text-[10px] text-[#64706A] uppercase font-semibold">Rain Chance</div>
                   <div className="text-lg font-black text-sky-700">{activeStep.precipitationProb}%</div>
-                  <div className="text-[10px] text-[#64706A]">RH: {activeStep.predictedHumidityPct}%</div>
+                  <div className="text-[10px] text-[#64706A]">Humidity: {activeStep.predictedHumidityPct}%</div>
                 </div>
 
                 <div className="bg-white p-2.5 rounded-xl border border-[#DDE5E1]">
-                  <div className="text-[10px] text-[#64706A] uppercase font-semibold">Wind Vector</div>
+                  <div className="text-[10px] text-[#64706A] uppercase font-semibold">Wind Speed</div>
                   <div className="text-lg font-black text-[#047857]">{activeStep.predictedWindKmh} km/h</div>
-                  <div className="text-[10px] text-[#64706A]">Surface Anemometry</div>
+                  <div className="text-[10px] text-[#64706A]">Breeze / Airflow</div>
                 </div>
 
                 <div className="bg-white p-2.5 rounded-xl border border-[#DDE5E1]">
-                  <div className="text-[10px] text-[#64706A] uppercase font-semibold">Atmospheric Pressure</div>
+                  <div className="text-[10px] text-[#64706A] uppercase font-semibold">Air Pressure</div>
                   <div className="text-lg font-black text-indigo-700">{activeStep.predictedPressureHpa} hPa</div>
-                  <div className="text-[10px] text-[#64706A]">Barometric Tendency</div>
+                  <div className="text-[10px] text-[#64706A]">Barometer</div>
                 </div>
               </div>
             </div>
 
           </div>
 
-          {/* AI Extreme Weather & Early Warning Anomaly Cards */}
+          {/* AI Weather Alerts & Advisories Card */}
           <div className="bg-white border border-[#DDE5E1] rounded-3xl p-5 space-y-3.5 shadow-sm">
             <div className="flex items-center gap-2 border-b border-[#DDE5E1] pb-2.5">
               <AlertTriangle className="w-4 h-4 text-amber-600" />
               <span className="text-xs font-extrabold text-[#17201C] uppercase tracking-wider">
-                AI Anomaly & Extreme Weather Early-Warning Alerts
+                Weather Alerts & Early Warnings
               </span>
             </div>
 
@@ -593,14 +593,14 @@ export const AIPredictorStudio: React.FC<AIPredictorStudioProps> = ({
                         <span className="font-black text-sm">{alert.title}</span>
                       </div>
                       <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-white border border-black/10">
-                        Window: {alert.timeWindow}
+                        Timing: {alert.timeWindow}
                       </span>
                     </div>
 
                     <p className="text-xs opacity-90">{alert.description}</p>
 
                     <div className="pt-1.5 border-t border-black/5 flex items-start gap-1.5 font-medium text-[11px]">
-                      <span className="font-bold">Recommendation:</span>
+                      <span className="font-bold">Advice:</span>
                       <span>{alert.recommendation}</span>
                     </div>
                   </div>
@@ -609,16 +609,16 @@ export const AIPredictorStudio: React.FC<AIPredictorStudioProps> = ({
             </div>
           </div>
 
-          {/* Explainable AI (XAI) Feature Importance Matrix */}
+          {/* Key Weather Drivers & Influencing Factors (Explainable AI) */}
           <div className="bg-white border border-[#DDE5E1] rounded-3xl p-5 space-y-4 shadow-sm">
             <div className="flex items-center justify-between border-b border-[#DDE5E1] pb-2.5">
               <div className="flex items-center gap-2">
                 <Layers className="w-4 h-4 text-[#059669]" />
                 <span className="text-xs font-extrabold text-[#17201C] uppercase tracking-wider">
-                  Explainable AI (XAI) Feature Attribution
+                  Key Weather Drivers & Influencing Factors
                 </span>
               </div>
-              <span className="text-[10px] text-[#64706A]">SHAP & Attention Weighting</span>
+              <span className="text-[10px] text-[#64706A]">AI Influence Breakdown</span>
             </div>
 
             <div className="space-y-3">
@@ -653,10 +653,10 @@ export const AIPredictorStudio: React.FC<AIPredictorStudioProps> = ({
           <div className="bg-white border border-[#DDE5E1] rounded-3xl p-5 space-y-3.5 shadow-sm">
             <div className="flex items-center justify-between border-b border-[#DDE5E1] pb-2.5">
               <span className="text-xs font-extrabold text-[#17201C] uppercase tracking-wider">
-                Select Prediction District
+                Select District
               </span>
               <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#ECFDF5] text-[#047857]">
-                38 Stations
+                38 Districts
               </span>
             </div>
 
@@ -720,10 +720,10 @@ export const AIPredictorStudio: React.FC<AIPredictorStudioProps> = ({
           <div className="p-4 rounded-2xl bg-[#F8FAF9] border border-[#DDE5E1] space-y-2 text-xs text-[#64706A]">
             <div className="flex items-center gap-1.5 font-bold text-[#17201C] text-[11px]">
               <Info className="w-3.5 h-3.5 text-[#059669]" />
-              <span>Neural Architecture Details</span>
+              <span>About This Forecast Model</span>
             </div>
             <p className="text-[11px] leading-relaxed">
-              Bi-LSTM layers with self-attention weights trained on multi-decadal reanalysis datasets and real-time synoptic boundary layers across Tamil Nadu's agro-climatic zones.
+              Trained on meteorological records and real-time station telemetry across Tamil Nadu's agro-climatic zones for high-precision local forecasting.
             </p>
           </div>
 

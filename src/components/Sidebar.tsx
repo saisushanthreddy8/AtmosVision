@@ -31,29 +31,29 @@ export const Sidebar: React.FC<SidebarProps> = ({
       id: 'overview' as TabId,
       label: 'Live Dashboard',
       icon: LayoutDashboard,
-      badge: 'Actual'
+      badge: 'Live'
     },
     {
       id: 'explorer' as TabId,
-      label: '38-District Radar',
+      label: '38 Districts Map',
       icon: MapPin,
-      badge: 'GIS Map'
+      badge: 'GIS'
     },
     {
       id: 'ai_predict' as TabId,
-      label: 'AI Predictor Studio',
+      label: 'AI Weather Forecast',
       icon: Activity,
-      badge: 'Bi-LSTM'
+      badge: 'Predict'
     },
     {
       id: 'crops' as TabId,
-      label: 'Crop Advisory',
+      label: 'Crop Suggestions',
       icon: Sprout,
       badge: '12-Month'
     },
     {
       id: 'analytics' as TabId,
-      label: 'Statewide Analytics',
+      label: 'Weather Analytics',
       icon: BarChart3,
       badge: 'Rankings'
     },

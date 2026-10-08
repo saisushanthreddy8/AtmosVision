@@ -249,14 +249,14 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="text-xl font-extrabold text-[#17201C] tracking-tight">
-                  Tamil Nadu Crop Suggestion Studio
+                  Tamil Nadu Crop Advisory & Calendar
                 </h1>
                 <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#047857] font-bold">
-                  TNAU Agronomy Engine
+                  Agro & Soil Guide
                 </span>
               </div>
               <p className="text-xs text-[#64706A]">
-                தமிழ்நாடு பயிர் ஆலோசனை மற்றும் 12 மாத நடவு காலண்டர் · Precision GPS Coordinates & Seasonal Pedology
+                GPS coordinate soil analysis, real-time weather suitability, and 12-month seasonal crop recommendations.
               </p>
             </div>
           </div>
@@ -297,7 +297,7 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
             }`}
           >
             <BookOpen className="w-4 h-4" />
-            <span>Crop Encyclopedia</span>
+            <span>All Crops Guide</span>
           </button>
         </div>
       </div>
@@ -315,7 +315,7 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
                   <span>Enter GPS Coordinates or Choose Location</span>
                 </h2>
                 <p className="text-xs text-[#64706A]">
-                  Calculates Euclidean geodesic proximity to the nearest meteorological station, altitude gradient, and TNAU soil map.
+                  Finds the nearest weather station, altitude, soil type, and suitable crops for your exact location.
                 </p>
               </div>
 

@@ -159,48 +159,48 @@ export function generateAIPrediction(
     });
   }
 
-  // 2. Explainable AI (XAI) Feature Importance Decomposition
+  // 2. Key Weather Drivers & Influence Breakdown
   const xaiFactors: XAIImportanceFactor[] = [
     {
-      name: 'Diurnal Solar Radiation Harmonic',
-      category: 'Astronomical & Thermal',
+      name: 'Sunlight & Daily Warming Cycle',
+      category: 'Sun & Temperature',
       weightPct: isHighland ? 31 : isCoastal ? 26 : 38,
       direction: 'increase',
-      impactDescription: `Governs ${diurnalAmplitude}°C thermal day-night swing driven by solar zenith angle.`
+      impactDescription: `Drives the standard ${diurnalAmplitude}°C day-to-night temperature swing.`
     },
     {
-      name: 'Atmospheric Boundary Layer Moisture',
-      category: 'Thermodynamic',
+      name: 'Air Moisture & Humidity Level',
+      category: 'Moisture',
       weightPct: isCoastal ? 34 : 24,
       direction: baseRh > 70 ? 'increase' : 'decrease',
-      impactDescription: `Relative humidity at ${baseRh}% controls latent heat flux and dew-point suppression.`
+      impactDescription: `Relative humidity at ${baseRh}% influences cloud formation and real-feel temperature.`
     },
     {
-      name: 'Barometric Surface Pressure Gradient',
-      category: 'Kinematics & Synoptic',
+      name: 'Air Pressure & Wind System',
+      category: 'Pressure & Wind',
       weightPct: pressureOffset < -2 ? 32 : 18,
       direction: basePressure < 1010 ? 'decrease' : 'neutral',
-      impactDescription: `Current pressure at ${basePressure.toFixed(1)} hPa determines cyclonic/anticyclonic vorticity.`
+      impactDescription: `Barometric pressure of ${basePressure.toFixed(1)} hPa indicates current weather stability.`
     },
     {
-      name: 'Topographic Elevation & Orographic Lapse',
-      category: 'Geographical GIS',
+      name: 'Altitude & Hill Terrain Cooling',
+      category: 'Terrain & Elevation',
       weightPct: isHighland ? 35 : isWesternGhats ? 22 : 8,
       direction: 'decrease',
-      impactDescription: `Altitude of ${city.elevationM}m ASL enforces -${(elevationKm * 6.5).toFixed(1)}°C adiabatic cooling lapse rate.`
+      impactDescription: `Elevation of ${city.elevationM}m above sea level creates natural mountain cooling (-${(elevationKm * 6.5).toFixed(1)}°C).`
     },
     {
-      name: 'Coastal Sea-Breeze Inflow & Marine Layer',
-      category: 'Microclimatic Advection',
+      name: 'Sea Breeze & Coastal Airflow',
+      category: 'Coastal Influence',
       weightPct: isCoastal ? 28 : 6,
       direction: 'decrease',
       impactDescription: isCoastal 
-        ? 'Coromandel maritime breeze dampens afternoon heat peak by ~2.2°C after 13:00.'
-        : 'Inland distance dampens maritime thermal buffering.'
+        ? 'Cool ocean breeze moderates afternoon heat along the coastal zone.'
+        : 'Inland location experiences lower ocean cooling effect.'
     }
   ];
 
-  // 3. AI Extreme Weather & Anomaly Detection
+  // 3. AI Extreme Weather & Early Warning Alerts
   const anomalyAlerts: AIAnomalyAlert[] = [];
 
   const maxPredTemp = Math.max(...steps.map(s => s.predictedTempC));
@@ -212,50 +212,50 @@ export function generateAIPrediction(
   if (maxRainProb >= 75) {
     anomalyAlerts.push({
       severity: maxRainProb >= 85 ? 'critical' : 'high',
-      title: 'Heavy Convective Cloudburst Risk',
-      description: `Neural model detected ${maxRainProb}% peak rain probability driven by high ambient moisture (${baseRh}%) and surface convergence.`,
+      title: 'Heavy Rain & Storm Alert',
+      description: `High rain chance (${maxRainProb}%) detected due to elevated atmospheric moisture (${baseRh}%).`,
       timeWindow: 'Next 12 - 24 Hours',
-      recommendation: 'Ensure agricultural field drainage, delay chemical pesticide spraying, and inspect water channels.'
+      recommendation: 'Ensure field drainage, pause chemical spraying, and clear water runoff channels.'
     });
   }
 
   if (maxPredTemp >= 38 || maxHeatIndex >= 42) {
     anomalyAlerts.push({
       severity: maxHeatIndex >= 44 ? 'critical' : 'high',
-      title: 'Heatwave & Elevated Heat Stress Warning',
-      description: `Thermal index projected to peak at ${maxHeatIndex}°C (Ambient ${maxPredTemp}°C). Significant risk of soil moisture depletion.`,
-      timeWindow: 'Peak Afternoon Hours (12:00 - 15:30)',
-      recommendation: 'Schedule drip irrigation during early morning hours; apply organic soil mulching to conserve moisture.'
+      title: 'High Heat & Sun Warning',
+      description: `Temperature feels like ${maxHeatIndex}°C (Air temp ${maxPredTemp}°C). High rate of moisture loss.`,
+      timeWindow: 'Afternoon Peak (12:00 - 15:30)',
+      recommendation: 'Water crops early in the morning; apply soil mulching to conserve moisture.'
     });
   }
 
   if (maxWindKmh >= 32) {
     anomalyAlerts.push({
       severity: 'moderate',
-      title: 'Elevated Squall & Gust Velocity',
-      description: `Surface wind velocities projected up to ${maxWindKmh} km/h due to regional pressure gradient tightening.`,
-      timeWindow: 'Afternoon Thermal Transition',
-      recommendation: 'Provide staking support for tall horticultural crops (banana, sugarcane, papaya).'
+      title: 'Strong Winds & Gusts Alert',
+      description: `Wind speeds expected up to ${maxWindKmh} km/h due to regional pressure changes.`,
+      timeWindow: 'Afternoon Hours',
+      recommendation: 'Provide wooden support stakes for tall crops like banana, sugarcane, and papaya.'
     });
   }
 
   if (minPredTemp <= 10 && isHighland) {
     anomalyAlerts.push({
       severity: 'moderate',
-      title: 'Highland Nocturnal Frost Inversion',
-      description: `Nocturnal temperature expected to dip to ${minPredTemp}°C in high-altitude valleys with radiational cooling.`,
-      timeWindow: 'Pre-Dawn (03:00 - 06:00)',
-      recommendation: 'Protect tender tea flush shoots and vegetable nurseries against nocturnal frost burn.'
+      title: 'Cold Night & Frost Advisory',
+      description: `Night temperature expected to drop to ${minPredTemp}°C in mountain valleys.`,
+      timeWindow: 'Early Morning (03:00 - 06:00)',
+      recommendation: 'Protect tender tea leaves and young vegetable saplings from cold night frost.'
     });
   }
 
   if (anomalyAlerts.length === 0) {
     anomalyAlerts.push({
       severity: 'low',
-      title: 'Optimal Atmospheric Stability',
-      description: 'Model predicts standard seasonal diurnal oscillations with no extreme convective or thermal anomalies.',
-      timeWindow: 'Next ' + (horizon === '24h' ? '24 Hours' : '72 Hours'),
-      recommendation: 'Ideal conditions for all standard agricultural and field operations.'
+      title: 'Pleasant & Stable Weather',
+      description: 'Standard seasonal weather with steady temperatures and no severe storm risks.',
+      timeWindow: 'Next ' + (horizon === '24h' ? '24 Hours' : '3 Days'),
+      recommendation: 'Great conditions for farming, outdoor activities, and routine fieldwork.'
     });
   }
 

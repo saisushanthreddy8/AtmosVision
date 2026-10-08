@@ -353,12 +353,12 @@ export const Overview: React.FC<OverviewProps> = ({
           className="p-5 rounded-2xl bg-white hover:bg-[#F8FAF9] border border-[#DDE5E1] hover:border-[#059669] transition-all cursor-pointer shadow-sm space-y-2 group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#059669] uppercase tracking-wider">38-District Radar</span>
+            <span className="text-xs font-bold text-[#059669] uppercase tracking-wider">38 Districts Map</span>
             <Compass className="w-4 h-4 text-[#64706A] group-hover:text-[#059669] transition" />
           </div>
-          <div className="text-sm font-bold text-[#17201C]">Interactive Station Telemetry</div>
+          <div className="text-sm font-bold text-[#17201C]">Interactive Weather Map</div>
           <p className="text-xs text-[#64706A]">
-            Real-time station sensor readings, 24-hour diurnal curves, and geographic spatial distribution.
+            Real-time weather station readings, 24-hour temperature charts, and district radar.
           </p>
         </div>
 
@@ -367,12 +367,12 @@ export const Overview: React.FC<OverviewProps> = ({
           className="p-5 rounded-2xl bg-white hover:bg-[#ECFDF5] border border-[#DDE5E1] hover:border-[#059669] transition-all cursor-pointer shadow-sm space-y-2 group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#059669] uppercase tracking-wider">AI Predictor Studio</span>
+            <span className="text-xs font-bold text-[#059669] uppercase tracking-wider">AI Weather Predictor</span>
             <Activity className="w-4 h-4 text-[#64706A] group-hover:text-[#059669] transition" />
           </div>
-          <div className="text-sm font-bold text-[#17201C]">Neural Bi-LSTM Forecasting</div>
+          <div className="text-sm font-bold text-[#17201C]">24h & 3-Day Future Forecast</div>
           <p className="text-xs text-[#64706A]">
-            Multi-step 24h/72h trajectory prediction, 90% confidence bounds, and What-If scenario simulation.
+            Hour-by-hour predicted temperature curves, confidence bounds, and weather alerts.
           </p>
         </div>
 
@@ -381,12 +381,12 @@ export const Overview: React.FC<OverviewProps> = ({
           className="p-5 rounded-2xl bg-white hover:bg-[#F8FAF9] border border-[#DDE5E1] hover:border-[#059669] transition-all cursor-pointer shadow-sm space-y-2 group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#059669] uppercase tracking-wider">Statewide Analytics</span>
+            <span className="text-xs font-bold text-[#059669] uppercase tracking-wider">Weather Analytics</span>
             <BarChart3 className="w-4 h-4 text-[#64706A] group-hover:text-[#059669] transition" />
           </div>
-          <div className="text-sm font-bold text-[#17201C]">Thermal Rankings & Table</div>
+          <div className="text-sm font-bold text-[#17201C]">District Rankings & Stats</div>
           <p className="text-xs text-[#64706A]">
-            Sortable 38-district telemetry leaderboards, warmest/coolest rankings, and live anomaly analysis.
+            Warmest vs coolest districts, statewide averages, and live comparison tables.
           </p>
         </div>
 
@@ -395,12 +395,12 @@ export const Overview: React.FC<OverviewProps> = ({
           className="p-5 rounded-2xl bg-white hover:bg-[#F8FAF9] border border-[#DDE5E1] hover:border-[#059669] transition-all cursor-pointer shadow-sm space-y-2 group"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#059669] uppercase tracking-wider">Crop Suggestion Studio</span>
+            <span className="text-xs font-bold text-[#059669] uppercase tracking-wider">Crop Suggestions</span>
             <Sprout className="w-4 h-4 text-[#64706A] group-hover:text-[#059669] transition" />
           </div>
-          <div className="text-sm font-bold text-[#17201C]">GPS & 12-Month Sowing</div>
+          <div className="text-sm font-bold text-[#17201C]">GPS Soil & 12-Month Sowing</div>
           <p className="text-xs text-[#64706A]">
-            Coordinate-based soil pedology, live weather suitability, and 12-month seasonal sowing/harvesting calendars.
+            Coordinate-based soil matching, live weather suitability, and 12-month sowing calendars.
           </p>
         </div>
 
