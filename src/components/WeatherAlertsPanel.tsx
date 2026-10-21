@@ -38,18 +38,18 @@ export const WeatherAlertsPanel: React.FC<WeatherAlertsPanelProps> = ({
 
     // Check for high temperatures (> 36°C) -> Heatwave alert
     liveDistrictData.forEach((d) => {
-      if (d.current.temperatureC >= 36) {
+      if (d.temperatureC >= 36) {
         list.push({
           id: `heat-${d.district}`,
           district: d.district,
           title: `Severe Heatwave Advisory · ${d.district}`,
           tamilTitle: `கடுமையான வெப்ப அலை எச்சரிக்கை · ${d.district}`,
           type: 'heatwave',
-          severity: d.current.temperatureC >= 38 ? 'critical' : 'high',
+          severity: d.temperatureC >= 38 ? 'critical' : 'high',
           issuedAt: 'Today, 06:00 AM IST',
           validUntil: 'Today, 06:00 PM IST',
-          description: `Surface telemetry records ${d.current.temperatureC}°C (Feels like ${(d.current.temperatureC + 2.5).toFixed(1)}°C). Prolonged solar exposure poses high risk of dehydration and heat stress.`,
-          tamilDescription: `நிலப்பரப்பு வெப்பநிலை ${d.current.temperatureC}°C ஆக பதிவாகியுள்ளது. கடுமையான வெயில் காரணமாக நீரிழப்பு மற்றும் வெப்ப மயக்கம் ஏற்படும் வாய்ப்பு அதிகம்.`,
+          description: `Surface telemetry records ${d.temperatureC}°C (Feels like ${(d.apparentTempC || d.temperatureC + 2.5).toFixed(1)}°C). Prolonged solar exposure poses high risk of dehydration and heat stress.`,
+          tamilDescription: `நிலப்பரப்பு வெப்பநிலை ${d.temperatureC}°C ஆக பதிவாகியுள்ளது. கடுமையான வெயில் காரணமாக நீரிழப்பு மற்றும் வெப்ப மயக்கம் ஏற்படும் வாய்ப்பு அதிகம்.`,
           precautions: [
             'Avoid direct sunlight between 11:30 AM and 03:30 PM',
             'Hydrate frequently with ORS, tender coconut water, and buttermilk',
@@ -67,18 +67,18 @@ export const WeatherAlertsPanel: React.FC<WeatherAlertsPanelProps> = ({
       }
 
       // Check for high rainfall or rain conditions
-      if (d.current.precipitationMm > 2.0 || d.current.weatherType === 'rain') {
+      if (d.precipitationMm > 2.0 || d.weatherType === 'rain') {
         list.push({
           id: `rain-${d.district}`,
           district: d.district,
           title: `Intense Precipitation & Thunderstorm Warning · ${d.district}`,
           tamilTitle: `கனமழை மற்றும் இடியுடன் கூடிய மழை எச்சரிக்கை · ${d.district}`,
           type: 'heavy_rain',
-          severity: d.current.precipitationMm > 15 ? 'critical' : 'high',
+          severity: d.precipitationMm > 15 ? 'critical' : 'high',
           issuedAt: 'Today, 08:30 AM IST',
           validUntil: 'Tomorrow, 08:30 AM IST',
-          description: `Synoptic radar tracks heavy squalls with current rainfall intensity of ${d.current.precipitationMm} mm/h and high relative humidity (${d.current.humidityPct}%). Risk of localized waterlogging in low-lying croplands.`,
-          tamilDescription: `ரேடார் கண்காணிப்பில் ${d.current.precipitationMm} மிமீ/மணி கனமழை பதிவாகியுள்ளது. தாழ்வான விவசாய நிலங்களில் தண்ணீர் தேங்கும் அபாயம் உள்ளது.`,
+          description: `Synoptic radar tracks heavy squalls with current rainfall intensity of ${d.precipitationMm} mm/h and high relative humidity (${d.relativeHumidityPct}%). Risk of localized waterlogging in low-lying croplands.`,
+          tamilDescription: `ரேடார் கண்காணிப்பில் ${d.precipitationMm} மிமீ/மணி கனமழை பதிவாகியுள்ளது. தாழ்வான விவசாய நிலங்களில் தண்ணீர் தேங்கும் அபாயம் உள்ளது.`,
           precautions: [
             'Clear drainage channels in paddy and banana fields immediately',
             'Stay clear of electric poles, transformers, and dilapidated structures',
@@ -96,18 +96,18 @@ export const WeatherAlertsPanel: React.FC<WeatherAlertsPanelProps> = ({
       }
 
       // High winds (> 25 km/h)
-      if (d.current.windSpeedKmh >= 24) {
+      if (d.windSpeedKmh >= 24) {
         list.push({
           id: `wind-${d.district}`,
           district: d.district,
           title: `Squally Gale Winds & Gusts · ${d.district}`,
           tamilTitle: `பலத்த தரைக்காற்று எச்சரிக்கை · ${d.district}`,
           type: 'wind',
-          severity: d.current.windSpeedKmh > 35 ? 'critical' : 'moderate',
+          severity: d.windSpeedKmh > 35 ? 'critical' : 'moderate',
           issuedAt: 'Today, 05:00 AM IST',
           validUntil: 'Tonight, 11:00 PM IST',
-          description: `Strong surface wind gusts recorded at ${d.current.windSpeedKmh} km/h along the corridor. Fisherfolk advised caution along sea and backwaters.`,
-          tamilDescription: `${d.current.windSpeedKmh} கி.மீ/மணி வேகத்தில் பலத்த காற்று வீசக்கூடும் என்பதால் மீனவர்கள் கடலுக்கு செல்லும்போது எச்சரிக்கையுடன் இருக்கவும்.`,
+          description: `Strong surface wind gusts recorded at ${d.windSpeedKmh} km/h along the corridor. Fisherfolk advised caution along sea and backwaters.`,
+          tamilDescription: `${d.windSpeedKmh} கி.மீ/மணி வேகத்தில் பலத்த காற்று வீசக்கூடும் என்பதால் மீனவர்கள் கடலுக்கு செல்லும்போது எச்சரிக்கையுடன் இருக்கவும்.`,
           precautions: [
             'Provide bamboo propping for standing banana and sugarcane crops',
             'Avoid parking vehicles beneath aged trees or temporary hoardings',

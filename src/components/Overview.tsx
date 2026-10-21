@@ -18,13 +18,17 @@ import {
   BarChart3,
   Radio,
   Sun,
-  Sprout
+  Sprout,
+  AlertTriangle,
+  LineChart,
+  Bug
 } from 'lucide-react';
 import { TabId, LiveDistrictWeather, LiveStatewideSummary, CityClimateObservation } from '../types';
 import { TamilNaduDistrictMap } from './TamilNaduDistrictMap';
 import { WeatherFrogCard } from './WeatherFrogCard';
 import { CITIES_TAMIL_NADU } from '../data/cities';
 import { CLIMATE_VARIABLES } from '../data/climateVariables';
+import { DashboardSkeleton } from './SkeletonLoader';
 
 interface OverviewProps {
   onNavigate: (tab: TabId) => void;
@@ -112,6 +116,10 @@ export const Overview: React.FC<OverviewProps> = ({
       }
     };
   }, [selectedCity, selectedLiveWeather]);
+
+  if (isLiveLoading && (!liveDistrictData || liveDistrictData.length === 0)) {
+    return <DashboardSkeleton />;
+  }
 
   return (
     <div className="space-y-5 font-sans animate-fade-in pb-8">
@@ -360,7 +368,7 @@ export const Overview: React.FC<OverviewProps> = ({
           onClick={() => onNavigate('ai_predict')}
           className="p-4 rounded-2xl bg-white border border-[#E5EBE8] hover:border-[#059669] transition-all shadow-xs cursor-pointer group space-y-2 hover:-translate-y-0.5"
         >
-          <div className="w-9 h-9 rounded-xl bg-[#ECFDF5] border border-[#D1FAE5] flex items-center justify-center text-[#059669] group-hover:scale-105 transition-transform">
+          <div className="w-9 h-9 rounded-xl bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-600 group-hover:scale-105 transition-transform">
             <Sparkles className="w-4 h-4" />
           </div>
           <div>
@@ -376,10 +384,10 @@ export const Overview: React.FC<OverviewProps> = ({
 
         {/* Card 3: Crop Suggestions Studio */}
         <div
-          onClick={() => onNavigate('crop_suggestions')}
+          onClick={() => onNavigate('crops')}
           className="p-4 rounded-2xl bg-white border border-[#E5EBE8] hover:border-[#059669] transition-all shadow-xs cursor-pointer group space-y-2 hover:-translate-y-0.5"
         >
-          <div className="w-9 h-9 rounded-xl bg-[#ECFDF5] border border-[#D1FAE5] flex items-center justify-center text-[#059669] group-hover:scale-105 transition-transform">
+          <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 group-hover:scale-105 transition-transform">
             <Sprout className="w-4 h-4" />
           </div>
           <div>
@@ -393,12 +401,88 @@ export const Overview: React.FC<OverviewProps> = ({
           </div>
         </div>
 
-        {/* Card 4: Weather Analytics */}
+        {/* Card 4: Weather Alerts & Warnings */}
+        <div
+          onClick={() => onNavigate('alerts')}
+          className="p-4 rounded-2xl bg-white border border-[#E5EBE8] hover:border-red-400 transition-all shadow-xs cursor-pointer group space-y-2 hover:-translate-y-0.5"
+        >
+          <div className="w-9 h-9 rounded-xl bg-red-50 border border-red-200 flex items-center justify-center text-red-600 group-hover:scale-105 transition-transform">
+            <AlertTriangle className="w-4 h-4" />
+          </div>
+          <div>
+            <div className="text-xs font-bold text-[#17201C] group-hover:text-red-600 transition-colors flex items-center justify-between">
+              <span>Weather Alerts & Warnings</span>
+              <ChevronRight className="w-3.5 h-3.5 text-[#64706A] group-hover:translate-x-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-[#64706A] mt-0.5">
+              Heatwave, heavy rain & gale advisories with precautions.
+            </p>
+          </div>
+        </div>
+
+        {/* Card 5: Air Quality Dashboard */}
+        <div
+          onClick={() => onNavigate('air_quality')}
+          className="p-4 rounded-2xl bg-white border border-[#E5EBE8] hover:border-sky-500 transition-all shadow-xs cursor-pointer group space-y-2 hover:-translate-y-0.5"
+        >
+          <div className="w-9 h-9 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 group-hover:scale-105 transition-transform">
+            <Wind className="w-4 h-4" />
+          </div>
+          <div>
+            <div className="text-xs font-bold text-[#17201C] group-hover:text-sky-600 transition-colors flex items-center justify-between">
+              <span>Air Quality Index (AQI)</span>
+              <ChevronRight className="w-3.5 h-3.5 text-[#64706A] group-hover:translate-x-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-[#64706A] mt-0.5">
+              38-district PM2.5, PM10 & health advisory monitor.
+            </p>
+          </div>
+        </div>
+
+        {/* Card 6: Interactive Weather Charts */}
+        <div
+          onClick={() => onNavigate('charts')}
+          className="p-4 rounded-2xl bg-white border border-[#E5EBE8] hover:border-teal-500 transition-all shadow-xs cursor-pointer group space-y-2 hover:-translate-y-0.5"
+        >
+          <div className="w-9 h-9 rounded-xl bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-600 group-hover:scale-105 transition-transform">
+            <LineChart className="w-4 h-4" />
+          </div>
+          <div>
+            <div className="text-xs font-bold text-[#17201C] group-hover:text-teal-600 transition-colors flex items-center justify-between">
+              <span>Interactive Weather Charts</span>
+              <ChevronRight className="w-3.5 h-3.5 text-[#64706A] group-hover:translate-x-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-[#64706A] mt-0.5">
+              24-Hour hourly curves, 7-day trendlines & district comparisons.
+            </p>
+          </div>
+        </div>
+
+        {/* Card 7: Pest & Disease Risk */}
+        <div
+          onClick={() => onNavigate('pest_risk')}
+          className="p-4 rounded-2xl bg-white border border-[#E5EBE8] hover:border-amber-500 transition-all shadow-xs cursor-pointer group space-y-2 hover:-translate-y-0.5"
+        >
+          <div className="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 group-hover:scale-105 transition-transform">
+            <Bug className="w-4 h-4" />
+          </div>
+          <div>
+            <div className="text-xs font-bold text-[#17201C] group-hover:text-amber-600 transition-colors flex items-center justify-between">
+              <span>Pest Risk Predictor</span>
+              <ChevronRight className="w-3.5 h-3.5 text-[#64706A] group-hover:translate-x-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-[#64706A] mt-0.5">
+              Epidemiology weather triggers & crop spray window advisory.
+            </p>
+          </div>
+        </div>
+
+        {/* Card 8: Weather Analytics */}
         <div
           onClick={() => onNavigate('analytics')}
           className="p-4 rounded-2xl bg-white border border-[#E5EBE8] hover:border-[#059669] transition-all shadow-xs cursor-pointer group space-y-2 hover:-translate-y-0.5"
         >
-          <div className="w-9 h-9 rounded-xl bg-[#ECFDF5] border border-[#D1FAE5] flex items-center justify-center text-[#059669] group-hover:scale-105 transition-transform">
+          <div className="w-9 h-9 rounded-xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 group-hover:scale-105 transition-transform">
             <BarChart3 className="w-4 h-4" />
           </div>
           <div>

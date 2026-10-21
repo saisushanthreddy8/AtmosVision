@@ -20,7 +20,8 @@ import {
   Calendar,
   Sprout,
   Bot,
-  Smartphone
+  Smartphone,
+  AlertTriangle
 } from 'lucide-react';
 import { TabId, LiveStatewideSummary } from '../types';
 import { DISTRICT_REGIONS } from '../data/tamilNaduGeo';
@@ -314,6 +315,16 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
                   </div>
                   <div className="text-[#64706A] text-[10px]">All 38 districts providing real-time surface temperature, relative humidity, wind vectors, and surface barometric pressure.</div>
                 </div>
+                <button
+                  onClick={() => {
+                    onNavigate('alerts');
+                    setShowNotifications(false);
+                  }}
+                  className="w-full mt-2 py-2 px-3 rounded-xl bg-[#059669] hover:bg-[#047857] text-white font-bold text-center text-[11px] transition cursor-pointer flex items-center justify-center gap-1.5 shadow-xs"
+                >
+                  <AlertTriangle className="w-3.5 h-3.5" />
+                  <span>View Weather Alerts & Warnings</span>
+                </button>
               </div>
             </div>
           )}

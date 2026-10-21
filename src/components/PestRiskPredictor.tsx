@@ -50,7 +50,10 @@ export const PestRiskPredictor: React.FC<PestRiskPredictorProps> = ({
   // Evaluate risk scores for all pests against current weather
   const evaluatedPests = useMemo(() => {
     if (!currentDistrictWeather) return [];
-    const { temperatureC, humidityPct, precipitationMm, windSpeedKmh } = currentDistrictWeather.current;
+    const temperatureC = currentDistrictWeather.temperatureC ?? 28;
+    const humidityPct = currentDistrictWeather.relativeHumidityPct ?? 65;
+    const precipitationMm = currentDistrictWeather.precipitationMm ?? 0;
+    const windSpeedKmh = currentDistrictWeather.windSpeedKmh ?? 12;
 
     return PEST_DISEASE_DATABASE.map((pest) => {
       const risk = calculatePestRisk(
@@ -159,7 +162,7 @@ export const PestRiskPredictor: React.FC<PestRiskPredictorProps> = ({
             >
               {liveDistrictData.map((d) => (
                 <option key={d.district} value={d.district} className="text-gray-900">
-                  {d.district} ({d.current.temperatureC}°C · {d.current.humidityPct}%)
+                  {d.district} ({d.temperatureC ?? 28}°C · {d.relativeHumidityPct ?? 65}%)
                 </option>
               ))}
             </select>
@@ -187,7 +190,7 @@ export const PestRiskPredictor: React.FC<PestRiskPredictorProps> = ({
             </div>
             <div>
               <div className="text-[#64706A] text-[10px] uppercase font-semibold">{language === 'ta' ? 'வெப்பநிலை' : 'Ambient Temp'}</div>
-              <div className="text-sm font-bold text-[#17201C]">{currentDistrictWeather.current.temperatureC}°C</div>
+              <div className="text-sm font-bold text-[#17201C]">{currentDistrictWeather.temperatureC ?? 28}°C</div>
             </div>
           </div>
 
@@ -197,7 +200,7 @@ export const PestRiskPredictor: React.FC<PestRiskPredictorProps> = ({
             </div>
             <div>
               <div className="text-[#64706A] text-[10px] uppercase font-semibold">{language === 'ta' ? 'ஈரப்பதம்' : 'Air Moisture'}</div>
-              <div className="text-sm font-bold text-[#17201C]">{currentDistrictWeather.current.humidityPct}%</div>
+              <div className="text-sm font-bold text-[#17201C]">{currentDistrictWeather.relativeHumidityPct ?? 65}%</div>
             </div>
           </div>
 
@@ -207,7 +210,7 @@ export const PestRiskPredictor: React.FC<PestRiskPredictorProps> = ({
             </div>
             <div>
               <div className="text-[#64706A] text-[10px] uppercase font-semibold">{language === 'ta' ? 'காற்றின் வேகம்' : 'Wind Speed'}</div>
-              <div className="text-sm font-bold text-[#17201C]">{currentDistrictWeather.current.windSpeedKmh} km/h</div>
+              <div className="text-sm font-bold text-[#17201C]">{currentDistrictWeather.windSpeedKmh ?? 12} km/h</div>
             </div>
           </div>
 
@@ -218,7 +221,7 @@ export const PestRiskPredictor: React.FC<PestRiskPredictorProps> = ({
             <div>
               <div className="text-[#64706A] text-[10px] uppercase font-semibold">{language === 'ta' ? 'தெளிப்பு உகந்த நேரம்' : 'Spray Window'}</div>
               <div className="text-sm font-bold text-[#059669]">
-                {currentDistrictWeather.current.windSpeedKmh < 15 ? 'Optimal (Now)' : 'Avoid (Windy)'}
+                {(currentDistrictWeather.windSpeedKmh ?? 12) < 15 ? 'Optimal (Now)' : 'Avoid (Windy)'}
               </div>
             </div>
           </div>

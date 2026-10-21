@@ -281,7 +281,7 @@ function AppContent() {
               />
             )}
 
-            {activeTab === 'crops' && (
+            {(activeTab === 'crops' || (activeTab as string) === 'crop_suggestions') && (
               <CropSuggestionStudio
                 liveDistrictData={liveDistrictData}
                 onRefreshLive={() => loadLiveWeatherData(true)}

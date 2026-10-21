@@ -1,5 +1,5 @@
-// AtmosVision Service Worker for Offline Caching & PWA Support (v2)
-const CACHE_NAME = 'atmosvision-cache-v2';
+// AtmosVision Service Worker for Offline Caching & PWA Support (v3)
+const CACHE_NAME = 'atmosvision-cache-v3';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',

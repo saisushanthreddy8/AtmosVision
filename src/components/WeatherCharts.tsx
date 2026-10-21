@@ -53,9 +53,9 @@ export const WeatherCharts: React.FC<WeatherChartsProps> = ({
   // Generate 24-hour hourly trend data based on current telemetry
   const hourlyData = useMemo(() => {
     if (!currentDistrict) return [];
-    const baseTemp = currentDistrict.current.temperatureC;
-    const baseHumidity = currentDistrict.current.humidityPct;
-    const baseWind = currentDistrict.current.windSpeedKmh;
+    const baseTemp = currentDistrict.temperatureC ?? 28;
+    const baseHumidity = currentDistrict.relativeHumidityPct ?? 65;
+    const baseWind = currentDistrict.windSpeedKmh ?? 12;
 
     const hours = [];
     const now = new Date();
@@ -71,7 +71,7 @@ export const WeatherCharts: React.FC<WeatherChartsProps> = ({
       const feelsLike = Number((temp + (baseHumidity > 70 ? 2.5 : 0.5)).toFixed(1));
       const humidity = Math.min(100, Math.max(30, Math.round(baseHumidity - solarFactor * 15)));
       const wind = Math.max(3, Number((baseWind + Math.sin(i * 0.5) * 4).toFixed(1)));
-      const rainProb = Math.min(100, Math.max(0, Math.round(currentDistrict.current.precipitationMm > 0 ? 60 + Math.cos(i) * 30 : 15 + Math.sin(i) * 10)));
+      const rainProb = Math.min(100, Math.max(0, Math.round((currentDistrict.precipitationMm ?? 0) > 0 ? 60 + Math.cos(i) * 30 : 15 + Math.sin(i) * 10)));
 
       hours.push({
         time: timeStr,
@@ -88,21 +88,21 @@ export const WeatherCharts: React.FC<WeatherChartsProps> = ({
   // 7-Day Forecast Trend
   const sevenDayData = useMemo(() => {
     if (!currentDistrict) return [];
-    const baseTemp = currentDistrict.current.temperatureC;
+    const baseTemp = currentDistrict.temperatureC ?? 28;
     const days = ['Today', 'Tomorrow', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'];
     const tamilDays = ['இன்று', 'நாளை', 'நாள் 3', 'நாள் 4', 'நாள் 5', 'நாள் 6', 'நாள் 7'];
 
     return days.map((day, idx) => {
       const maxTemp = Number((baseTemp + (idx % 3) * 1.2 + 2).toFixed(1));
       const minTemp = Number((baseTemp - 5 - (idx % 2) * 1.5).toFixed(1));
-      const rain = Math.round(Math.max(0, currentDistrict.current.precipitationMm * (1 + Math.sin(idx))));
+      const rain = Math.round(Math.max(0, (currentDistrict.precipitationMm ?? 0) * (1 + Math.sin(idx))));
 
       return {
         day: language === 'ta' ? tamilDays[idx] : day,
         maxTemp,
         minTemp,
         rainfall: rain,
-        humidity: Math.round(currentDistrict.current.humidityPct + Math.sin(idx) * 8)
+        humidity: Math.round((currentDistrict.relativeHumidityPct ?? 65) + Math.sin(idx) * 8)
       };
     });
   }, [currentDistrict, language]);
@@ -110,13 +110,13 @@ export const WeatherCharts: React.FC<WeatherChartsProps> = ({
   // Top 10 Warmest vs Coolest Districts Comparison Bar
   const districtComparisonData = useMemo(() => {
     return [...liveDistrictData]
-      .sort((a, b) => b.current.temperatureC - a.current.temperatureC)
+      .sort((a, b) => (b.temperatureC ?? 0) - (a.temperatureC ?? 0))
       .slice(0, 10)
       .map((d) => ({
         name: d.district.length > 10 ? d.district.substring(0, 9) + '..' : d.district,
-        temperature: d.current.temperatureC,
-        humidity: d.current.humidityPct,
-        wind: d.current.windSpeedKmh
+        temperature: d.temperatureC ?? 28,
+        humidity: d.relativeHumidityPct ?? 65,
+        wind: d.windSpeedKmh ?? 10
       }));
   }, [liveDistrictData]);
 
@@ -189,7 +189,7 @@ export const WeatherCharts: React.FC<WeatherChartsProps> = ({
             >
               {liveDistrictData.map((d) => (
                 <option key={d.district} value={d.district} className="text-gray-900">
-                  {d.district} ({d.current.temperatureC}°C)
+                  {d.district} ({d.temperatureC ?? 28}°C)
                 </option>
               ))}
             </select>
@@ -393,19 +393,19 @@ export const WeatherCharts: React.FC<WeatherChartsProps> = ({
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-[#F0F4F2]">
             <div className="p-3 rounded-2xl bg-[#F8FAF9] border border-[#DDE5E1]">
               <div className="text-[11px] text-[#64706A] font-semibold">{language === 'ta' ? 'தற்போதைய வெப்பநிலை' : 'Current Temp'}</div>
-              <div className="text-xl font-bold text-[#17201C] mt-0.5">{currentDistrict.current.temperatureC}°C</div>
+              <div className="text-xl font-bold text-[#17201C] mt-0.5">{currentDistrict.temperatureC ?? 28}°C</div>
             </div>
             <div className="p-3 rounded-2xl bg-[#F8FAF9] border border-[#DDE5E1]">
               <div className="text-[11px] text-[#64706A] font-semibold">{language === 'ta' ? 'ஈரப்பதம்' : 'Relative Humidity'}</div>
-              <div className="text-xl font-bold text-[#17201C] mt-0.5">{currentDistrict.current.humidityPct}%</div>
+              <div className="text-xl font-bold text-[#17201C] mt-0.5">{currentDistrict.relativeHumidityPct ?? 65}%</div>
             </div>
             <div className="p-3 rounded-2xl bg-[#F8FAF9] border border-[#DDE5E1]">
               <div className="text-[11px] text-[#64706A] font-semibold">{language === 'ta' ? 'காற்றின் வேகம்' : 'Wind Speed'}</div>
-              <div className="text-xl font-bold text-[#17201C] mt-0.5">{currentDistrict.current.windSpeedKmh} km/h</div>
+              <div className="text-xl font-bold text-[#17201C] mt-0.5">{currentDistrict.windSpeedKmh ?? 12} km/h</div>
             </div>
             <div className="p-3 rounded-2xl bg-[#F8FAF9] border border-[#DDE5E1]">
               <div className="text-[11px] text-[#64706A] font-semibold">{language === 'ta' ? 'மழைப்பொழிவு' : 'Precipitation'}</div>
-              <div className="text-xl font-bold text-[#17201C] mt-0.5">{currentDistrict.current.precipitationMm} mm</div>
+              <div className="text-xl font-bold text-[#17201C] mt-0.5">{currentDistrict.precipitationMm ?? 0} mm</div>
             </div>
           </div>
         )}
