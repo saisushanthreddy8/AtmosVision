@@ -6,13 +6,22 @@ import { TamilNaduExplorer } from './components/TamilNaduExplorer';
 import { LiveAnalytics } from './components/LiveAnalytics';
 import { CropSuggestionStudio } from './components/CropSuggestionStudio';
 import { AIPredictorStudio } from './components/AIPredictorStudio';
+import { WeatherAlertsPanel } from './components/WeatherAlertsPanel';
+import { AirQualityDashboard } from './components/AirQualityDashboard';
+import { WeatherCharts } from './components/WeatherCharts';
+import { PestRiskPredictor } from './components/PestRiskPredictor';
 import { AgriAIAssistantModal } from './components/AgriAIAssistantModal';
 import { AtmosphericBackground } from './components/AtmosphericBackground';
-import { Settings, X, CheckCircle2, RotateCcw, CloudSun, Radio, Bot, Smartphone, Sparkles } from 'lucide-react';
+import { ThemeProvider, useTheme } from './contexts/ThemeContext';
+import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
+import { Settings, X, CheckCircle2, RotateCcw, CloudSun, Radio, Bot, Smartphone, Sparkles, Sun, Moon, Globe } from 'lucide-react';
 import { TabId, LiveDistrictWeather, LiveStatewideSummary } from './types';
 import { fetchLiveTamilNaduWeather, computeStatewideSummary } from './data/liveWeatherService';
 
-export default function App() {
+function AppContent() {
+  const { isDark, toggleTheme } = useTheme();
+  const { language, toggleLanguage, t } = useLanguage();
+
   const [activeTab, setActiveTab] = useState<TabId>('overview');
   const [weatherType, setWeatherType] = useState<'clear' | 'wind' | 'cool' | 'hot' | 'rain'>('clear');
   const [selectedDistrictForExplorer, setSelectedDistrictForExplorer] = useState<string | null>(null);
@@ -58,7 +67,7 @@ export default function App() {
     if (outcome === 'accepted') {
       setIsInstallable(false);
       setDeferredPrompt(null);
-      setNotificationToast('AtmosVision installed successfully!');
+      setNotificationToast(language === 'ta' ? 'அட்மாஸ்விஷன் செயலி நிறுவப்பட்டது!' : 'AtmosVision installed successfully!');
       setTimeout(() => setNotificationToast(null), 4000);
     }
   };
@@ -72,7 +81,11 @@ export default function App() {
       setLiveDistrictData(districts);
       setLiveSummary(summary);
       if (forceRefresh) {
-        setNotificationToast(`Synchronized 38 Stations: Statewide Avg ${summary.stateAvgTempC}°C`);
+        setNotificationToast(
+          language === 'ta'
+            ? `38 வானிலை நிலையங்கள் ஒத்திசைக்கப்பட்டன: சராசரி ${summary.stateAvgTempC}°C`
+            : `Synchronized 38 Stations: Statewide Avg ${summary.stateAvgTempC}°C`
+        );
         setTimeout(() => setNotificationToast(null), 4000);
       }
     } catch (err) {
@@ -80,7 +93,7 @@ export default function App() {
     } finally {
       setIsLiveLoading(false);
     }
-  }, []);
+  }, [language]);
 
   // Fetch live weather on mount and auto-refresh every 5 minutes
   useEffect(() => {
@@ -163,15 +176,21 @@ export default function App() {
                   setIsMobileSidebarOpen(false);
                 }}
               />
+              <button
+                onClick={() => setIsMobileSidebarOpen(false)}
+                className="mt-3 w-full py-2 rounded-xl bg-[#F8FAF9] text-[#64706A] text-xs font-bold"
+              >
+                {t('close', 'Close Menu')}
+              </button>
             </div>
             <div className="flex-1" onClick={() => setIsMobileSidebarOpen(false)} />
           </div>
         )}
 
-        {/* Main Content Area with Top Navbar & Dashboard View */}
-        <div className="flex-1 flex flex-col min-w-0 space-y-5">
+        {/* Right Main Content Viewport */}
+        <div className="flex-1 min-w-0 flex flex-col gap-5">
           
-          {/* Top Navbar */}
+          {/* Top Operational Bar */}
           <TopNavbar
             onNavigate={setActiveTab}
             onSelectCity={handleSelectDistrictFromSearch}
@@ -185,7 +204,7 @@ export default function App() {
             isInstallable={isInstallable}
           />
 
-          {/* Active View Module */}
+          {/* Core Viewport Routed Views */}
           <main className="flex-1">
             {activeTab === 'overview' && (
               <Overview
@@ -214,6 +233,38 @@ export default function App() {
                 onRefreshLive={() => loadLiveWeatherData(true)}
                 isLiveLoading={isLiveLoading}
                 initialDistrictName={selectedDistrictForExplorer || 'Nilgiris'}
+              />
+            )}
+
+            {activeTab === 'alerts' && (
+              <WeatherAlertsPanel
+                liveDistrictData={liveDistrictData}
+                onSelectDistrict={(d) => {
+                  setSelectedDistrictForExplorer(d);
+                  setActiveTab('explorer');
+                }}
+              />
+            )}
+
+            {activeTab === 'air_quality' && (
+              <AirQualityDashboard />
+            )}
+
+            {activeTab === 'charts' && (
+              <WeatherCharts
+                liveDistrictData={liveDistrictData}
+                initialDistrict={selectedDistrictForExplorer || 'Chennai'}
+              />
+            )}
+
+            {activeTab === 'pest_risk' && (
+              <PestRiskPredictor
+                liveDistrictData={liveDistrictData}
+                initialDistrict={selectedDistrictForExplorer || 'Thanjavur'}
+                onSelectDistrict={(d) => {
+                  setSelectedDistrictForExplorer(d);
+                  setActiveTab('explorer');
+                }}
               />
             )}
 
@@ -262,24 +313,89 @@ export default function App() {
       {/* Settings Modal */}
       {isSettingsModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-white border border-[#DDE5E1] rounded-2xl p-6 shadow-2xl space-y-5">
-            <div className="flex items-center justify-between border-b border-[#DDE5E1] pb-3">
-              <div className="flex items-center gap-2.5">
-                <Settings className="w-4 h-4 text-[#059669]" />
-                <h3 className="text-base font-bold text-[#17201C]">Workstation Settings</h3>
+          <div className="bg-white rounded-2xl border border-[#DDE5E1] p-6 max-w-md w-full shadow-2xl space-y-5 animate-scale-in">
+            <div className="flex items-center justify-between pb-3 border-b border-[#DDE5E1]">
+              <div className="flex items-center gap-2">
+                <Settings className="w-5 h-5 text-[#059669]" />
+                <h3 className="font-extrabold text-[#17201C] text-base">
+                  {language === 'ta' ? 'பணிநிலைய அமைப்புகள்' : 'Workstation Settings'}
+                </h3>
               </div>
               <button
                 onClick={() => setIsSettingsModalOpen(false)}
-                className="p-1 rounded-lg text-[#64706A] hover:text-[#17201C] hover:bg-[#F8FAF9]"
+                className="p-1 rounded-lg hover:bg-[#F8FAF9] text-[#64706A] hover:text-[#17201C]"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="space-y-4 text-xs">
-              {/* Temp unit */}
+            <div className="space-y-4 text-xs font-sans">
+              
+              {/* Language Selection */}
               <div className="space-y-1.5">
-                <label className="text-[#17201C] font-bold block">Temperature Display Unit</label>
+                <label className="text-[#17201C] font-bold block flex items-center gap-1.5">
+                  <Globe className="w-3.5 h-3.5 text-[#059669]" />
+                  <span>{language === 'ta' ? 'மொழி / Language' : 'Display Language'}</span>
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    onClick={() => language !== 'en' && toggleLanguage()}
+                    className={`py-2 px-3 rounded-xl border text-center font-bold transition-all ${
+                      language === 'en'
+                        ? 'bg-[#ECFDF5] border-[#059669] text-[#047857]'
+                        : 'bg-white border-[#DDE5E1] text-[#64706A] hover:text-[#17201C]'
+                    }`}
+                  >
+                    English (US/UK)
+                  </button>
+                  <button
+                    onClick={() => language !== 'ta' && toggleLanguage()}
+                    className={`py-2 px-3 rounded-xl border text-center font-bold transition-all ${
+                      language === 'ta'
+                        ? 'bg-[#ECFDF5] border-[#059669] text-[#047857]'
+                        : 'bg-white border-[#DDE5E1] text-[#64706A] hover:text-[#17201C]'
+                    }`}
+                  >
+                    தமிழ் (Tamil)
+                  </button>
+                </div>
+              </div>
+
+              {/* Theme Mode Selection */}
+              <div className="space-y-1.5">
+                <label className="text-[#17201C] font-bold block flex items-center gap-1.5">
+                  {isDark ? <Moon className="w-3.5 h-3.5 text-indigo-500" /> : <Sun className="w-3.5 h-3.5 text-amber-500" />}
+                  <span>{language === 'ta' ? 'வண்ண பயன்முறை' : 'Theme Mode'}</span>
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    onClick={() => isDark && toggleTheme()}
+                    className={`py-2 px-3 rounded-xl border text-center font-bold transition-all ${
+                      !isDark
+                        ? 'bg-[#ECFDF5] border-[#059669] text-[#047857]'
+                        : 'bg-white border-[#DDE5E1] text-[#64706A] hover:text-[#17201C]'
+                    }`}
+                  >
+                    ☀️ Light Mode
+                  </button>
+                  <button
+                    onClick={() => !isDark && toggleTheme()}
+                    className={`py-2 px-3 rounded-xl border text-center font-bold transition-all ${
+                      isDark
+                        ? 'bg-[#ECFDF5] border-[#059669] text-[#047857]'
+                        : 'bg-white border-[#DDE5E1] text-[#64706A] hover:text-[#17201C]'
+                    }`}
+                  >
+                    🌙 Dark Mode
+                  </button>
+                </div>
+              </div>
+
+              {/* Temperature Unit */}
+              <div className="space-y-1.5">
+                <label className="text-[#17201C] font-bold block">
+                  {language === 'ta' ? 'வெப்பநிலை அலகு' : 'Telemetry Temperature Unit'}
+                </label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => setTemperatureUnit('celsius')}
@@ -307,8 +423,12 @@ export default function App() {
               {/* Background particles */}
               <div className="flex items-center justify-between p-3 rounded-xl bg-[#F8FAF9] border border-[#DDE5E1]">
                 <div>
-                  <div className="text-[#17201C] font-bold">Atmospheric Streamlines</div>
-                  <div className="text-[#64706A] text-[11px]">Subtle ambient meteorological airflow traces</div>
+                  <div className="text-[#17201C] font-bold">
+                    {language === 'ta' ? 'வளிமண்டல நீரோடை துகள்கள்' : 'Atmospheric Streamlines'}
+                  </div>
+                  <div className="text-[#64706A] text-[11px]">
+                    {language === 'ta' ? 'வானிலை காற்று சுழற்சி அனிமேஷன்' : 'Subtle ambient meteorological airflow traces'}
+                  </div>
                 </div>
                 <input
                   type="checkbox"
@@ -317,41 +437,14 @@ export default function App() {
                   className="w-4 h-4 accent-[#059669] rounded cursor-pointer"
                 />
               </div>
-
-              {/* Color Scheme */}
-              <div className="space-y-1.5">
-                <label className="text-[#17201C] font-bold block">Visual Contrast Scheme</label>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    onClick={() => setColorScheme('default')}
-                    className={`py-2 px-3 rounded-xl border text-center font-bold transition-all ${
-                      colorScheme === 'default'
-                        ? 'bg-[#ECFDF5] border-[#059669] text-[#047857]'
-                        : 'bg-white border-[#DDE5E1] text-[#64706A] hover:text-[#17201C]'
-                    }`}
-                  >
-                    Emerald Light
-                  </button>
-                  <button
-                    onClick={() => setColorScheme('high_contrast')}
-                    className={`py-2 px-3 rounded-xl border text-center font-bold transition-all ${
-                      colorScheme === 'high_contrast'
-                        ? 'bg-[#ECFDF5] border-[#059669] text-[#047857]'
-                        : 'bg-white border-[#DDE5E1] text-[#64706A] hover:text-[#17201C]'
-                    }`}
-                  >
-                    High Contrast Radar
-                  </button>
-                </div>
-              </div>
             </div>
 
             <div className="pt-3 border-t border-[#DDE5E1] flex justify-end">
               <button
                 onClick={() => setIsSettingsModalOpen(false)}
-                className="px-5 py-2 rounded-xl bg-[#059669] hover:bg-[#047857] text-white font-bold text-xs transition-colors shadow-sm"
+                className="px-5 py-2 rounded-xl bg-[#059669] hover:bg-[#047857] text-white font-bold text-xs transition-colors shadow-xs"
               >
-                Save Preferences
+                {language === 'ta' ? 'அமைப்புகளைச் சேமி' : 'Save Preferences'}
               </button>
             </div>
           </div>
@@ -368,9 +461,9 @@ export default function App() {
           <Bot className="w-5 h-5 text-white" />
           <span className="w-2 h-2 rounded-full bg-[#34D399] absolute -top-0.5 -right-0.5 animate-ping" />
         </div>
-        <span className="font-extrabold tracking-wide">Ask Agri-AI</span>
+        <span className="font-extrabold tracking-wide">{language === 'ta' ? 'வேளாண் AI' : 'Ask Agri-AI'}</span>
         <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/20 font-bold hidden sm:inline">
-          வேளாண் AI
+          {language === 'ta' ? 'தமிழ்' : 'வேளாண் AI'}
         </span>
       </button>
 
@@ -382,5 +475,15 @@ export default function App() {
       />
 
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <LanguageProvider>
+        <AppContent />
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }

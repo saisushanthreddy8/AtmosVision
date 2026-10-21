@@ -21,7 +21,7 @@ export interface DistrictAgroProfile {
   soilSubtypes: string[];
   soilPh: string;
   soilTexture: string;
-  waterRetention: 'Low' | 'Moderate' | 'High' | 'Very High';
+  waterRetention: 'Low' | 'Moderate' | 'High' | 'Very High' | string;
   organicCarbon: 'Low (<0.5%)' | 'Medium (0.5-0.75%)' | 'High (>0.75%)';
   majorNutrientDeficiencies: string[];
   irrigationProfile: string;
@@ -1468,7 +1468,7 @@ export interface CoordinateAgroMatch {
   soilType: string;
   soilPh: string;
   soilTexture: string;
-  waterRetention: 'Low' | 'Moderate' | 'High' | 'Very High';
+  waterRetention: 'Low' | 'Moderate' | 'High' | 'Very High' | string;
   majorNutrientDeficiencies: string[];
   crops: CropSuggestion[];
   currentMonthSchedule: MonthlyCropSchedule;

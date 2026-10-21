@@ -12,6 +12,8 @@ import {
   RefreshCw,
   Sparkles,
   Sun,
+  Moon,
+  Globe,
   Thermometer,
   Layers,
   BarChart3,
@@ -22,6 +24,8 @@ import {
 } from 'lucide-react';
 import { TabId, LiveStatewideSummary } from '../types';
 import { DISTRICT_REGIONS } from '../data/tamilNaduGeo';
+import { useTheme } from '../contexts/ThemeContext';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface TopNavbarProps {
   onNavigate: (tab: TabId) => void;
@@ -48,6 +52,8 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
   onInstallPWA,
   isInstallable = false
 }) => {
+  const { isDark, toggleTheme } = useTheme();
+  const { language, toggleLanguage } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -242,6 +248,27 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
             <span className="hidden md:inline">Install App</span>
           </button>
         )}
+
+        {/* Language Toggle */}
+        <button
+          onClick={toggleLanguage}
+          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white hover:bg-[#F8FAF9] border border-[#DDE5E1] text-xs font-bold text-[#17201C] transition-colors shadow-xs cursor-pointer"
+          title={language === 'ta' ? 'Switch to English' : 'தமிழுக்கு மாறவும்'}
+          aria-label="Toggle Language"
+        >
+          <Globe className="w-3.5 h-3.5 text-[#059669]" />
+          <span>{language === 'ta' ? 'தமிழ்' : 'EN'}</span>
+        </button>
+
+        {/* Theme Toggle */}
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded-xl bg-white hover:bg-[#F8FAF9] border border-[#DDE5E1] text-[#64706A] hover:text-[#17201C] transition-colors shadow-xs cursor-pointer"
+          title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          aria-label="Toggle Dark Mode"
+        >
+          {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-[#64706A]" />}
+        </button>
 
         {/* Fullscreen Toggle */}
         <button

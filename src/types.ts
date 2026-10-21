@@ -30,7 +30,7 @@ export interface CityLocation {
   description: string;
 }
 
-export type TabId = 'overview' | 'explorer' | 'ai_predict' | 'crops' | 'analytics';
+export type TabId = 'overview' | 'explorer' | 'ai_predict' | 'crops' | 'analytics' | 'alerts' | 'air_quality' | 'pest_risk' | 'charts';
 
 export interface MonthlyCropItem {
   name: string;
@@ -192,6 +192,118 @@ export interface LiveStatewideSummary {
   averageTemperatureC?: number;
   averageHumidityPct?: number;
   averageWindSpeedKmh?: number;
+}
+
+export interface WeatherAlertItem {
+  id: string;
+  district: string;
+  title: string;
+  tamilTitle: string;
+  type: 'cyclone' | 'heavy_rain' | 'heatwave' | 'thunderstorm' | 'flood' | 'wind' | 'fog';
+  severity: 'critical' | 'high' | 'moderate' | 'low';
+  issuedAt: string;
+  validUntil: string;
+  description: string;
+  tamilDescription: string;
+  precautions: string[];
+  tamilPrecautions: string[];
+  affectedZones: string[];
+}
+
+export interface DistrictAQIData {
+  district: string;
+  aqi: number;
+  category: 'Good' | 'Satisfactory' | 'Moderate' | 'Poor' | 'Very Poor' | 'Severe';
+  pm25: number;
+  pm10: number;
+  no2: number;
+  so2: number;
+  co: number;
+  o3: number;
+  dominantPollutant: string;
+  healthRecommendation: string;
+  tamilRecommendation: string;
+  updateTime: string;
+}
+
+export interface TensorDimensions {
+  timeSteps: number;
+  latPoints: number;
+  lonPoints: number;
+  variables: number;
+  totalElements: number;
+  spatialResolutionDeg: number;
+  latRange: [number, number];
+  lonRange: [number, number];
+}
+
+export interface SingularSpectrum {
+  mode: number;
+  modeName: string;
+  dimension: number;
+  singularValues: number[];
+  cumulativeEnergyPct: number[];
+}
+
+export interface HOSVDRankConfig {
+  r1: number;
+  r2: number;
+  r3: number;
+  r4: number;
+}
+
+export interface ReconstructionMetrics {
+  rankConfig?: HOSVDRankConfig;
+  originalParams?: number;
+  compressedParams?: number;
+  compressionRatio: number;
+  reductionFactor?: number;
+  frobeniusRelativeError?: number;
+  rmse: number;
+  psnrDb?: number;
+  varianceExplained?: number;
+  snrDb?: number;
+  relativeErrorPct?: number;
+  energyRetainedPct?: number;
+  coreElements?: number;
+  totalElements?: number;
+}
+
+export interface ReconstructionResult {
+  ranks?: HOSVDRankConfig;
+  metrics?: ReconstructionMetrics;
+  timeIndex?: number;
+  variableIndex?: number;
+  variable?: ClimateVariable;
+  timestamp?: string;
+  originalGrid?: number[][];
+  reconstructedGrid?: number[][];
+  differenceGrid?: number[][];
+  maxDiff?: number;
+  meanDiff?: number;
+  [key: string]: any;
+}
+
+export interface GridSliceData {
+  timeIndex: number;
+  variableIndex: number;
+  variable: ClimateVariable;
+  ranks: HOSVDRankConfig;
+  originalGrid: number[][];
+  reconstructedGrid: number[][];
+  errorGrid: number[][];
+  lats: number[];
+  lons: number[];
+  stats: {
+    origMin: number;
+    origMax: number;
+    origMean: number;
+    reconMin: number;
+    reconMax: number;
+    reconMean: number;
+    maxAbsError: number;
+    meanAbsError: number;
+  };
 }
 
 
