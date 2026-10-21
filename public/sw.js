@@ -1,5 +1,5 @@
-// AtmosVision Service Worker for Offline Caching & PWA Support
-const CACHE_NAME = 'atmosvision-cache-v1';
+// AtmosVision Service Worker for Offline Caching & PWA Support (v2)
+const CACHE_NAME = 'atmosvision-cache-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -29,13 +29,12 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Network first strategy with offline fallback
   if (event.request.method !== 'GET') return;
 
+  // Always fetch fresh network response first
   event.respondWith(
     fetch(event.request)
       .then((response) => {
-        // Clone response and cache
         if (response && response.status === 200) {
           const responseClone = response.clone();
           caches.open(CACHE_NAME).then((cache) => {
