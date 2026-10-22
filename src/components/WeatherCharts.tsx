@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import { LiveDistrictWeather } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
+import { DISTRICT_REGIONS } from '../data/tamilNaduGeo';
 
 interface WeatherChartsProps {
   liveDistrictData: LiveDistrictWeather[];
@@ -42,13 +43,40 @@ export const WeatherCharts: React.FC<WeatherChartsProps> = ({
   const [chartMode, setChartMode] = useState<'24h' | '7day' | 'comparison'>('24h');
   const [activeMetric, setActiveMetric] = useState<'temp' | 'humidity' | 'rain' | 'wind'>('temp');
 
+  const effectiveDistricts = useMemo(() => {
+    if (liveDistrictData && liveDistrictData.length > 0) {
+      return liveDistrictData;
+    }
+    return DISTRICT_REGIONS.map((d, i) => ({
+      cityId: d.code.toLowerCase(),
+      cityName: d.name,
+      district: d.name,
+      lat: d.lat,
+      lon: d.lon,
+      elevationM: d.name === 'Nilgiris' ? 2200 : 50,
+      regionType: d.name === 'Nilgiris' ? 'western-ghats' : 'interior-plains',
+      temperatureC: d.name === 'Nilgiris' ? 17.5 : 28.5 + (i % 5) * 0.8,
+      apparentTempC: d.name === 'Nilgiris' ? 17.0 : 30.0,
+      relativeHumidityPct: 62 + (i % 4) * 4,
+      windSpeedKmh: 12 + (i % 3) * 2,
+      windSpeedMs: 3.5,
+      windDirectionDeg: 120,
+      surfacePressureHpa: 1012,
+      weatherCode: 1,
+      weatherCondition: 'Partly Cloudy',
+      weatherType: 'clear',
+      isDay: true,
+      precipitationMm: 0,
+      updatedAt: new Date().toISOString()
+    } as LiveDistrictWeather));
+  }, [liveDistrictData]);
+
   const currentDistrict = useMemo(() => {
     return (
-      liveDistrictData.find((d) => d.district === selectedDistrict) ||
-      liveDistrictData[0] ||
-      null
+      effectiveDistricts.find((d) => d.district === selectedDistrict) ||
+      effectiveDistricts[0]
     );
-  }, [liveDistrictData, selectedDistrict]);
+  }, [effectiveDistricts, selectedDistrict]);
 
   // Generate 24-hour hourly trend data based on current telemetry
   const hourlyData = useMemo(() => {
@@ -109,7 +137,7 @@ export const WeatherCharts: React.FC<WeatherChartsProps> = ({
 
   // Top 10 Warmest vs Coolest Districts Comparison Bar
   const districtComparisonData = useMemo(() => {
-    return [...liveDistrictData]
+    return [...effectiveDistricts]
       .sort((a, b) => (b.temperatureC ?? 0) - (a.temperatureC ?? 0))
       .slice(0, 10)
       .map((d) => ({
@@ -118,7 +146,7 @@ export const WeatherCharts: React.FC<WeatherChartsProps> = ({
         humidity: d.relativeHumidityPct ?? 65,
         wind: d.windSpeedKmh ?? 10
       }));
-  }, [liveDistrictData]);
+  }, [effectiveDistricts]);
 
   return (
     <div className="space-y-6 pb-12 animate-fade-in">
@@ -187,7 +215,7 @@ export const WeatherCharts: React.FC<WeatherChartsProps> = ({
               onChange={(e) => setSelectedDistrict(e.target.value)}
               className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white/20 border border-white/30 text-white focus:outline-hidden backdrop-blur-xs cursor-pointer"
             >
-              {liveDistrictData.map((d) => (
+              {effectiveDistricts.map((d) => (
                 <option key={d.district} value={d.district} className="text-gray-900">
                   {d.district} ({d.temperatureC ?? 28}°C)
                 </option>

@@ -529,22 +529,22 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
                   <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#ECFDF5] border border-[#D1FAE5]">
                     <div>
                       <div className="text-[11px] text-[#065F46] font-semibold">Surface Air Temp</div>
-                      <div className="text-2xl font-extrabold text-[#047857]">{matchedLiveWeather.tempC}°C</div>
+                      <div className="text-2xl font-extrabold text-[#047857]">{matchedLiveWeather.temperatureC}°C</div>
                     </div>
                     <div className="text-right">
                       <div className="text-[11px] text-[#065F46] font-semibold">Relative Humidity</div>
-                      <div className="text-2xl font-extrabold text-[#047857]">{matchedLiveWeather.humidityPct}%</div>
+                      <div className="text-2xl font-extrabold text-[#047857]">{matchedLiveWeather.relativeHumidityPct}%</div>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-2 text-xs">
                     <div className="p-2.5 rounded-xl bg-[#F8FAF9] border border-[#DDE5E1]">
                       <span className="text-[10px] text-[#64706A] block">Wind Velocity</span>
-                      <strong className="text-[#17201C]">{matchedLiveWeather.windKmh} km/h</strong>
+                      <strong className="text-[#17201C]">{matchedLiveWeather.windSpeedKmh} km/h</strong>
                     </div>
                     <div className="p-2.5 rounded-xl bg-[#F8FAF9] border border-[#DDE5E1]">
                       <span className="text-[10px] text-[#64706A] block">Surface Pressure</span>
-                      <strong className="text-[#17201C]">{matchedLiveWeather.pressureHpa} hPa</strong>
+                      <strong className="text-[#17201C]">{matchedLiveWeather.surfacePressureHpa} hPa</strong>
                     </div>
                   </div>
 
@@ -554,7 +554,7 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
                       <span className="text-[#059669] font-extrabold">98% Prime</span>
                     </div>
                     <p className="text-[11px] text-[#64706A]">
-                      Current ambient temperature of {matchedLiveWeather.tempC}°C and humidity {matchedLiveWeather.humidityPct}% provide prime physiological conditions for early crop vegetative growth.
+                      Current ambient temperature of {matchedLiveWeather.temperatureC}°C and humidity {matchedLiveWeather.relativeHumidityPct}% provide prime physiological conditions for early crop vegetative growth.
                     </p>
                   </div>
                 </div>
@@ -640,7 +640,7 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
               {filteredCoordinateCrops.map((crop, idx) => {
                 const thermalFit = calculateThermalSuitability(
                   crop.idealTempRangeC,
-                  matchedLiveWeather?.tempC
+                  matchedLiveWeather?.temperatureC
                 );
 
                 return (
@@ -710,7 +710,7 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
                       </div>
                       <button
                         onClick={() => {
-                          setSelectedCalculatorCropId(mapCropNameToAgronomyId(crop.cropName));
+                          setSelectedCalculatorCropId(mapCropNameToAgronomyId(crop.name));
                           setActiveMode('calculator');
                         }}
                         className="px-2.5 py-1 rounded-lg bg-[#ECFDF5] hover:bg-[#D1FAE5] text-[#047857] font-bold text-[10px] border border-[#A7F3D0] flex items-center gap-1 transition cursor-pointer"
@@ -911,7 +911,7 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
                       <span>Ideal Temp: <strong>{crop.idealTempRangeC[0]}° - {crop.idealTempRangeC[1]}°C</strong></span>
                       <button
                         onClick={() => {
-                          setSelectedCalculatorCropId(mapCropNameToAgronomyId(crop.cropName));
+                          setSelectedCalculatorCropId(mapCropNameToAgronomyId(crop.name));
                           setActiveMode('calculator');
                         }}
                         className="px-2.5 py-1 rounded-lg bg-[#ECFDF5] hover:bg-[#D1FAE5] text-[#047857] font-bold text-[10px] border border-[#A7F3D0] flex items-center gap-1 transition cursor-pointer"
@@ -1099,7 +1099,7 @@ export const CropSuggestionStudio: React.FC<CropSuggestionStudioProps> = ({
                   <span>Cycle: <strong>{crop.yieldDurationDays}</strong></span>
                   <button
                     onClick={() => {
-                      setSelectedCalculatorCropId(mapCropNameToAgronomyId(crop.cropName));
+                      setSelectedCalculatorCropId(mapCropNameToAgronomyId(crop.name));
                       setActiveMode('calculator');
                     }}
                     className="px-2.5 py-1 rounded-lg bg-[#ECFDF5] hover:bg-[#D1FAE5] text-[#047857] font-bold text-[10px] border border-[#A7F3D0] flex items-center gap-1 transition cursor-pointer"

@@ -118,7 +118,7 @@ export const AgriAIAssistantModal: React.FC<AgriAIAssistantModalProps> = ({
       let responseText = `Here is the agricultural advisory for **${matchedDistrict}** in **${monthSchedule.monthName} (${monthSchedule.tamilMonth})**:\n\n` +
         `• **Agro-Zone:** ${profile.agroZone}\n` +
         `• **Soil Type:** ${profile.soilType} (pH: ${profile.soilPh})\n` +
-        (liveWeather ? `• **Current Weather:** ${liveWeather.tempC}°C, Humidity ${liveWeather.humidityPct}%\n\n` : '\n') +
+        (liveWeather ? `• **Current Weather:** ${liveWeather.temperatureC}°C, Humidity ${liveWeather.relativeHumidityPct}%\n\n` : '\n') +
         `🌱 **Recommended Sowing:** ${profile.crops.map(c => `${c.name} (${c.tamilName})`).join(', ')}.\n\n` +
         `💧 **Irrigation Advice:** ${monthSchedule.irrigationStrategy}\n` +
         `🛡️ **Crop Health:** ${monthSchedule.pestAndDiseaseAdvisory}`;
