@@ -21,13 +21,13 @@ import { PEST_DISEASE_DATABASE, calculatePestRisk, PestDiseaseEntry } from '../d
 import { DISTRICT_REGIONS } from '../data/tamilNaduGeo';
 
 interface PestRiskPredictorProps {
-  liveDistrictData: LiveDistrictWeather[];
+  liveDistrictData?: LiveDistrictWeather[];
   initialDistrict?: string;
   onSelectDistrict?: (districtName: string) => void;
 }
 
 export const PestRiskPredictor: React.FC<PestRiskPredictorProps> = ({
-  liveDistrictData,
+  liveDistrictData = [],
   initialDistrict = 'Thanjavur',
   onSelectDistrict
 }) => {
@@ -248,7 +248,7 @@ export const PestRiskPredictor: React.FC<PestRiskPredictorProps> = ({
             <div>
               <div className="text-[#64706A] text-[10px] uppercase font-semibold">{language === 'ta' ? 'தெளிப்பு உகந்த நேரம்' : 'Spray Window'}</div>
               <div className="text-sm font-bold text-[#059669]">
-                {(currentDistrictWeather.windSpeedKmh ?? 12) < 15 ? 'Optimal (Now)' : 'Avoid (Windy)'}
+                {(currentDistrictWeather?.windSpeedKmh ?? 12) < 15 ? 'Optimal (Now)' : 'Avoid (Windy)'}
               </div>
             </div>
           </div>

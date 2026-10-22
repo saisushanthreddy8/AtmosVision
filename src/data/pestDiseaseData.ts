@@ -201,18 +201,24 @@ export const PEST_DISEASE_DATABASE: PestDiseaseEntry[] = [
  */
 export function calculatePestRisk(
   pest: PestDiseaseEntry,
-  tempC: number,
-  humidityPct: number,
-  rainfallMm: number,
-  windSpeedKmh: number,
-  currentMonth: number
+  rawTempC: number,
+  rawHumidityPct: number,
+  rawRainfallMm: number,
+  rawWindSpeedKmh: number,
+  rawCurrentMonth: number
 ): { riskScore: number; riskLevel: 'low' | 'moderate' | 'high' | 'critical'; factors: string[] } {
+  const tempC = typeof rawTempC === 'number' && !isNaN(rawTempC) ? rawTempC : 28;
+  const humidityPct = typeof rawHumidityPct === 'number' && !isNaN(rawHumidityPct) ? rawHumidityPct : 65;
+  const rainfallMm = typeof rawRainfallMm === 'number' && !isNaN(rawRainfallMm) ? rawRainfallMm : 0;
+  const windSpeedKmh = typeof rawWindSpeedKmh === 'number' && !isNaN(rawWindSpeedKmh) ? rawWindSpeedKmh : 12;
+  const currentMonth = typeof rawCurrentMonth === 'number' && !isNaN(rawCurrentMonth) ? rawCurrentMonth : new Date().getMonth();
+
   const tc = pest.triggerConditions;
   let score = 0;
   const factors: string[] = [];
 
   // Season match (0-30 points)
-  if (pest.seasonMonths.includes(currentMonth)) {
+  if (Array.isArray(pest.seasonMonths) && pest.seasonMonths.includes(currentMonth)) {
     score += 30;
     factors.push('Active season for this pest/disease');
   }

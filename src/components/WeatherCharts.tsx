@@ -30,12 +30,12 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { DISTRICT_REGIONS } from '../data/tamilNaduGeo';
 
 interface WeatherChartsProps {
-  liveDistrictData: LiveDistrictWeather[];
+  liveDistrictData?: LiveDistrictWeather[];
   initialDistrict?: string;
 }
 
 export const WeatherCharts: React.FC<WeatherChartsProps> = ({
-  liveDistrictData,
+  liveDistrictData = [],
   initialDistrict = 'Chennai'
 }) => {
   const { language, t } = useLanguage();
@@ -81,9 +81,10 @@ export const WeatherCharts: React.FC<WeatherChartsProps> = ({
   // Generate 24-hour hourly trend data based on current telemetry
   const hourlyData = useMemo(() => {
     if (!currentDistrict) return [];
-    const baseTemp = currentDistrict.temperatureC ?? 28;
-    const baseHumidity = currentDistrict.relativeHumidityPct ?? 65;
-    const baseWind = currentDistrict.windSpeedKmh ?? 12;
+    const baseTemp = typeof currentDistrict?.temperatureC === 'number' && !isNaN(currentDistrict.temperatureC) ? currentDistrict.temperatureC : 28;
+    const baseHumidity = typeof currentDistrict?.relativeHumidityPct === 'number' && !isNaN(currentDistrict.relativeHumidityPct) ? currentDistrict.relativeHumidityPct : 65;
+    const baseWind = typeof currentDistrict?.windSpeedKmh === 'number' && !isNaN(currentDistrict.windSpeedKmh) ? currentDistrict.windSpeedKmh : 12;
+    const precipMm = typeof currentDistrict?.precipitationMm === 'number' && !isNaN(currentDistrict.precipitationMm) ? currentDistrict.precipitationMm : 0;
 
     const hours = [];
     const now = new Date();
@@ -95,11 +96,11 @@ export const WeatherCharts: React.FC<WeatherChartsProps> = ({
 
       // Diurnal temperature cycle: peak around 14:00 (hour 14), lowest at 05:00
       const solarFactor = Math.sin(((h - 8) / 24) * Math.PI * 2);
-      const temp = Number((baseTemp + solarFactor * 4.5).toFixed(1));
-      const feelsLike = Number((temp + (baseHumidity > 70 ? 2.5 : 0.5)).toFixed(1));
-      const humidity = Math.min(100, Math.max(30, Math.round(baseHumidity - solarFactor * 15)));
-      const wind = Math.max(3, Number((baseWind + Math.sin(i * 0.5) * 4).toFixed(1)));
-      const rainProb = Math.min(100, Math.max(0, Math.round((currentDistrict.precipitationMm ?? 0) > 0 ? 60 + Math.cos(i) * 30 : 15 + Math.sin(i) * 10)));
+      const temp = Number((baseTemp + solarFactor * 4.5).toFixed(1)) || baseTemp;
+      const feelsLike = Number((temp + (baseHumidity > 70 ? 2.5 : 0.5)).toFixed(1)) || temp;
+      const humidity = Math.min(100, Math.max(30, Math.round(baseHumidity - solarFactor * 15))) || baseHumidity;
+      const wind = Math.max(3, Number((baseWind + Math.sin(i * 0.5) * 4).toFixed(1))) || baseWind;
+      const rainProb = Math.min(100, Math.max(0, Math.round(precipMm > 0 ? 60 + Math.cos(i) * 30 : 15 + Math.sin(i) * 10))) || 10;
 
       hours.push({
         time: timeStr,
@@ -283,8 +284,8 @@ export const WeatherCharts: React.FC<WeatherChartsProps> = ({
         </div>
 
         {/* The Recharts Container */}
-        <div className="w-full h-80 sm:h-96">
-          <ResponsiveContainer width="100%" height="100%">
+        <div className="w-full h-80 sm:h-96 min-h-[320px] relative">
+          <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={320}>
             {chartMode === '24h' ? (
               <AreaChart data={hourlyData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
                 <defs>

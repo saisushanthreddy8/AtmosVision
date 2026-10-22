@@ -12,6 +12,7 @@ import { WeatherCharts } from './components/WeatherCharts';
 import { PestRiskPredictor } from './components/PestRiskPredictor';
 import { AgriAIAssistantModal } from './components/AgriAIAssistantModal';
 import { AtmosphericBackground } from './components/AtmosphericBackground';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { Settings, X, CheckCircle2, RotateCcw, CloudSun, Radio, Bot, Smartphone, Sparkles, Sun, Moon, Globe } from 'lucide-react';
@@ -206,89 +207,91 @@ function AppContent() {
 
           {/* Core Viewport Routed Views */}
           <main className="flex-1">
-            {activeTab === 'overview' && (
-              <Overview
-                onNavigate={setActiveTab}
-                liveDistrictData={liveDistrictData}
-                liveSummary={liveSummary}
-                onRefreshLive={() => loadLiveWeatherData(true)}
-                isLiveLoading={isLiveLoading}
-              />
-            )}
+            <ErrorBoundary fallbackTitle="Module View Error" onReset={() => setActiveTab('overview')}>
+              {activeTab === 'overview' && (
+                <Overview
+                  onNavigate={setActiveTab}
+                  liveDistrictData={liveDistrictData}
+                  liveSummary={liveSummary}
+                  onRefreshLive={() => loadLiveWeatherData(true)}
+                  isLiveLoading={isLiveLoading}
+                />
+              )}
 
-            {activeTab === 'explorer' && (
-              <TamilNaduExplorer
-                onWeatherChange={handleWeatherChange}
-                selectedDistrictName={selectedDistrictForExplorer}
-                targetDistrictSignal={districtSearchSignal}
-                liveDistrictData={liveDistrictData}
-                onRefreshLive={() => loadLiveWeatherData(true)}
-                isLiveLoading={isLiveLoading}
-              />
-            )}
+              {activeTab === 'explorer' && (
+                <TamilNaduExplorer
+                  onWeatherChange={handleWeatherChange}
+                  selectedDistrictName={selectedDistrictForExplorer}
+                  targetDistrictSignal={districtSearchSignal}
+                  liveDistrictData={liveDistrictData}
+                  onRefreshLive={() => loadLiveWeatherData(true)}
+                  isLiveLoading={isLiveLoading}
+                />
+              )}
 
-            {activeTab === 'ai_predict' && (
-              <AIPredictorStudio
-                liveDistrictData={liveDistrictData}
-                onRefreshLive={() => loadLiveWeatherData(true)}
-                isLiveLoading={isLiveLoading}
-                initialDistrictName={selectedDistrictForExplorer || 'Nilgiris'}
-              />
-            )}
+              {activeTab === 'ai_predict' && (
+                <AIPredictorStudio
+                  liveDistrictData={liveDistrictData}
+                  onRefreshLive={() => loadLiveWeatherData(true)}
+                  isLiveLoading={isLiveLoading}
+                  initialDistrictName={selectedDistrictForExplorer || 'Nilgiris'}
+                />
+              )}
 
-            {activeTab === 'alerts' && (
-              <WeatherAlertsPanel
-                liveDistrictData={liveDistrictData}
-                onSelectDistrict={(d) => {
-                  setSelectedDistrictForExplorer(d);
-                  setActiveTab('explorer');
-                }}
-              />
-            )}
+              {activeTab === 'alerts' && (
+                <WeatherAlertsPanel
+                  liveDistrictData={liveDistrictData}
+                  onSelectDistrict={(d) => {
+                    setSelectedDistrictForExplorer(d);
+                    setActiveTab('explorer');
+                  }}
+                />
+              )}
 
-            {activeTab === 'air_quality' && (
-              <AirQualityDashboard />
-            )}
+              {activeTab === 'air_quality' && (
+                <AirQualityDashboard />
+              )}
 
-            {activeTab === 'charts' && (
-              <WeatherCharts
-                liveDistrictData={liveDistrictData}
-                initialDistrict={selectedDistrictForExplorer || 'Chennai'}
-              />
-            )}
+              {activeTab === 'charts' && (
+                <WeatherCharts
+                  liveDistrictData={liveDistrictData}
+                  initialDistrict={selectedDistrictForExplorer || 'Chennai'}
+                />
+              )}
 
-            {activeTab === 'pest_risk' && (
-              <PestRiskPredictor
-                liveDistrictData={liveDistrictData}
-                initialDistrict={selectedDistrictForExplorer || 'Thanjavur'}
-                onSelectDistrict={(d) => {
-                  setSelectedDistrictForExplorer(d);
-                  setActiveTab('explorer');
-                }}
-              />
-            )}
+              {activeTab === 'pest_risk' && (
+                <PestRiskPredictor
+                  liveDistrictData={liveDistrictData}
+                  initialDistrict={selectedDistrictForExplorer || 'Thanjavur'}
+                  onSelectDistrict={(d) => {
+                    setSelectedDistrictForExplorer(d);
+                    setActiveTab('explorer');
+                  }}
+                />
+              )}
 
-            {activeTab === 'analytics' && (
-              <LiveAnalytics
-                liveDistrictData={liveDistrictData}
-                liveSummary={liveSummary}
-                onRefreshLive={() => loadLiveWeatherData(true)}
-                isLiveLoading={isLiveLoading}
-                onSelectDistrict={(d) => {
-                  setSelectedDistrictForExplorer(d);
-                  setActiveTab('explorer');
-                }}
-              />
-            )}
+              {activeTab === 'analytics' && (
+                <LiveAnalytics
+                  liveDistrictData={liveDistrictData}
+                  liveSummary={liveSummary}
+                  onRefreshLive={() => loadLiveWeatherData(true)}
+                  isLiveLoading={isLiveLoading}
+                  onSelectDistrict={(d) => {
+                    setSelectedDistrictForExplorer(d);
+                    setActiveTab('explorer');
+                  }}
+                />
+              )}
 
-            {(activeTab === 'crops' || (activeTab as string) === 'crop_suggestions') && (
-              <CropSuggestionStudio
-                liveDistrictData={liveDistrictData}
-                onRefreshLive={() => loadLiveWeatherData(true)}
-                isLiveLoading={isLiveLoading}
-                initialDistrictName={selectedDistrictForExplorer || undefined}
-              />
-            )}
+              {(activeTab === 'crops' || (activeTab as string) === 'crop_suggestions') && (
+                <CropSuggestionStudio
+                  liveDistrictData={liveDistrictData}
+                  onRefreshLive={() => loadLiveWeatherData(true)}
+                  isLiveLoading={isLiveLoading}
+                  initialDistrictName={selectedDistrictForExplorer || undefined}
+                />
+              )}
+            </ErrorBoundary>
           </main>
 
           {/* Clean Meteorological Platform Footer */}
