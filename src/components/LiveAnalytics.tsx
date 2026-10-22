@@ -26,6 +26,8 @@ import { CITIES_TAMIL_NADU } from '../data/cities';
 interface LiveAnalyticsProps {
   liveDistrictData: LiveDistrictWeather[];
   liveSummary: LiveStatewideSummary | null;
+  onRefreshLive?: () => void;
+  isLiveLoading?: boolean;
   onSelectDistrict?: (districtName: string) => void;
 }
 

@@ -79,8 +79,8 @@ export const Overview: React.FC<OverviewProps> = ({
     return (
       liveDistrictData.find(
         (d) =>
-          d.districtName?.toLowerCase() === q ||
           d.district?.toLowerCase() === q ||
+          d.cityName?.toLowerCase() === q ||
           d.cityName?.toLowerCase().includes(q) ||
           q.includes(d.district?.toLowerCase() || '') ||
           q.includes(d.cityName?.toLowerCase() || '')
